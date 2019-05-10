@@ -1,0 +1,4 @@
+﻿  Sample.cpp
+c:\users\kgca3671\source\repos\windowsproject-2d\tbasis_2d\twindow.h(49): warning C4302: '형식 캐스트': 'LPWSTR'에서 'WORD'(으)로 잘립니다.
+c:\users\kgca3671\source\repos\windowsproject-2d\tbasis_2d\twindow.h(54): warning C4302: '형식 캐스트': 'LPWSTR'에서 'WORD'(으)로 잘립니다.
+  TBasis_2D.vcxproj -> C:\Users\KGCA3671\source\repos\WindowsProject-2D\Debug\TBasis_2D.exe
