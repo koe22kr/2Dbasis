@@ -35,7 +35,7 @@ void CASoundMgr::PlayBGM(const char* fime_name_key)
 
 void CASoundMgr::PlaySE(const char* fime_name_key)
 {
-    FMOD::Channel* SE_Channel;
+    FMOD::Channel* SE_Channel=nullptr;
 
     SE_Channel->setVolume(m_fVolume);
     m_pSystem->playSound(m_SoundList.find(fime_name_key)->second->m_pSound, 0, false, &SE_Channel);
@@ -76,7 +76,7 @@ bool CASoundMgr::Init()
 {
     return true;
 }
-bool CASoundMgr::Frame(int isound)
+bool CASoundMgr::Frame()
 {
     m_pSystem->update();
     //재생시간 ~/~;
@@ -142,7 +142,7 @@ CASoundMgr::CASoundMgr()
 CASoundMgr::~CASoundMgr()
 {
     if (m_SoundList.begin() != m_SoundList.end())
-        Release_end;
+        Release_end();
 }
 
 

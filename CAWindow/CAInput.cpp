@@ -41,6 +41,7 @@ DWORD CAInput::KeyCheck(DWORD dwKey)//
        else
        {
            m_dwKeyState[dwKey] = KEY_FREE;
+           
        }
    }
    return m_dwKeyState[dwKey];
@@ -56,7 +57,7 @@ bool CAInput::Init()
 bool       CAInput::Frame()
 {
     GetCursorPos(&m_MousePos);   //화면 스크린. 위도우 좌표계
-    ScreenToClient(g_hWnd, &m_MousePos);
+    ScreenToClient(g_hWnd, &m_MousePos);  //클라이언트 좌표계로 변경
 
     for (int iButton = 0; iButton < 3; iButton++)
     {

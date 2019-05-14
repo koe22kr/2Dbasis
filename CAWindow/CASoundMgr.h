@@ -40,7 +40,7 @@ public:
  public:
 
      bool Init();
-     bool Frame(int isound);
+     bool Frame();
      bool Render();
      bool Release();
 

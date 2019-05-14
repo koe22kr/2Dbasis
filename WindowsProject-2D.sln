@@ -9,6 +9,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBasis_2D", "TBasis_2D\TBas
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CAWindow", "CAWindow\CAWindow.vcxproj", "{C44789B3-FD56-4796-869E-B23052030979}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CAWindow_Lib", "CAWindow_Lib\CAWindow_Lib.vcxproj", "{33E1E90B-870D-41FC-931B-2262F2B84A18}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawBitmap", "DrawBitmap\DrawBitmap.vcxproj", "{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33E1E90B-870D-41FC-931B-2262F2B84A18} = {33E1E90B-870D-41FC-931B-2262F2B84A18}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +48,22 @@ Global
 		{C44789B3-FD56-4796-869E-B23052030979}.Release|x64.Build.0 = Release|x64
 		{C44789B3-FD56-4796-869E-B23052030979}.Release|x86.ActiveCfg = Release|Win32
 		{C44789B3-FD56-4796-869E-B23052030979}.Release|x86.Build.0 = Release|Win32
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Debug|x64.ActiveCfg = Debug|x64
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Debug|x64.Build.0 = Debug|x64
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Debug|x86.ActiveCfg = Debug|Win32
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Debug|x86.Build.0 = Debug|Win32
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Release|x64.ActiveCfg = Release|x64
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Release|x64.Build.0 = Release|x64
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Release|x86.ActiveCfg = Release|Win32
+		{33E1E90B-870D-41FC-931B-2262F2B84A18}.Release|x86.Build.0 = Release|Win32
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Debug|x64.ActiveCfg = Debug|x64
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Debug|x64.Build.0 = Debug|x64
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Debug|x86.ActiveCfg = Debug|Win32
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Debug|x86.Build.0 = Debug|Win32
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Release|x64.ActiveCfg = Release|x64
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Release|x64.Build.0 = Release|x64
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Release|x86.ActiveCfg = Release|Win32
+		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

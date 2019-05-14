@@ -6,16 +6,16 @@ float g_fGameTimer = 0.0f;    //총시간
 bool CATimer::Init()
 {
     //__imp_timeGetTime 외부 기호 : winmm.lib
-    DWORD m_dwBeforeTick = timeGetTime(); //
+    m_dwBeforeTick = timeGetTime(); //
     return true;
 
 }
 bool CATimer::Frame()                       //init 후 frame 연속적으로 사용될듯. 아니라면 frame에서 init 호출해야 한다.
 {
     DWORD m_dwCurrentTick = timeGetTime();
-    DWORD dwElapseTick = m_dwCurrentTick - m_dwBeforeTick;
-    m_fSecondPerFrame = dwElapseTick / 1000.0f;
-    m_fAccumulation += m_fSecondPerFrame;
+	DWORD dwElapseTick = m_dwCurrentTick - m_dwBeforeTick;
+	m_fSecondPerFrame = dwElapseTick / 1000.0f;
+	m_fAccumulation += m_fSecondPerFrame;
     m_fFrameTime += m_fSecondPerFrame;
 
     g_fSeoundPerFrame = m_fSecondPerFrame;
@@ -39,8 +39,8 @@ bool CATimer::Frame()                       //init 후 frame 연속적으로 사용될듯.
 bool CATimer::Render()
 {
     HDC hdc = GetDC(g_hWnd);
-    SetBkColor(hdc, RGB(255,255, 255));
-    SetTextColor(hdc, RGB(255, 157, 0));
+    SetBkColor(hdc, RGB(255, 255, 100));
+    SetTextColor(hdc, RGB(255, 0, 255));
     //SetBkMode(hdc, TRANSPARENT);
     TextOut(hdc, 0, 0, m_csBuffer, _tcslen(m_csBuffer));
     ReleaseDC(g_hWnd, hdc);

@@ -13,7 +13,7 @@ LRESULT		Sample::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 bool Sample::Init()
 {
-    I_SoundMgr.Load_BGM("battle37.mp3");
+    I_SoundMgr.Load("battle37.mp3");
     return true;
 }
 int AA, BB;
@@ -22,7 +22,7 @@ bool Sample::Frame()
     DWORD dwState = I_Input.KeyCheck('Z');
     if (dwState == KEY_PUSH)
     {
-        I_SoundMgr.PlayBGM();
+       // I_SoundMgr.PlayBGM();
     }
     if (dwState == KEY_UP)
     {
