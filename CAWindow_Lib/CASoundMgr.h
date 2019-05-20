@@ -18,10 +18,11 @@ class CASoundMgr : public CASingleton<CASoundMgr>
 public:
     float           m_fVolume = 1.0f;// 마스터 볼륨
 
-    FMOD::System*   m_pSystem;
-    
-    FMOD::Channel*  m_pBGM_Channel;//게임의 BGM 단일 가정, SE는 지역체널(ㅋ) 사용
     map<string, CASound*> m_SoundList; //CASound 클래스 안에서는 메모리 할당 관련 아무것도 하지 않는다.
+
+    FMOD::System*   m_pSystem;
+    FMOD::Channel*  m_pBGM_Channel;//게임의 BGM 단일 가정, SE는 지역체널(ㅋ) 사용
+  
  public:
 
      int Load(const char* csound_file_name); //생성시 m_SoundList에 insert, CASound 동적할당, 키값=파일이름 ,실패시-1 성공시 1;
@@ -30,7 +31,6 @@ public:
      void PlaySE(const char* fime_name_key);
      void Paused();
      void Stop();
-
      void Volume(float fVolume_stap = 1.0f, bool Vol_Up = true);
      //void VolumeSE(int ise_channel, float fVolume = 1.0f, bool Vol_Up = true);
 
@@ -42,10 +42,10 @@ public:
      bool Init();
      bool Frame();
      bool Render();
-     bool Release();
+     bool Release();//맵의 second 동적할당 해제, 해당 맵 erase  -> if(begin==end)
 
      bool Init_onec();
-     bool Release_end();                //맵의 second 동적할당 해제, 해당 맵 erase  -> if(begin==end)
+        
         
 private:
     CASoundMgr();

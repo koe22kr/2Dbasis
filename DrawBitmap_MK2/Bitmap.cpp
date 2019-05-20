@@ -1,21 +1,25 @@
-#include "CABitmap.h"
+#include "Bitmap.h"
 
-
-bool CABitmap::Init()
+bool	CABitmap::Init()
 {
-
+    return true;
+}
+bool	CABitmap::Frame()
+{
+    return true;
+}
+bool	CABitmap::Render()
+{
+    return true;
+}
+bool	CABitmap::Release()
+{
+    
+    DeleteObject(m_bmp);
     return true;
 }
 
-//void CABitmap::Set(CAPOINT pos,RECT rt,float fspeed)
-//{
-//    this->m_pos = m_pos;
-//    this->m_rt = rt;
-//    this->m_fSpeed = fspeed;
-//
-//}
-//
-bool CABitmap::Load(T_STR filename)
+bool    CABitmap::Load(T_STR filename)
 {
     m_bmp = (HBITMAP)LoadImage(
         g_hInstance,
@@ -27,11 +31,9 @@ bool CABitmap::Load(T_STR filename)
     m_dc = CreateCompatibleDC(g_hScreenDC);
     SelectObject(m_dc, m_bmp);
     return true;
-
-
 }
 
-bool CABitmap::Draw(float inx, float iny, RECT rt,DWORD imode)
+bool    CABitmap::Draw(float inx, float iny, RECT rt, DWORD imode)
 {
     BitBlt(g_hOffScreenDC, inx, iny,
         rt.right,
@@ -42,25 +44,10 @@ bool CABitmap::Draw(float inx, float iny, RECT rt,DWORD imode)
     return true;
 }
 
-bool CABitmap::Render()
-{
-    return true;
-}
 
-bool CABitmap::Frame()
-{
-    return true;
-}
-
-bool CABitmap::Release()
-{
-    DeleteObject(m_bmp);
-    return true;
-}
 
 CABitmap::CABitmap()
 {
-
 }
 
 

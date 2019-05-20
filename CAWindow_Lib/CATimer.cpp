@@ -1,15 +1,15 @@
 #include "CATimer.h"
 
-float g_fSeoundPerFrame = 0.0f;  //프레임당 sec
+float g_fSecondPerFrame = 0.0f;  //프레임당 sec
 float g_fGameTimer = 0.0f;    //총시간
 
 bool CATimer::Init()
 {
     //__imp_timeGetTime 외부 기호 : winmm.lib
-    DWORD m_dwBeforeTick = timeGetTime(); //
+    m_dwBeforeTick = timeGetTime(); //
     return true;
 
-}
+};
 bool CATimer::Frame()                       //init 후 frame 연속적으로 사용될듯. 아니라면 frame에서 init 호출해야 한다.
 {
     DWORD m_dwCurrentTick = timeGetTime();
@@ -18,7 +18,7 @@ bool CATimer::Frame()                       //init 후 frame 연속적으로 사용될듯.
     m_fAccumulation += m_fSecondPerFrame;
     m_fFrameTime += m_fSecondPerFrame;
 
-    g_fSeoundPerFrame = m_fSecondPerFrame;
+    g_fSecondPerFrame = m_fSecondPerFrame;
     g_fGameTimer = m_fAccumulation;
 
     if (m_fFrameTime >= 1.0f)

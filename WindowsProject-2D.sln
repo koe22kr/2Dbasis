@@ -16,6 +16,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawBitmap", "DrawBitmap\Dr
 		{33E1E90B-870D-41FC-931B-2262F2B84A18} = {33E1E90B-870D-41FC-931B-2262F2B84A18}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawBitmap_MK2", "DrawBitmap_MK2\DrawBitmap_MK2.vcxproj", "{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33E1E90B-870D-41FC-931B-2262F2B84A18} = {33E1E90B-870D-41FC-931B-2262F2B84A18}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -64,6 +69,14 @@ Global
 		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Release|x64.Build.0 = Release|x64
 		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Release|x86.ActiveCfg = Release|Win32
 		{8BD4AFAE-8312-4397-858E-BBDB1D2AA060}.Release|x86.Build.0 = Release|Win32
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Debug|x64.ActiveCfg = Debug|x64
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Debug|x64.Build.0 = Debug|x64
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Debug|x86.ActiveCfg = Debug|Win32
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Debug|x86.Build.0 = Debug|Win32
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Release|x64.ActiveCfg = Release|x64
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Release|x64.Build.0 = Release|x64
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Release|x86.ActiveCfg = Release|Win32
+		{A01BFFDD-F34C-4513-AA97-FAFFD05F0182}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

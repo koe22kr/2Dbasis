@@ -1,0 +1,2 @@
+1
+bitmap_object.txt

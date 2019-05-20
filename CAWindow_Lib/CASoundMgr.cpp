@@ -4,7 +4,7 @@
 //시스템 사운드 체널 인터페이스만 사용
 int CASoundMgr::Load(const char* csound_file_name)
 {
-    std::string strpath ="sound/";
+    std::string strpath ="../../sound/";
     strpath += csound_file_name;
     char cpath[256];
     strcpy(cpath, strpath.c_str());
@@ -59,12 +59,12 @@ void CASoundMgr::Volume(float fVolume_stap, bool Vol_Up)
 {
     if (Vol_Up)
     {
-        m_fVolume += fVolume_stap * g_fSeoundPerFrame;
+        m_fVolume += fVolume_stap * g_fSecondPerFrame;
         m_fVolume = min(m_fVolume, 1.0f);
     }
     else
     {
-        m_fVolume -= fVolume_stap * g_fSeoundPerFrame;
+        m_fVolume -= fVolume_stap * g_fSecondPerFrame;
         m_fVolume = max(m_fVolume, 0.0f);
     }
     
@@ -108,18 +108,6 @@ bool CASoundMgr::Render()
 }
 bool CASoundMgr::Release()
 {
-    return true;
-}
-
-bool CASoundMgr::Init_onec()
-{
-    FMOD::System_Create(&m_pSystem);
-    m_pSystem->init(32, FMOD_INIT_NORMAL, 0);   // 한번만 하면 된다! 이거 수정해야겟다.
-    return true;
-}
-
-bool CASoundMgr::Release_end()
-{
     map<string, CASound*>::iterator ITOR;
     ITOR = m_SoundList.begin();
     while (ITOR != m_SoundList.end())
@@ -127,9 +115,17 @@ bool CASoundMgr::Release_end()
         delete ITOR->second;
         m_SoundList.erase(ITOR);
     }
-        
+
     m_pSystem->close();
     m_pSystem->release();
+    return true;
+ 
+}
+
+bool CASoundMgr::Init_onec()
+{
+    FMOD::System_Create(&m_pSystem);
+    m_pSystem->init(32, FMOD_INIT_NORMAL, 0);   // 한번만 하면 된다! 이거 수정해야겟다.
     return true;
 }
 
@@ -141,8 +137,7 @@ CASoundMgr::CASoundMgr()
 
 CASoundMgr::~CASoundMgr()
 {
-    if (m_SoundList.begin() != m_SoundList.end())
-        Release_end();
+
 }
 
 

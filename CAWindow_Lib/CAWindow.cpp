@@ -57,7 +57,7 @@ bool CAWindow::InitWindow(HINSTANCE hInstance, int iX, int iY, int iWidth, int i
     if (!MyRegisterClass())
         return false;
 
-    RECT rt = { 0,0,iWidth,iHeight };//RECT 구조체 좌표x,좌표y,와이드,높이
+    RECT rt = { iX,iY,iWidth,iHeight };//RECT 구조체 좌표x,좌표y,와이드,높이
     m_dwStyle = WS_OVERLAPPEDWINDOW;
     AdjustWindowRect(&rt, m_dwStyle, FALSE);        //RECT,어떤 스타일,메뉴 여부 
 

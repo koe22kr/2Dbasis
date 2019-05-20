@@ -60,7 +60,7 @@ bool CACore::CACoreInit()
     m_hbrBack = CreateSolidBrush(m_bkColor);
     SelectObject(m_hOffScreenDC, m_hbrBack);
 
-
+    
     m_Timer.Init();
     I_Input.Init();
     I_SoundMgr.Init();
@@ -96,7 +96,7 @@ bool CACore::CACoreRelease()
 
     m_Timer.Release();
     I_Input.Release();
-    
+    I_SoundMgr.Release();
     return Release();
     return true;
 }

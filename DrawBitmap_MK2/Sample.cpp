@@ -1,5 +1,6 @@
-#include "Sample.h"
+
 #include "CAStd.h"
+#include "Sample.h"
 
 //Bitmap-> Bitmap //blit  비트맵은 비트맵에만 뿌릴수있.
 //DC->DC 디바이스 컨넥에서.. DC 로만; HDC를 bitmap당 하나씩 만들어야함. memdc도 하나..//device context
@@ -8,12 +9,14 @@
 
 bool Sample::Init()
 {
+    
+    mgr.Load_Object(L"wall.bmp");
+    mgr.Load_Object(L"bitmap1.bmp");
     mgr.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
-    //CAObject* bk = mgr.Load_File_with_mask(L"wall.bmp");//로드시 필요값 읽어오게 하기. + 스크립트 /+스/프라이트 한번에 읽어오는거 만듦기
-    //mgr.m_Obj_list[0]->m_pos = CAPOINT(0, 0);
-    //mgr.m_Obj_list[0]->m_rt[0] = { 0,0,800,800 };
-    //mgr.m_Obj_list[0]->m_fSpeed = 0;
-    //
+    mgr.m_Obj_list[0]->Setobject(L"Backwall", 1, 0, 0, 0, 0, { 0,0,800,600 }, 0);
+    mgr.m_Obj_list[1]->Setobject(L"Player", 1, 100, 100, 0, 0, { 90,1,40,60 }, 0);
+    
+    
     //mgr.m_pPlayer = mgr.Load_File_with_mask(L"bitmap1.bmp");
     //mgr.m_pPlayer->m_pos = CAPOINT(100, 100);
     //mgr.m_pPlayer->m_rt[0] = { 90,1,40,60 };
@@ -78,13 +81,13 @@ bool Sample::Frame()
 bool Sample::Release()
 {
     mgr.Release();
-   // m_player.Release();
+    // m_player.Release();
     return true;
 }
 
 Sample::Sample()
 {
-  
+
 
 }
 
