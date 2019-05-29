@@ -19,8 +19,9 @@ public:
     T_STR            m_Obj_Name;
     CAPOINT          m_pos = { 100, 100 }; //
     CAPOINT          m_center_pos = { 0,0 };
-
-    
+    CAPOINT          m_curpos = { 0,0 };
+    bool m_move_flag = 0;
+    float m_fSpeed = 0;
     float m_fAngle = 0;
     int              m_rt_num = 1; //1start
     int              m_max_rt_num;
@@ -34,14 +35,13 @@ public:   //스프라이트용 멤버들
     float            m_fLife_time = 0;
     bool             m_loop_flag = false;
 
-
     bool             dead_flag = false;  //소멸 할 예정이 있는 오브젝트는 소멸용.
     
     //bool AlphaBlendRender(RECT rt);
 public:
     void             Rt_Operate();
     void Rotation();
-    void             Move(float xstep, float ystep);
+    virtual void             Move(float xstep, float ystep);
     bool             Draw(int rt_num = 1, DWORD imode = SRCCOPY);
     bool             Draw_ColorKey(RECT rt, COLORREF color);
 

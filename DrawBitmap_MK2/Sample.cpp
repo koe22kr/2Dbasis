@@ -16,6 +16,9 @@ bool Sample::Init()
     mgr.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
     mgr.m_Obj_list[0]->Setobject(L"Backwall", 1, 0, 0, { 0,0,800,600 });
     mgr.m_Obj_list[1]->m_fAngle = 30;
+   mgr.m_Obj_list[2]->m_fAngle = 40;
+    //mgr.m_Obj_list[2]->m_fAlpha = 128;
+
     
     //mgr.m_Obj_list[1]->Setobject(L"Player", 1, 100, 100, 0, 0, { 90,1,40,60 }, 0);
     
@@ -36,6 +39,7 @@ bool Sample::Render()
 bool Sample::Frame()
 {
     mgr.Frame();
+
      DWORD dwState = I_Input.KeyCheck('W');
      if (dwState == KEY_HOLD)
      {

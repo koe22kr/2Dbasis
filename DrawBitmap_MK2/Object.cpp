@@ -314,6 +314,7 @@ void CAObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, RE
     m_loop_flag = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
+    m_fSpeed = fSpeed;
     m_fAlpha = alpha;
     m_Player_flag = player_flag;
     
@@ -334,6 +335,7 @@ void CAObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, ve
     m_loop_flag = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
+    m_fSpeed = fSpeed;
     m_fAlpha = alpha;
     m_Player_flag = player_flag;
 
