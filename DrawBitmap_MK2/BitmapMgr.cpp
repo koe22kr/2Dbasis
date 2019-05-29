@@ -1,6 +1,36 @@
 #include "BitmapMgr.h"
 
+bool CABitmapMgr::Collision(CAObject* obj, CAPOINT pos)
+{
+    if (obj->m_pos.x < pos.x && pos.x < obj->m_pos.x + obj->m_rt[obj->m_rt_num]->right )
+    {
+        if (obj->m_pos.y < pos.y && pos.y < obj->m_pos.y + obj->m_rt[obj->m_rt_num]->bottom)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+bool CABitmapMgr::Collision(CAObject* main_obj, CAObject* target_obj)
+{
+    POINT main;
+    main.x = main_obj->m_rt[main_obj->m_rt_num]->right / 2;
+    main.y = main_obj->m_rt[main_obj->m_rt_num]->bottom / 2;;
+    
+    POINT target;
+    target.x = target_obj->m_rt[target_obj->m_rt_num]->right / 2;
+    target.y = target_obj->m_rt[target_obj->m_rt_num]->bottom / 2;
 
+    POINT distance;
+    distance.x = abs((main_obj->m_pos.x + main.x) - (target_obj->m_pos.x + target.x));
+    distance.y = abs((main_obj->m_pos.y + main.y) - (target_obj->m_pos.y + target.y));
+
+    if (distance.x < (main.x + target.x) && distance.y < (main.y + target.y))
+    {
+        return true;
+    }
+    return false;
+}
 
 CABitmapMgr::CABitmapMgr()
 {
@@ -11,77 +41,82 @@ CABitmapMgr::~CABitmapMgr()
 {
 }
 
+void CABitmapMgr::Move(float xstep, float ystep,int obj_num)
+{
+    m_Obj_list[obj_num]->Move(xstep, ystep);
+}
+
 bool CABitmapMgr::Init()
 {
     return true;
 }
 bool CABitmapMgr::Draw()
 {
-    for (int i = 0; i < m_Obj_list.size(); i++)
-    {
-        if (m_Obj_list[i]->m_rt.size() > 1)
-            m_Obj_list[i]->Draw(m_Obj_list[i]->m_rt_num);
-         
-
-        else
-        {
-            m_Obj_list[i]->Draw();
-        }
-    }
-
+    m_Obj_list[0]->Draw();
+    m_Obj_list[1]->Draw(m_Obj_list[1]->m_rt_num);
+   
     return true;
     //this->Draw(m_pos.x,m_pos.y,m_rt);
 }
 bool CABitmapMgr::Frame()
 {
-    //rt_num +1 , life_time!=0 && cur_time > lifetime  => erase
     for (int i = 0; i < m_Obj_list.size(); i++)
     {
         //rt++
-        if (m_Obj_list[i]->m_rt_num == 0)
-            m_Obj_list[i]->m_rt_num++;
-        if (m_Obj_list[i]->m_max_frame_num != 1)
-        {
+        m_Obj_list[i]->Rt_Operate();
 
-            m_Obj_list[i]->m_fCur_time += g_fSecondPerFrame;    //현시간 += 프레임당
-            m_Obj_list[i]->m_Delta_time += g_fSecondPerFrame;
-            if (m_Obj_list[i]->m_Delta_time > g_fSecondPerFrame * m_Obj_list[i]->m_fLife_time)
+            if (m_Obj_list[i]->dead_flag)
             {
-                m_Obj_list[i]->m_Delta_time -= m_Obj_list[i]->m_fLife_time / m_Obj_list[i]->m_max_frame_num;
-                m_Obj_list[i]->m_rt_num += 1;
+                m_Obj_list[i]->m_rt.clear();
+                m_Obj_list.erase(m_Obj_list.begin() + i);
             }
-
-
-
-            //if (m_Obj_list[i]->m_fCur_time > (m_Obj_list[i]->m_rt_num * 
-            //    m_Obj_list[i]->m_fLife_time / m_Obj_list[i]->m_max_frame_num))
-            //    m_Obj_list[i]->m_rt_num += 1;
-            //현시간이 프레임당 걸리는 시간*현 프레임 보다 크면+1;
-
-
-            //rt값 초과방지
-            if (m_Obj_list[i]->m_rt_num > m_Obj_list[i]->m_max_frame_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
-            {
-                if (m_Obj_list[i]->m_loop_flag == true)
-                    m_Obj_list[i]->m_rt_num -= m_Obj_list[i]->m_max_frame_num;
-                else
-                {
-                    m_Obj_list[i]->m_rt_num = min(m_Obj_list[i]->m_rt_num, m_Obj_list.size());
-                }
-            }
-            //del
-            //if (m_Obj_list[i]->m_fLife_time != 0 && m_Obj_list[i]->m_fLife_time < m_Obj_list[i]->m_fCur_time) ////라이프 타//임 !=0 && 라이프타임<현타임
-            //{
-            //    m_Obj_list[i]->m_rt.clear();
-            //    m_Obj_list.erase(m_Obj_list.begin() + i);
-            //}
-        }
     }
+       //player 이동 계산
+    if (m_Obj_list[1]->m_before_pos.x < m_Obj_list[1]->m_pos.x)
+    {
+        m_Obj_list[1]->m_fplayer_action_flag += 3 * g_fSecondPerFrame;
+        if (m_Obj_list[1]->m_fplayer_action_flag > 1)
+            m_Obj_list[1]->m_fplayer_action_flag = 1;
+    }
+    if (m_Obj_list[1]->m_before_pos.x > m_Obj_list[1]->m_pos.x)
+    {
+        m_Obj_list[1]->m_fplayer_action_flag -= 3 * g_fSecondPerFrame;
+        if (m_Obj_list[1]->m_fplayer_action_flag < -1)
+            m_Obj_list[1]->m_fplayer_action_flag = -1;
+    }
+    if (m_Obj_list[1]->m_before_pos.x == m_Obj_list[1]->m_pos.x)
+    {
+        if (m_Obj_list[1]->m_fplayer_action_flag > 0)
+            m_Obj_list[1]->m_fplayer_action_flag -= 5 * g_fSecondPerFrame;
+        if (m_Obj_list[1]->m_fplayer_action_flag < 0)
+            m_Obj_list[1]->m_fplayer_action_flag += 5 * g_fSecondPerFrame;
+    }
+   
+
+    m_Obj_list[1]->m_before_pos.x = m_Obj_list[1]->m_pos.x;
+    
+   
+
     return true;
 }
 bool CABitmapMgr::Render()
 {
-    Draw();
+    //Draw();
+    //m_Obj_list[1]->Render();
+    for (int i = 0; i < m_Obj_list.size(); i++)
+    {
+        m_Obj_list[i]->Render();
+        //if (m_Obj_list[i]->m_rt.size() > 1)
+        //    m_Obj_list[i]->Draw(m_Obj_list[i]->m_rt_num);
+        //
+        //
+        //else
+        //{
+        //    m_Obj_list[i]->Draw();
+        //}
+    }
+
+
     return true;
 }
 bool CABitmapMgr::Release()
@@ -102,8 +137,6 @@ bool CABitmapMgr::Release()
     return true;
 
 }
-
-
 
 CAObject* CABitmapMgr::Load_Object(T_STR filename)//++ 맴버 데이터 입력 필요.
 {
@@ -177,21 +210,20 @@ bool CABitmapMgr::Load_Bitmap_Script(T_STR fullpathname) //오류시 nullptr 반환
         assert(tmp != nullptr);
 
         _fgetts(buffer, _countof(buffer), fp);
-        _stscanf_s(buffer, _T("%s %d %f %f %d %f"), name, _countof(name), &tmp->m_max_frame_num,
-            &tmp->m_pos.x, &tmp->m_pos.y, &tmp->m_loop_flag, &tmp->m_fLife_time);
+        _stscanf_s(buffer, _T("%s %d %f %f %d %f %f %f %d"), name, _countof(name), &tmp->m_max_rt_num,
+            &tmp->m_pos.x, &tmp->m_pos.y, &tmp->m_loop_flag, &tmp->m_fSprite_time, &tmp->m_fLife_time, &tmp->m_fAlpha,&tmp->m_Player_flag);
         tmp->m_Obj_Name = name;
 
-        for (int k = 0; k < tmp->m_max_frame_num; k++)
+        for (int k = 0; k < tmp->m_max_rt_num; k++)
         {
             RECT* temp = new RECT;
             _fgetts(buffer, _countof(buffer), fp);
             _stscanf_s(buffer, _T("%d %d %d %d"), &temp->left, &temp->top, &temp->right, &temp->bottom);
             tmp->m_rt.push_back(temp);
+        
+
         }
 
-        //bitmap1.bmp 
-        //rtExplosion 12    100  100   1         0          1
-        //name        frame posx posy  loop_flag life_time  dummy[dead_flag]
 
 
     }

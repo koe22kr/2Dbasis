@@ -2,7 +2,7 @@
 HWND g_hWnd;            //이거 언제 전역핸들 달았는지 확인해보기. 190508// CAStd 에 extern 선언됨
 HINSTANCE g_hInstance;
 CAWindow* g_pWindow = NULL;
-
+RECT g_rtClient;
 LRESULT CALLBACK WndProc(
     HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -77,7 +77,7 @@ bool CAWindow::InitWindow(HINSTANCE hInstance, int iX, int iY, int iWidth, int i
     g_hWnd = m_hWnd;
     GetClientRect(m_hWnd, &m_rtClient);//
     GetWindowRect(m_hWnd, &m_rtWindow);
-
+    g_rtClient = m_rtClient;
     CenterWindow();
 
     ShowWindow(m_hWnd, SW_SHOW/*nCmdShow*/);

@@ -120,7 +120,7 @@ bool CACore::Run()
             // 게임로직
             CACoreFrame(); // 게임계산
             CACoreRender();// 게임드로우
-            Sleep(1); //1미리초 쉬는건데 필요한가?
+            //Sleep(1); //1미리초 쉬는건데 필요한가?
         }
     }
     CACoreRelease(); // 게임 종료 

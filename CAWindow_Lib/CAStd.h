@@ -30,6 +30,8 @@ extern float g_fSecondPerFrame;  //프레임당 sec
 extern float g_fGameTimer;    //총시간
 extern HDC g_hOffScreenDC;
 extern HDC g_hScreenDC;
+extern RECT g_rtClient;
+
 
 //struct CAInputMap //TInputActionMap; 이라고도 함.
 //{
