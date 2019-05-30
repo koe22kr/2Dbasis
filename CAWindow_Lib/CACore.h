@@ -3,6 +3,7 @@
 #include "CATimer.h"
 #include "CAInput.h"
 #include "CASoundMgr.h"
+#include "CABitmapMgr.h"
 #include "CAStd.h"
 
 class CACore :public CAWindow                 

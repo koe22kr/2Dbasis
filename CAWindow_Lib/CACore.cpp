@@ -60,7 +60,7 @@ bool CACore::CACoreInit()
     m_hbrBack = CreateSolidBrush(m_bkColor);
     SelectObject(m_hOffScreenDC, m_hbrBack);
 
-    
+    I_BITMAPMGR.Init();
     m_Timer.Init();
     I_Input.Init();
     I_SoundMgr.Init();
@@ -68,6 +68,7 @@ bool CACore::CACoreInit()
 }
 bool CACore::CACoreFrame()
 {
+    I_BITMAPMGR.Frame();
     m_Timer.Frame();
     I_Input.Frame();
     I_SoundMgr.Frame();
@@ -78,6 +79,7 @@ bool CACore::CACoreRender()
 {
     PreRender();
     Render();
+    I_BITMAPMGR.Render();
     PostRender();
 
     m_Timer.Render();
@@ -93,12 +95,11 @@ bool CACore::CACoreRelease()
     DeleteObject(m_hOffScreenBitmap);       //
     DeleteObject(m_hbrBack);                //
     ReleaseDC(m_hWnd, m_hScreenDC);
-
+    I_BITMAPMGR.Release();
     m_Timer.Release();
     I_Input.Release();
     I_SoundMgr.Release();
     return Release();
-    return true;
 }
 bool CACore::Run()
 {

@@ -1,17 +1,17 @@
-#include "Object.h"
+#include "CABitmapObject.h"
 
 
-void CAObject::Rotation()
+void CABitmapObject::Rotation()
 {
-    
-    
-    int inewsize = sqrt((m_rt[m_rt_num-1]->right * m_rt[m_rt_num-1]->right) 
-                      + (m_rt[m_rt_num-1]->bottom * m_rt[m_rt_num-1]->bottom));
-    
+
+
+    int inewsize = sqrt((m_rt[m_iRt_num - 1]->right * m_rt[m_iRt_num - 1]->right)
+        + (m_rt[m_iRt_num - 1]->bottom * m_rt[m_iRt_num - 1]->bottom));
+
     HBITMAP bitmap = CreateCompatibleBitmap(g_hScreenDC, inewsize, inewsize);
     if (bitmap == NULL)
         return;
-  
+
 
     HDC rotationDC = CreateCompatibleDC(NULL);
     SelectObject(rotationDC, bitmap);
@@ -19,8 +19,8 @@ void CAObject::Rotation()
     SelectObject(rotationDC, hbrBrush);
     PatBlt(rotationDC, 0, 0, inewsize, inewsize, PATCOPY);
     DeleteObject(hbrBrush);
-   
-   
+
+
 
     //Angle 180 - > π  변환 cos,sin은 파이값으로 줘야함
     float fradian = m_fAngle * 3.141592f / 180.0f;
@@ -35,24 +35,24 @@ void CAObject::Rotation()
     int iOldGraphic = SetGraphicsMode(rotationDC, GM_ADVANCED);
     SetWorldTransform(rotationDC, &xform);
 
-    BitBlt(rotationDC, -m_rt[m_rt_num-1]->right / 2, -m_rt[m_rt_num-1]->bottom / 2, m_rt[m_rt_num-1]->right, m_rt[m_rt_num-1]->bottom,
-          m_pbmp->m_dc, m_rt[m_rt_num-1]->left, m_rt[m_rt_num-1]->top, SRCCOPY);
-    
+    BitBlt(rotationDC, -m_rt[m_iRt_num - 1]->right / 2, -m_rt[m_iRt_num - 1]->bottom / 2, m_rt[m_iRt_num - 1]->right, m_rt[m_iRt_num - 1]->bottom,
+        m_pbmp->m_dc, m_rt[m_iRt_num - 1]->left, m_rt[m_iRt_num - 1]->top, SRCCOPY);
+
     xform.eM11 = 1; xform.eM12 = 0;
     xform.eM21 = 0; xform.eM22 = 1;
     xform.eDx = 0;  xform.eDy = 0;
-    
+
     SetWorldTransform(rotationDC, &xform);
     SetGraphicsMode(rotationDC, iOldGraphic);
-    
-    
+
+
     CAPOINT pos;
     pos.x = m_pos.x - (inewsize / 2);
     pos.y = m_pos.y - (inewsize / 2);
-       
-    
-    
-    
+
+
+
+
     BITMAP ibmp;
     GetObject(bitmap, sizeof(BITMAP), &ibmp);
     if (ibmp.bmBitsPixel == 32)
@@ -62,7 +62,7 @@ void CAObject::Rotation()
         bf.BlendFlags = 0;
         bf.SourceConstantAlpha = m_fAlpha;
         bf.AlphaFormat = AC_SRC_ALPHA;
-        AlphaBlend(g_hOffScreenDC, pos.x,pos.y,inewsize,inewsize,
+        AlphaBlend(g_hOffScreenDC, pos.x, pos.y, inewsize, inewsize,
             rotationDC,
             0, 0, inewsize, inewsize,
             bf);
@@ -79,82 +79,87 @@ void CAObject::Rotation()
 
 
 
-void CAObject::Rt_Operate()
+void CABitmapObject::Rt_Operate()
 {
-    if (m_fSprite_time!=0)
+    if (m_fSprite_time != 0)
     {
 
         m_fCur_time += g_fSecondPerFrame;    //현시간 += 프레임당
-        m_Delta_time += g_fSecondPerFrame;   //
-        if (m_Delta_time > m_fSprite_time / m_max_rt_num)
+        m_fDelta_time += g_fSecondPerFrame;   //
+        if (m_fDelta_time > m_fSprite_time / m_iMax_rt_num)
         {
-            m_Delta_time -= m_fSprite_time / m_max_rt_num;
-            m_rt_num += 1;
+            m_fDelta_time -= m_fSprite_time / m_iMax_rt_num;
+            m_iRt_num += 1;
 
         }
         //rt값 초과방지
-        if (m_rt_num > m_max_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
+        if (m_iRt_num > m_iMax_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
         {
-            if (m_loop_flag == true)
-                m_rt_num -= m_max_rt_num;
+            if (m_iMax_rt_num == true)
+                m_iRt_num -= m_iMax_rt_num;
             else
             {
-                m_rt_num = min(m_rt_num, m_max_rt_num);
+                m_iRt_num = min(m_iRt_num, m_iMax_rt_num);
             }
         }
     }
 
-    
+
     //del     
     if (m_fLife_time != 0 && m_fLife_time < m_fCur_time)
     {
-        dead_flag = true;
+        m_bDead_flag = true;
     }
 }
 
-void        CAObject::Player_Render()
+void        CABitmapObject::Player_Render()
 {
-    if (m_Player_flag == true)
+    if (m_bPlayer_flag == true)
     {
 
         if (m_fplayer_action_flag < -0.2)
         {
             if (m_fplayer_action_flag < -0.7)
-                m_rt_num = LL;
+                m_iRt_num = LL;
             else
             {
-                m_rt_num = L;
+                m_iRt_num = L;
             }
         }
         else if (m_fplayer_action_flag > 0.2)
         {
             if (m_fplayer_action_flag > 0.7)
-                m_rt_num = RR;
+                m_iRt_num = RR;
             else
             {
-                m_rt_num = R;
+                m_iRt_num = R;
             }
         }
         else
 
         {
-            m_rt_num = Mid;
+            m_iRt_num = Mid;
 
         }
     }
 }
-
-bool CAObject::Render()
+bool CABitmapObject::Init()
 {
-    if (m_Player_flag == true)
-    {
-        Player_Render();
-    }
-    Draw(m_rt_num);
     return true;
 }
-bool CAObject::Draw(int rt_num, DWORD imode)// 1start;
+bool CABitmapObject::Render()
 {
+    
+    if (m_iMax_rt_num > 0)
+    {
+        
+        Draw(m_iRt_num);
+    }
+    return true;
+}
+bool CABitmapObject::Draw(int rt_num, DWORD imode)// 1start;
+{
+  
     if (m_fAngle != 0)
     {
         Rotation();
@@ -173,36 +178,42 @@ bool CAObject::Draw(int rt_num, DWORD imode)// 1start;
     // {
     //     AlphaBlendRender(*m_rt[rt_num - 1]);
     // }
-   else if (m_pmask != nullptr)
+    else if (m_pmask != nullptr)
     {
-        m_pmask->Draw(m_pos.x, m_pos.y, *m_rt[rt_num -1], SRCAND);       //NEED
-        m_pbmp->Draw(m_pos.x, m_pos.y, *m_rt[rt_num-1 ], SRCINVERT);
-        m_pmask->Draw(m_pos.x, m_pos.y, *m_rt[rt_num -1], SRCINVERT);
+        m_pmask->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCAND);       //NEED
+        m_pbmp->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCINVERT);
+        m_pmask->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCINVERT);
     }
     else
     {
-        m_pbmp->Draw(m_pos.x, m_pos.y, *m_rt[rt_num-1 ], SRCCOPY);
+        m_pbmp->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCCOPY);
     }
     return true;
 }
-bool CAObject::Frame()
+bool CABitmapObject::Frame()
 {
-    
+    if (m_bPlayer_flag == true)
+    {
+        Player_Render();
+    }
+    return true;
+}
+bool CABitmapObject::Release()
+{
     return true;
 }
 
 
-
-void CAObject::Move(float xstep, float ystep)
+void CABitmapObject::Move(float xstep, float ystep)
 {
-    m_pos.x += xstep* g_fSecondPerFrame;
-    m_pos.y += ystep* g_fSecondPerFrame;
-  
-    if (m_pos.x + m_rt[m_rt_num - 1]->right > g_rtClient.right)
+    m_pos.x += xstep;
+    m_pos.y += ystep;
+
+    if (m_pos.x + m_rt[m_iRt_num - 1]->right > g_rtClient.right)
     {
         m_pos.x = g_rtClient.right;
     }
-    if (m_pos.y + m_rt[m_rt_num - 1]->bottom > g_rtClient.bottom)
+    if (m_pos.y + m_rt[m_iRt_num - 1]->bottom > g_rtClient.bottom)
     {
         m_pos.y = g_rtClient.bottom;
     }
@@ -210,9 +221,9 @@ void CAObject::Move(float xstep, float ystep)
     m_pos.y < 0 ? 0 : m_pos.y;
 
 
-    
+
 }
- 
+
 //bool CAObject::AlphaBlendRender(RECT rt)
 //{
 //    BITMAPINFO bmi;
@@ -295,7 +306,7 @@ void CAObject::Move(float xstep, float ystep)
 //}
 
 
-bool CAObject::Draw_ColorKey(RECT rt, COLORREF color)
+bool CABitmapObject::Draw_ColorKey(RECT rt, COLORREF color)
 {
     //DC->DC
     TransparentBlt(g_hOffScreenDC, rt.left, rt.top, rt.right, rt.bottom,
@@ -305,19 +316,19 @@ bool CAObject::Draw_ColorKey(RECT rt, COLORREF color)
 }
 
 
-void CAObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, RECT rt,
-    bool loop_flag , float sprite_time, float life_time, float fSpeed , float alpha, int player_flag )
+void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, RECT rt,
+    bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
 {
     m_Obj_Name = name;
-    m_max_rt_num = max_frame_num;
+    m_iMax_rt_num = max_frame_num;
     m_pos = { inx,iny };
-    m_loop_flag = loop_flag;
+    m_iMax_rt_num = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
     m_fSpeed = fSpeed;
     m_fAlpha = alpha;
-    m_Player_flag = player_flag;
-    
+    m_bPlayer_flag = player_flag;
+
     RECT* NewRect = new RECT;
     NewRect->left = rt.left;
     NewRect->top = rt.top;
@@ -326,18 +337,18 @@ void CAObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, RE
 
     m_rt.push_back(NewRect);
 }
-void CAObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, vector<RECT> rt_array,
-    bool loop_flag , float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
+void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, vector<RECT> rt_array,
+    bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
 {
     m_Obj_Name = name;
-    m_max_rt_num = max_frame_num;
+    m_iMax_rt_num = max_frame_num;
     m_pos = { inx,iny };
-    m_loop_flag = loop_flag;
+    m_iMax_rt_num = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
     m_fSpeed = fSpeed;
     m_fAlpha = alpha;
-    m_Player_flag = player_flag;
+    m_bPlayer_flag = player_flag;
 
     RECT* NewRect = new RECT;
     for (int i = 0; m_rt.begin() + i != m_rt.end(); i++)
@@ -350,12 +361,12 @@ void CAObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, ve
     m_rt.push_back(NewRect);
 }
 
-CAObject::CAObject()
+CABitmapObject::CABitmapObject()
 {
 
 }
 
 
-CAObject::~CAObject()
+CABitmapObject::~CABitmapObject()
 {
 }

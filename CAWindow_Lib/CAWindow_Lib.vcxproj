@@ -166,24 +166,29 @@ copy "*.h" "..\\..\\data\\CA"</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CABitmap.cpp" />
+    <ClCompile Include="CABitmapMgr.cpp" />
+    <ClCompile Include="CABitmapObject.cpp" />
     <ClCompile Include="CACore.cpp" />
     <ClCompile Include="CAInput.cpp" />
+    <ClCompile Include="CAObject.cpp" />
     <ClCompile Include="CASound.cpp" />
     <ClCompile Include="CASoundMgr.cpp" />
     <ClCompile Include="CATimer.cpp" />
     <ClCompile Include="CAWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CABitmap.h" />
+    <ClInclude Include="CABitmapMgr.h" />
+    <ClInclude Include="CABitmapObject.h" />
     <ClInclude Include="CACore.h" />
     <ClInclude Include="CAInput.h" />
+    <ClInclude Include="CAObject.h" />
     <ClInclude Include="CASound.h" />
     <ClInclude Include="CASoundMgr.h" />
     <ClInclude Include="CAStd.h" />
     <ClInclude Include="CATimer.h" />
     <ClInclude Include="CAWindow.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

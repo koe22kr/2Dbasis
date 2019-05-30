@@ -11,12 +11,12 @@ bool Sample::Init()
 {
     
    
-    mgr.Load_Object(L"wall.bmp");
+    //mgr.Load_Object(L"wall.bmp");
     //mgr.Load_Object(L"bitmap1.bmp");
     mgr.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
-    mgr.m_Obj_list[0]->Setobject(L"Backwall", 1, 0, 0, { 0,0,800,600 });
-    mgr.m_Obj_list[1]->m_fAngle = 30;
-   mgr.m_Obj_list[2]->m_fAngle = 40;
+    //mgr.m_Obj_list[0]->Setobject(L"Backwall", 1, 0, 0, { 0,0,800,600 });
+    //mgr.m_Obj_list[1]->m_fAngle = 30;
+   //mgr.m_Obj_list[2]->m_fAngle = 40;
     //mgr.m_Obj_list[2]->m_fAlpha = 128;
 
     
@@ -43,36 +43,35 @@ bool Sample::Frame()
      DWORD dwState = I_Input.KeyCheck('W');
      if (dwState == KEY_HOLD)
      {
-        mgr.Move(0,-100 * g_fSecondPerFrame,1);
+        mgr.Move(0,-100,1);
      }  dwState = I_Input.KeyCheck('S');
      if (dwState == KEY_HOLD)
      {
-         mgr.Move(0, 100 * g_fSecondPerFrame, 1);
-         
+         mgr.Move(0, 100, 1);
     
      }
      dwState = I_Input.KeyCheck('A');
      if (dwState == KEY_HOLD)
      {
-         mgr.Move(-100 * g_fSecondPerFrame,0, 1);
+         mgr.Move(-100,0, 1);
     
      }
      dwState = I_Input.KeyCheck('D');
      if (dwState == KEY_HOLD)
      {
-         mgr.Move(100 * g_fSecondPerFrame,0, 1);
+         mgr.Move(100,0, 1);
     
      }
      dwState = I_Input.KeyCheck('V');
      if (dwState == KEY_HOLD)
      {
-         mgr.Move(-200 * g_fSecondPerFrame,0, 2);
+         mgr.Move(-200,0, 2);
 
      }
      dwState = I_Input.KeyCheck('B');
      if (dwState == KEY_HOLD)
      {
-         mgr.Move(200 * g_fSecondPerFrame,0, 2);
+         mgr.Move(200,0, 2);
 
      }
      
