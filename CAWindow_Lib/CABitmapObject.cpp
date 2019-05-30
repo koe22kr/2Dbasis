@@ -95,7 +95,7 @@ void CABitmapObject::Rt_Operate()
         //rt값 초과방지
         if (m_iRt_num > m_iMax_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
         {
-            if (m_iMax_rt_num == true)
+            if (m_bLoop_flag == true)
                 m_iRt_num -= m_iMax_rt_num;
             else
             {
@@ -104,8 +104,7 @@ void CABitmapObject::Rt_Operate()
         }
     }
 
-
-    //del     
+    //del     as
     if (m_fLife_time != 0 && m_fLife_time < m_fCur_time)
     {
         m_bDead_flag = true;
@@ -322,7 +321,7 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     m_Obj_Name = name;
     m_iMax_rt_num = max_frame_num;
     m_pos = { inx,iny };
-    m_iMax_rt_num = loop_flag;
+    m_bLoop_flag = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
     m_fSpeed = fSpeed;
@@ -343,7 +342,7 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     m_Obj_Name = name;
     m_iMax_rt_num = max_frame_num;
     m_pos = { inx,iny };
-    m_iMax_rt_num = loop_flag;
+    m_bLoop_flag = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
     m_fSpeed = fSpeed;
