@@ -13,8 +13,6 @@ class CASoundMgr : public CASingleton<CASoundMgr>
  {
     friend class CASingleton<CASoundMgr>;
     //사전식 컨테이너
-   
-    
 public:
     float           m_fVolume = 1.0f;// 마스터 볼륨
 
@@ -44,7 +42,7 @@ public:
      bool Render();
      bool Release();//맵의 second 동적할당 해제, 해당 맵 erase  -> if(begin==end)
 
-     bool Init_onec();
+     
         
         
 private:

@@ -1,3 +1,6 @@
 
 *.db
 .vs/WindowsProject-2D/v15/Browse.VC.opendb
+.vs/WindowsProject-2D/v15/Browse.VC.db
+.vs
+*.db

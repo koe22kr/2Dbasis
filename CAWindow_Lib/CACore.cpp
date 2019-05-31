@@ -15,8 +15,8 @@ bool CACore::Frame()
 bool CACore::PreRender()
 {
     PatBlt(m_hOffScreenDC,
-        0, 0, m_rtClient.right,
-        m_rtClient.bottom, PATCOPY);
+        0, 0, m_Src_rtClient.right,
+        m_Src_rtClient.bottom, PATCOPY);
     return true;
 }
 
@@ -30,8 +30,8 @@ bool CACore::PostRender()
    
     // DC -> DC
     BitBlt(m_hScreenDC, 0, 0,
-        m_rtClient.right,
-        m_rtClient.bottom,
+        m_Src_rtClient.right,
+        m_Src_rtClient.bottom,
         m_hOffScreenDC,
         0,
         0, SRCCOPY);
@@ -50,8 +50,8 @@ bool CACore::CACoreInit()
 
     m_hOffScreenDC = CreateCompatibleDC(m_hScreenDC);
     m_hOffScreenBitmap = CreateCompatibleBitmap(
-        m_hScreenDC, m_rtClient.right,
-        m_rtClient.bottom);
+        m_hScreenDC, m_Src_rtClient.right,
+        m_Src_rtClient.bottom);
     SelectObject(m_hOffScreenDC, m_hOffScreenBitmap);
 
     g_hOffScreenDC = m_hOffScreenDC;

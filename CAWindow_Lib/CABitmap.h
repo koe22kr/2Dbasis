@@ -22,7 +22,7 @@ public:
 
     bool    Draw(float x, float y, RECT rt, DWORD imode = SRCCOPY);
     bool    Draw(float inx, float iny, RECT rt, BLENDFUNCTION bf);
-
+    bool    Draw(float inx, float iny, RECT Srcrt, RECT Deskrt, BLENDFUNCTION bf);
 
     bool	Release();
 

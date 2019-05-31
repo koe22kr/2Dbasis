@@ -17,6 +17,7 @@ int CASoundMgr::Load(const char* csound_file_name)
     {
         //  에러 메세지 호출 추가  요망
         return -1;
+        delete newSound;
     }
     return 1;
 }
@@ -74,6 +75,8 @@ void CASoundMgr::Volume(float fVolume_stap, bool Vol_Up)
 
 bool CASoundMgr::Init()
 {
+    FMOD::System_Create(&m_pSystem);
+    m_pSystem->init(32, FMOD_INIT_NORMAL, 0);
     return true;
 }
 bool CASoundMgr::Frame()
@@ -122,16 +125,10 @@ bool CASoundMgr::Release()
  
 }
 
-bool CASoundMgr::Init_onec()
-{
-    FMOD::System_Create(&m_pSystem);
-    m_pSystem->init(32, FMOD_INIT_NORMAL, 0);   // 한번만 하면 된다! 이거 수정해야겟다.
-    return true;
-}
 
 CASoundMgr::CASoundMgr()
 {
-    Init_onec();
+    
 }
 
 

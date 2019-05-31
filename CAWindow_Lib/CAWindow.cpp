@@ -75,9 +75,9 @@ bool CAWindow::InitWindow(HINSTANCE hInstance, int iX, int iY, int iWidth, int i
     if (!m_hWnd) return 0;
     
     g_hWnd = m_hWnd;
-    GetClientRect(m_hWnd, &m_rtClient);//
-    GetWindowRect(m_hWnd, &m_rtWindow);
-    g_rtClient = m_rtClient;
+    GetClientRect(m_hWnd, &m_Src_rtClient);//
+    GetWindowRect(m_hWnd, &m_Src_rtWindow);
+    g_rtClient = m_Src_rtClient;
     CenterWindow();
 
     ShowWindow(m_hWnd, SW_SHOW/*nCmdShow*/);
@@ -89,9 +89,9 @@ void CAWindow::CenterWindow()
 {
     int iScreenWidth = GetSystemMetrics(SM_CXSCREEN);
     int iScreenHeight = GetSystemMetrics(SM_CYSCREEN);
-    int x = (iScreenWidth - (m_rtWindow.right - m_rtWindow.left)) / 2;
-    int y = (iScreenHeight - (m_rtWindow.bottom - m_rtWindow.top)) / 2;
-    MoveWindow(m_hWnd, x, y, m_rtWindow.right - m_rtWindow.left, m_rtWindow.bottom - m_rtWindow.top, true);
+    int x = (iScreenWidth - (m_Src_rtWindow.right - m_Src_rtWindow.left)) / 2;
+    int y = (iScreenHeight - (m_Src_rtWindow.bottom - m_Src_rtWindow.top)) / 2;
+    MoveWindow(m_hWnd, x, y, m_Src_rtWindow.right - m_Src_rtWindow.left, m_Src_rtWindow.bottom - m_Src_rtWindow.top, true);
     //y값도 같이.
     //MoveWindow(m_hWnd, x, y, w, h, true);//마지막인자 = 리페인트유무      //w,h 는 rtwindow 의 right-left 하면, 높이도 같이.
 

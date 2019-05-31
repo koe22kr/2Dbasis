@@ -5,8 +5,8 @@ void CABitmapObject::Rotation()
 {
 
 
-    int inewsize = sqrt((m_rt[m_iRt_num - 1]->right * m_rt[m_iRt_num - 1]->right)
-        + (m_rt[m_iRt_num - 1]->bottom * m_rt[m_iRt_num - 1]->bottom));
+    int inewsize = sqrt((m_Src_rt[m_iRt_num - 1]->right * m_Src_rt[m_iRt_num - 1]->right)
+        + (m_Src_rt[m_iRt_num - 1]->bottom * m_Src_rt[m_iRt_num - 1]->bottom));
 
     HBITMAP bitmap = CreateCompatibleBitmap(g_hScreenDC, inewsize, inewsize);
     if (bitmap == NULL)
@@ -35,8 +35,8 @@ void CABitmapObject::Rotation()
     int iOldGraphic = SetGraphicsMode(rotationDC, GM_ADVANCED);
     SetWorldTransform(rotationDC, &xform);
 
-    BitBlt(rotationDC, -m_rt[m_iRt_num - 1]->right / 2, -m_rt[m_iRt_num - 1]->bottom / 2, m_rt[m_iRt_num - 1]->right, m_rt[m_iRt_num - 1]->bottom,
-        m_pbmp->m_dc, m_rt[m_iRt_num - 1]->left, m_rt[m_iRt_num - 1]->top, SRCCOPY);
+    BitBlt(rotationDC, -m_Src_rt[m_iRt_num - 1]->right / 2, -m_Src_rt[m_iRt_num - 1]->bottom / 2, m_Src_rt[m_iRt_num - 1]->right, m_Src_rt[m_iRt_num - 1]->bottom,
+        m_pbmp->m_dc, m_Src_rt[m_iRt_num - 1]->left, m_Src_rt[m_iRt_num - 1]->top, SRCCOPY);
 
     xform.eM11 = 1; xform.eM12 = 0;
     xform.eM21 = 0; xform.eM22 = 1;
@@ -156,9 +156,8 @@ bool CABitmapObject::Render()
     }
     return true;
 }
-bool CABitmapObject::Draw(int rt_num, DWORD imode)// 1start;
+bool CABitmapObject::Draw(int rt_num)// 1start;
 {
-  
     if (m_fAngle != 0)
     {
         Rotation();
@@ -170,22 +169,22 @@ bool CABitmapObject::Draw(int rt_num, DWORD imode)// 1start;
         bf.BlendFlags = 0;
         bf.SourceConstantAlpha = m_fAlpha;
         bf.AlphaFormat = AC_SRC_ALPHA;
-        m_pbmp->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], bf);///
-
+        //if(m_bScale_flag==true && m_Desk_rt!=m_Src_rt)
+        m_pbmp->Draw(m_pos.x, m_pos.y,*m_Src_rt[rt_num -1], *m_Desk_rt[rt_num - 1], bf);
     }
     //else if (m_fAlpha != 1)
     // {
-    //     AlphaBlendRender(*m_rt[rt_num - 1]);
+    //     AlphaBlendRender(*m_Src_rt[rt_num - 1]);
     // }
     else if (m_pmask != nullptr)
     {
-        m_pmask->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCAND);       //NEED
-        m_pbmp->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCINVERT);
-        m_pmask->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCINVERT);
+        m_pmask->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCAND);       //NEED
+        m_pbmp->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCINVERT);
+        m_pmask->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCINVERT);
     }
     else
     {
-        m_pbmp->Draw(m_pos.x, m_pos.y, *m_rt[rt_num - 1], SRCCOPY);
+        m_pbmp->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCCOPY);
     }
     return true;
 }
@@ -193,7 +192,7 @@ bool CABitmapObject::Frame()
 {
     if (m_bPlayer_flag == true)
     {
-        Player_Render();
+        Player_Render();// 비행기 경우만 사용.
     }
     return true;
 }
@@ -208,11 +207,11 @@ void CABitmapObject::Move(float xstep, float ystep)
     m_pos.x += xstep;
     m_pos.y += ystep;
 
-    if (m_pos.x + m_rt[m_iRt_num - 1]->right > g_rtClient.right)
+    if (m_pos.x + m_Src_rt[m_iRt_num - 1]->right > g_rtClient.right)
     {
         m_pos.x = g_rtClient.right;
     }
-    if (m_pos.y + m_rt[m_iRt_num - 1]->bottom > g_rtClient.bottom)
+    if (m_pos.y + m_Src_rt[m_iRt_num - 1]->bottom > g_rtClient.bottom)
     {
         m_pos.y = g_rtClient.bottom;
     }
@@ -334,7 +333,8 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     NewRect->right = rt.right;
     NewRect->bottom = rt.bottom;
 
-    m_rt.push_back(NewRect);
+    m_Src_rt.push_back(NewRect);
+    m_Desk_rt.push_back(NewRect);
 }
 void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, vector<RECT> rt_array,
     bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
@@ -350,14 +350,16 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     m_bPlayer_flag = player_flag;
 
     RECT* NewRect = new RECT;
-    for (int i = 0; m_rt.begin() + i != m_rt.end(); i++)
+    for (int i = 0; m_Src_rt.begin() + i != m_Src_rt.end(); i++)
     {
-        m_rt[i]->left = rt_array[i].left;
-        m_rt[i]->top = rt_array[i].top;
-        m_rt[i]->right = rt_array[i].right;
-        m_rt[i]->bottom = rt_array[i].bottom;
+        m_Src_rt[i]->left = rt_array[i].left;
+        m_Src_rt[i]->top = rt_array[i].top;
+        m_Src_rt[i]->right = rt_array[i].right;
+        m_Src_rt[i]->bottom = rt_array[i].bottom;
+        m_Src_rt.push_back(NewRect);
+        m_Desk_rt.push_back(NewRect);
     }
-    m_rt.push_back(NewRect);
+    
 }
 
 CABitmapObject::CABitmapObject()

@@ -91,6 +91,16 @@ bool    CABitmap::Draw(float inx, float iny, RECT rt, BLENDFUNCTION bf)
         bf);
     return true;
 }
+bool    CABitmap::Draw(float inx, float iny, RECT Srcrt, RECT Deskrt, BLENDFUNCTION bf)
+{
+    // DC -> DC
+    AlphaBlend(g_hOffScreenDC, inx, iny, Deskrt.right, Deskrt.bottom,
+        m_dc,
+        Srcrt.left, Srcrt.top, Srcrt.right, Srcrt.bottom,
+        bf);
+    return true;
+}
+
 
 
 CABitmap::CABitmap()

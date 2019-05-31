@@ -2,9 +2,9 @@
 
 bool CABitmapMgr::Collision(CABitmapObject* obj, CAPOINT pos)
 {
-    if (obj->m_pos.x < pos.x && pos.x < obj->m_pos.x + obj->m_rt[obj->m_iRt_num]->right)
+    if (obj->m_pos.x < pos.x && pos.x < obj->m_pos.x + obj->m_Src_rt[obj->m_iRt_num]->right)
     {
-        if (obj->m_pos.y < pos.y && pos.y < obj->m_pos.y + obj->m_rt[obj->m_iRt_num]->bottom)
+        if (obj->m_pos.y < pos.y && pos.y < obj->m_pos.y + obj->m_Src_rt[obj->m_iRt_num]->bottom)
         {
             return true;
         }
@@ -14,12 +14,12 @@ bool CABitmapMgr::Collision(CABitmapObject* obj, CAPOINT pos)
 bool CABitmapMgr::Collision(CABitmapObject* main_obj, CABitmapObject* target_obj)
 {
     POINT main;
-    main.x = main_obj->m_rt[main_obj->m_iRt_num]->right / 2;
-    main.y = main_obj->m_rt[main_obj->m_iRt_num]->bottom / 2;;
+    main.x = main_obj->m_Src_rt[main_obj->m_iRt_num]->right / 2;
+    main.y = main_obj->m_Src_rt[main_obj->m_iRt_num]->bottom / 2;;
 
     POINT target;
-    target.x = target_obj->m_rt[target_obj->m_iRt_num]->right / 2;
-    target.y = target_obj->m_rt[target_obj->m_iRt_num]->bottom / 2;
+    target.x = target_obj->m_Src_rt[target_obj->m_iRt_num]->right / 2;
+    target.y = target_obj->m_Src_rt[target_obj->m_iRt_num]->bottom / 2;
 
     POINT distance;
     distance.x = abs((main_obj->m_pos.x + main.x) - (target_obj->m_pos.x + target.x));
@@ -66,29 +66,29 @@ bool CABitmapMgr::Frame()
 
         if (m_Obj_list[i]->m_bDead_flag)
         {
-            m_Obj_list[i]->m_rt.clear();
+            m_Obj_list[i]->m_Src_rt.clear();
             m_Obj_list.erase(m_Obj_list.begin() + i);
         }
     }
     //player 이동 계산
-    if (m_Obj_list[1]->m_before_pos.x < m_Obj_list[1]->m_pos.x)
+    if (m_Obj_list[m_Player_Num]->m_before_pos.x < m_Obj_list[m_Player_Num]->m_pos.x)
     {
-        m_Obj_list[1]->m_fplayer_action_flag += 3 * g_fSecondPerFrame;
-        if (m_Obj_list[1]->m_fplayer_action_flag > 1)
-            m_Obj_list[1]->m_fplayer_action_flag = 1;
+        m_Obj_list[m_Player_Num]->m_fplayer_action_flag += 3 * g_fSecondPerFrame;
+        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag > 1)
+            m_Obj_list[m_Player_Num]->m_fplayer_action_flag = 1;
     }
-    if (m_Obj_list[1]->m_before_pos.x > m_Obj_list[1]->m_pos.x)
+    if (m_Obj_list[m_Player_Num]->m_before_pos.x > m_Obj_list[m_Player_Num]->m_pos.x)
     {
-        m_Obj_list[1]->m_fplayer_action_flag -= 3 * g_fSecondPerFrame;
-        if (m_Obj_list[1]->m_fplayer_action_flag < -1)
-            m_Obj_list[1]->m_fplayer_action_flag = -1;
+        m_Obj_list[m_Player_Num]->m_fplayer_action_flag -= 3 * g_fSecondPerFrame;
+        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag < -1)
+            m_Obj_list[m_Player_Num]->m_fplayer_action_flag = -1;
     }
-    if (m_Obj_list[1]->m_before_pos.x == m_Obj_list[1]->m_pos.x)
+    if (m_Obj_list[m_Player_Num]->m_before_pos.x == m_Obj_list[m_Player_Num]->m_pos.x)
     {
-        if (m_Obj_list[1]->m_fplayer_action_flag > 0)
-            m_Obj_list[1]->m_fplayer_action_flag -= 5 * g_fSecondPerFrame;
-        if (m_Obj_list[1]->m_fplayer_action_flag < 0)
-            m_Obj_list[1]->m_fplayer_action_flag += 5 * g_fSecondPerFrame;
+        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag > 0)
+            m_Obj_list[m_Player_Num]->m_fplayer_action_flag -= 5 * g_fSecondPerFrame;
+        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag < 0)
+            m_Obj_list[m_Player_Num]->m_fplayer_action_flag += 5 * g_fSecondPerFrame;
     }
 
 
@@ -105,7 +105,7 @@ bool CABitmapMgr::Render()
     for (int i = 0; i < m_Obj_list.size(); i++)
     {
         m_Obj_list[i]->Render();
-        //if (m_Obj_list[i]->m_rt.size() > 1)
+        //if (m_Obj_list[i]->m_Src_rt.size() > 1)
         //    m_Obj_list[i]->Draw(m_Obj_list[i]->m_iRt_num);
         //
         //
@@ -130,7 +130,7 @@ bool CABitmapMgr::Release()
     }
     for (int i = 0; i < m_Obj_list.size(); i++)
     {
-        m_Obj_list[i]->m_rt.clear();
+        m_Obj_list[i]->m_Src_rt.clear();
         m_Obj_list.erase(m_Obj_list.begin() + i);
     }
     return true;
@@ -219,7 +219,8 @@ bool CABitmapMgr::Load_Bitmap_Script(T_STR fullpathname) //오류시 nullptr 반환
             RECT* temp = new RECT;
             _fgetts(buffer, _countof(buffer), fp);
             _stscanf_s(buffer, _T("%d %d %d %d"), &temp->left, &temp->top, &temp->right, &temp->bottom);
-            tmp->m_rt.push_back(temp);
+            tmp->m_Src_rt.push_back(temp);
+            tmp->m_Desk_rt.push_back(temp);
 
 
         }

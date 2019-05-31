@@ -10,7 +10,7 @@ public:
     bool Render();
     bool Release();
     
-
+    void KeyCheck();
 
 
     Sample();

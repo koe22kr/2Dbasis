@@ -28,7 +28,8 @@ public:
     int              m_iRt_num = 1; //로드시 1start 
     int              m_iMax_rt_num;
     float m_fAlpha = 0;
-    vector<RECT*>    m_rt;
+    vector<RECT*>    m_Src_rt;
+    vector<RECT*>   m_Desk_rt;  //기본값으로 Srcrt 값을 대입!
 
 public:   //스프라이트용 멤버들
     float            m_fCur_time = 0;
@@ -38,14 +39,14 @@ public:   //스프라이트용 멤버들
     
     bool             m_bLoop_flag = false;
     bool             m_bDead_flag = false;  //소멸 할 예정이 있는 오브젝트는 소멸용.
-
+    bool       m_bScale_flag = false;
 
     //bool AlphaBlendRender(RECT rt);
 public:
     void             Rt_Operate();
     void Rotation();
     virtual void             Move(float xstep, float ystep);
-    bool             Draw(int rt_num = 1, DWORD imode = SRCCOPY);
+    bool             Draw(int rt_num = 1);
     bool             Draw_ColorKey(RECT rt, COLORREF color);
 
     bool             Init();
