@@ -5,7 +5,7 @@
 
 
 
-class CABitmapMgr : public CABitmapObject, public CASingleton<CABitmapMgr>
+class CABitmapMgr : public CASingleton<CABitmapMgr>
 {
     friend CASingleton<CABitmapMgr>;
 public:
@@ -18,20 +18,20 @@ public:
 
     int m_Player_Num = 1;//플레이어 번호
 public:
-    bool        Draw();
-    bool Collision(CABitmapObject* obj, CAPOINT pos);
-    bool Collision(CABitmapObject* obj1, CABitmapObject* obj2);
-
-    bool        Load_Bitmap_Script(T_STR name);                     //bitmap 스크립트 인자 추가되면 수정 요망
-    CABitmapObject*   Load_Object(T_STR filename);
-    CABitmap*   Load_Bitmap(T_STR filename);
-    bool        Delete_Dead_Obj();
+    bool                 Draw();
+    bool                 Collision(CABitmapObject* obj, CAPOINT pos);
+    bool                 Collision(CABitmapObject* obj1, CABitmapObject* obj2);
+    CABitmapObject*      New_Object(T_STR filename);
+    bool                 Load_Bitmap_Script(T_STR name);                     //bitmap 스크립트 인자 추가되면 수정 요망
+    CABitmapObject*      Load_Object(T_STR filename);
+    CABitmap*            Load_Bitmap(T_STR filename);
+    bool                 Delete_Dead_Obj();
 public:
     bool Init();
     bool Frame();
     bool Render();//// 이거 오브젝트 후 다시.
     bool Release();
-    void Move(float xstep, float ystep, int obj_num);
+    void Move(int obj_num, float xstep = 1, float ystep = 1);
     CABitmapMgr();
     virtual ~CABitmapMgr();
 

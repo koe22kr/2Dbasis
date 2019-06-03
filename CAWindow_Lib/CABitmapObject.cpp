@@ -81,7 +81,7 @@ void CABitmapObject::Rotation()
 
 void CABitmapObject::Rt_Operate()
 {
-    if (m_fSprite_time != 0)
+    if (m_iMax_rt_num != 1)
     {
 
         m_fCur_time += g_fSecondPerFrame;    //현시간 += 프레임당
@@ -96,10 +96,10 @@ void CABitmapObject::Rt_Operate()
         if (m_iRt_num > m_iMax_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
         {
             if (m_bLoop_flag == true)
-                m_iRt_num -= m_iMax_rt_num;
+                m_iRt_num -= m_iMax_rt_num-1;
             else
             {
-                m_iRt_num = min(m_iRt_num, m_iMax_rt_num);
+                m_iRt_num = min(m_iRt_num, m_iMax_rt_num-1);
             }
         }
     }
@@ -169,7 +169,7 @@ bool CABitmapObject::Draw(int rt_num)// 1start;
         bf.BlendFlags = 0;
         bf.SourceConstantAlpha = m_fAlpha;
         bf.AlphaFormat = AC_SRC_ALPHA;
-        //if(m_bScale_flag==true && m_Desk_rt!=m_Src_rt)
+        
         m_pbmp->Draw(m_pos.x, m_pos.y,*m_Src_rt[rt_num -1], *m_Desk_rt[rt_num - 1], bf);
     }
     //else if (m_fAlpha != 1)
@@ -202,21 +202,21 @@ bool CABitmapObject::Release()
 }
 
 
-void CABitmapObject::Move(float xstep, float ystep)
+void CABitmapObject::Move(float xstep, float ystep)//기울기
 {
-    m_pos.x += xstep;
-    m_pos.y += ystep;
+    m_pos.x += xstep * m_fSpeed * g_fSecondPerFrame;
+    m_pos.y += ystep * m_fSpeed * g_fSecondPerFrame;
 
     if (m_pos.x + m_Src_rt[m_iRt_num - 1]->right > g_rtClient.right)
     {
-        m_pos.x = g_rtClient.right;
+        m_pos.x = g_rtClient.right- m_Src_rt[m_iRt_num - 1]->right;
     }
     if (m_pos.y + m_Src_rt[m_iRt_num - 1]->bottom > g_rtClient.bottom)
     {
-        m_pos.y = g_rtClient.bottom;
+        m_pos.y = g_rtClient.bottom- m_Src_rt[m_iRt_num - 1]->bottom;
     }
-    m_pos.x < 0 ? 0 : m_pos.x;
-    m_pos.y < 0 ? 0 : m_pos.y;
+    m_pos.x < 0 ? m_pos.x = 0 : m_pos.x;
+    m_pos.y < 0 ? m_pos.y = 0 : m_pos.y;
 
 
 
@@ -328,13 +328,15 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     m_bPlayer_flag = player_flag;
 
     RECT* NewRect = new RECT;
+    RECT* NewRect2 = new RECT;
     NewRect->left = rt.left;
     NewRect->top = rt.top;
     NewRect->right = rt.right;
     NewRect->bottom = rt.bottom;
-
+    *NewRect2 = *NewRect;
+   
     m_Src_rt.push_back(NewRect);
-    m_Desk_rt.push_back(NewRect);
+    m_Desk_rt.push_back(NewRect2);
 }
 void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, vector<RECT> rt_array,
     bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
@@ -350,14 +352,16 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     m_bPlayer_flag = player_flag;
 
     RECT* NewRect = new RECT;
+    RECT* NewRect2 = new RECT;
     for (int i = 0; m_Src_rt.begin() + i != m_Src_rt.end(); i++)
     {
         m_Src_rt[i]->left = rt_array[i].left;
         m_Src_rt[i]->top = rt_array[i].top;
         m_Src_rt[i]->right = rt_array[i].right;
         m_Src_rt[i]->bottom = rt_array[i].bottom;
+        *NewRect2 = *NewRect;
         m_Src_rt.push_back(NewRect);
-        m_Desk_rt.push_back(NewRect);
+        m_Desk_rt.push_back(NewRect2);
     }
     
 }

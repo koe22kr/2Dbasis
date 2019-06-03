@@ -4,7 +4,7 @@ void Dante::Attack1() //frame에서 연산후 false. 이 함수에서 true 넘기면 그거 받�
 {
     //1.1~215.187  //// +2,1~+ 215,187     =10
     //m_rt[]
-    Action = 1;
+   // Action = 1;
    
     //이하 프래임 에서
     

@@ -2,6 +2,7 @@
 #include "CAStd.h"
 #include "CACore.h"
 #include "Dante.h"
+#include "CAScene.h"
 class Sample :public CACore
 {
 public: 
@@ -11,6 +12,9 @@ public:
     bool Release();
     
     void KeyCheck();
+    CAScene title;
+    CAScene game;
+    CAScene* Cur_Scene = &title;
 
 
     Sample();

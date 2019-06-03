@@ -41,7 +41,7 @@ CABitmapMgr::~CABitmapMgr()
 {
 }
 
-void CABitmapMgr::Move(float xstep, float ystep, int obj_num)
+void CABitmapMgr::Move(int obj_num, float xstep, float ystep)
 {
     m_Obj_list[obj_num]->Move(xstep, ystep);
 }
@@ -70,29 +70,28 @@ bool CABitmapMgr::Frame()
             m_Obj_list.erase(m_Obj_list.begin() + i);
         }
     }
-    //player 이동 계산
-    if (m_Obj_list[m_Player_Num]->m_before_pos.x < m_Obj_list[m_Player_Num]->m_pos.x)
-    {
-        m_Obj_list[m_Player_Num]->m_fplayer_action_flag += 3 * g_fSecondPerFrame;
-        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag > 1)
-            m_Obj_list[m_Player_Num]->m_fplayer_action_flag = 1;
-    }
-    if (m_Obj_list[m_Player_Num]->m_before_pos.x > m_Obj_list[m_Player_Num]->m_pos.x)
-    {
-        m_Obj_list[m_Player_Num]->m_fplayer_action_flag -= 3 * g_fSecondPerFrame;
-        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag < -1)
-            m_Obj_list[m_Player_Num]->m_fplayer_action_flag = -1;
-    }
-    if (m_Obj_list[m_Player_Num]->m_before_pos.x == m_Obj_list[m_Player_Num]->m_pos.x)
-    {
-        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag > 0)
-            m_Obj_list[m_Player_Num]->m_fplayer_action_flag -= 5 * g_fSecondPerFrame;
-        if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag < 0)
-            m_Obj_list[m_Player_Num]->m_fplayer_action_flag += 5 * g_fSecondPerFrame;
-    }
-
-
-    m_Obj_list[1]->m_before_pos.x = m_Obj_list[1]->m_pos.x;
+    
+    ////player 비행기 이동 계산
+    //if (m_Obj_list[m_Player_Num]->m_before_pos.x < m_Obj_list[m_Player_Num]->m_pos.x)
+    //{
+    //    m_Obj_list[m_Player_Num]->m_fplayer_action_flag += 3 * g_fSecondPerFrame;
+    //    if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag > 1)
+    //        m_Obj_list[m_Player_Num]->m_fplayer_action_flag = 1;
+    //}
+    //if (m_Obj_list[m_Player_Num]->m_before_pos.x ㅠ> m_Obj_list[m_Player_Num]->m_pos.x)
+    //{
+    //    m_Obj_list[m_Player_Num]->m_fplayer_action_flag -= 3 * g_fSecondPerFrame;
+    //    if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag < -1)
+    //        m_Obj_list[m_Player_Num]->m_fplayer_action_flag = -1;
+    //}
+    //if (m_Obj_list[m_Player_Num]->m_before_pos.x == m_Obj_list[m_Player_Num]->m_pos.x)
+    //{
+    //    if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag > 0)
+    //        m_Obj_list[m_Player_Num]->m_fplayer_action_flag -= 5 * g_fSecondPerFrame;
+    //    if (m_Obj_list[m_Player_Num]->m_fplayer_action_flag < 0)
+    //        m_Obj_list[m_Player_Num]->m_fplayer_action_flag += 5 * g_fSecondPerFrame;
+    //}
+    //m_Obj_list[m_Player_Num]->m_before_pos.x = m_Obj_list[m_Player_Num]->m_pos.x;
 
 
 
@@ -100,19 +99,11 @@ bool CABitmapMgr::Frame()
 }
 bool CABitmapMgr::Render()
 {
-    //Draw();
-    //m_Obj_list[1]->Render();
-    for (int i = 0; i < m_Obj_list.size(); i++)
+    
+    for (int i = 0; i < m_Obj_list.size(); i++) //모든 오브젝트 랜더(드로우)
     {
         m_Obj_list[i]->Render();
-        //if (m_Obj_list[i]->m_Src_rt.size() > 1)
-        //    m_Obj_list[i]->Draw(m_Obj_list[i]->m_iRt_num);
-        //
-        //
-        //else
-        //{
-        //    m_Obj_list[i]->Draw();
-        //}
+       
     }
 
 
@@ -131,10 +122,20 @@ bool CABitmapMgr::Release()
     for (int i = 0; i < m_Obj_list.size(); i++)
     {
         m_Obj_list[i]->m_Src_rt.clear();
+        m_Obj_list[i]->m_Desk_rt.clear();
         m_Obj_list.erase(m_Obj_list.begin() + i);
+        
+        
     }
     return true;
 
+}
+
+CABitmapObject* CABitmapMgr::New_Object(T_STR filename)
+{
+    CABitmapObject* NewObj = Load_Object(filename);
+   m_Obj_list.push_back(NewObj);
+    return NewObj;
 }
 
 CABitmapObject* CABitmapMgr::Load_Object(T_STR filename)//++ 맴버 데이터 입력 필요.
@@ -147,19 +148,19 @@ CABitmapObject* CABitmapMgr::Load_Object(T_STR filename)//++ 맴버 데이터 입력 필
 
     T_STR maskfile_name = mask_key + filename;
     CABitmapObject temp;//삭제할 방법을 찾자.
-    CABitmapObject* NewObject = &temp;//자식 포인터 받아서 배열 넣기 위한...
-    NewObject = NewObject->NewObject();
-    NewObject->m_pbmp = Load_Bitmap(filename);//
-    if (NewObject->m_pbmp == nullptr)
+    CABitmapObject* temp_obj = &temp;//자식 포인터 받아서 배열 넣기 위한...
+    temp_obj = temp_obj->Clone();
+    temp_obj->m_pbmp = Load_Bitmap(filename);//
+    if (temp_obj->m_pbmp == nullptr)
     {
-        delete NewObject;
+        delete temp_obj;
         return nullptr;
     }
-    NewObject->m_pmask = Load_Bitmap(maskfile_name);//
+    temp_obj->m_pmask = Load_Bitmap(maskfile_name);//
 
-    m_Obj_list.push_back(NewObject);
+    m_Obj_list.push_back(temp_obj);
 
-    return NewObject;
+    return temp_obj;
 }
 CABitmap* CABitmapMgr::Load_Bitmap(T_STR filename)
 {
@@ -217,10 +218,13 @@ bool CABitmapMgr::Load_Bitmap_Script(T_STR fullpathname) //오류시 nullptr 반환
         for (int k = 0; k < tmp->m_iMax_rt_num; k++)
         {
             RECT* temp = new RECT;
+            RECT* temp2 = new RECT;
             _fgetts(buffer, _countof(buffer), fp);
             _stscanf_s(buffer, _T("%d %d %d %d"), &temp->left, &temp->top, &temp->right, &temp->bottom);
+            
+            *temp2 = *temp;
             tmp->m_Src_rt.push_back(temp);
-            tmp->m_Desk_rt.push_back(temp);
+            tmp->m_Desk_rt.push_back(temp2);
 
 
         }

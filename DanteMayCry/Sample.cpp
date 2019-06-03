@@ -3,32 +3,36 @@
 #include "CABitmapObject.h"
 #include "CABitmapMgr.h"
 
-bool Sample::Init()
+bool Sample::Init()//모든 세팅은 이곳에서 하는게 나을듯.
 {
-    
-    I_BITMAPMGR.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
-    //I_SoundMgr.
-    //UI = START EXIT OPTION.
+    //I_BITMAPMGR.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
+    ////I_SoundMgr.
+    ////UI = START EXIT OPTION.
+    //I_BITMAPMGR.m_Obj_list[7]->m_bScale_flag = true;
+    //// 
+    //I_BITMAPMGR.m_Obj_list[7]->m_Desk_rt[0]->right = 400;
+    //I_BITMAPMGR.m_Obj_list[7]->m_Desk_rt[0]->bottom = 400;
     return true;
-    I_BITMAPMGR.m_Obj_list[8]->m_bScale_flag = true;
-    I_BITMAPMGR.m_Obj_list[8]->m_Desk_rt = { 0,0,300,300 };
-
-    
 }
 
-bool Sample::Frame()
+bool Sample::Frame() //프래임은 Scene별
 {
-    KeyCheck();
+    
+    Cur_Scene->Frame();
+    //KeyCheck();
     return true;
 }
 bool Sample::Render()
 {
-   
+    
+    Cur_Scene->Render();
     return true;
 }
 bool Sample::Release() 
 {
     
+    title.Release(); //신 전환시 릴리즈 할지는 생각해보기
+    game.Release();
     return true;
 }
 void Sample::KeyCheck() 

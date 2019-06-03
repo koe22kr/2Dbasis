@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsProject-2D", "WindowsProject-2D\WindowsProject-2D.vcxproj", "{29B989A5-C68B-4AC4-A780-691D7BAABEF1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33E1E90B-870D-41FC-931B-2262F2B84A18} = {33E1E90B-870D-41FC-931B-2262F2B84A18}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBasis_2D", "TBasis_2D\TBasis_2D.vcxproj", "{4CD6AF99-79AA-410D-92F2-910B309E1A53}"
 EndProject
@@ -22,6 +25,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DrawBitmap_MK2", "DrawBitma
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DanteMayCry", "DanteMayCry\DanteMayCry.vcxproj", "{FEA58912-2369-44C6-ABC4-8BBCB48E65D2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33E1E90B-870D-41FC-931B-2262F2B84A18} = {33E1E90B-870D-41FC-931B-2262F2B84A18}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Necro", "Necro\Necro.vcxproj", "{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}"
 	ProjectSection(ProjectDependencies) = postProject
 		{33E1E90B-870D-41FC-931B-2262F2B84A18} = {33E1E90B-870D-41FC-931B-2262F2B84A18}
 	EndProjectSection
@@ -90,6 +98,14 @@ Global
 		{FEA58912-2369-44C6-ABC4-8BBCB48E65D2}.Release|x64.Build.0 = Release|x64
 		{FEA58912-2369-44C6-ABC4-8BBCB48E65D2}.Release|x86.ActiveCfg = Release|Win32
 		{FEA58912-2369-44C6-ABC4-8BBCB48E65D2}.Release|x86.Build.0 = Release|Win32
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Debug|x64.ActiveCfg = Debug|x64
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Debug|x64.Build.0 = Debug|x64
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Debug|x86.ActiveCfg = Debug|Win32
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Debug|x86.Build.0 = Debug|Win32
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Release|x64.ActiveCfg = Release|x64
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Release|x64.Build.0 = Release|x64
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Release|x86.ActiveCfg = Release|Win32
+		{E0AFF7BB-CE95-4808-B68F-BA06DDA72B07}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

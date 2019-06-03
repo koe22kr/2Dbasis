@@ -200,11 +200,11 @@ void CAObject::Move(float xstep, float ystep)
   
     if (m_pos.x + m_rt[m_rt_num - 1]->right > g_rtClient.right)
     {
-        m_pos.x = g_rtClient.right;
+        m_pos.x = g_rtClient.right- m_rt[m_rt_num - 1]->right;
     }
     if (m_pos.y + m_rt[m_rt_num - 1]->bottom > g_rtClient.bottom)
     {
-        m_pos.y = g_rtClient.bottom;
+        m_pos.y = g_rtClient.bottom- m_rt[m_rt_num - 1]->bottom;
     }
     m_pos.x < 0 ? 0 : m_pos.x;
     m_pos.y < 0 ? 0 : m_pos.y;

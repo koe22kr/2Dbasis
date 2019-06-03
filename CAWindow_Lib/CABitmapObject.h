@@ -14,23 +14,21 @@ public:
 class CABitmapObject :public CAObject
 {
 public:
-
     CABitmap*        m_pbmp = nullptr;
     CABitmap*        m_pmask = nullptr;
     T_STR            m_Obj_Name;
     CAPOINT          m_pos = { 100, 100 }; //
     CAPOINT          m_center_pos = { 0,0 };
     CAPOINT          m_curpos = { 0,0 };
-    float m_fDirection = 0.f;
-    bool m_bMove_flag = 0;
-    float m_fSpeed = 0;
-    float m_fAngle = 0;
+    float            m_fDirection = 0.f;
+    bool             m_bMove_flag = 0;
+    float            m_fSpeed = 0;
+    float            m_fAngle = 0;
     int              m_iRt_num = 1; //로드시 1start 
     int              m_iMax_rt_num;
-    float m_fAlpha = 0;
+    float            m_fAlpha = 0;
     vector<RECT*>    m_Src_rt;
-    vector<RECT*>   m_Desk_rt;  //기본값으로 Srcrt 값을 대입!
-
+    vector<RECT*>    m_Desk_rt;  //기본값으로 Srcrt 값을 대입!
 public:   //스프라이트용 멤버들
     float            m_fCur_time = 0;
     float            m_fSprite_time = 0;
@@ -40,7 +38,6 @@ public:   //스프라이트용 멤버들
     bool             m_bLoop_flag = false;
     bool             m_bDead_flag = false;  //소멸 할 예정이 있는 오브젝트는 소멸용.
     bool       m_bScale_flag = false;
-
     //bool AlphaBlendRender(RECT rt);
 public:
     void             Rt_Operate();
@@ -58,7 +55,7 @@ public:
         bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 1, int player_flag = 0);
     void             Setobject(T_STR name, int max_frame_num, float inx, float iny, vector<RECT> rt_array,
         bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 1, int player_flag = 0);
-    virtual CABitmapObject* NewObject() { return new CABitmapObject; };
+    virtual CABitmapObject* Clone() { return new CABitmapObject; };
     CABitmapObject();
     virtual ~CABitmapObject();
 

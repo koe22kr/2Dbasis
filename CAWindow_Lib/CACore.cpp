@@ -78,11 +78,13 @@ bool CACore::CACoreFrame()
 bool CACore::CACoreRender()
 {
     PreRender();
+    m_Timer.Render();
     Render();
     I_BITMAPMGR.Render();
+    
     PostRender();
 
-    m_Timer.Render();
+    
     I_Input.Render();
     return Render();
     return true;

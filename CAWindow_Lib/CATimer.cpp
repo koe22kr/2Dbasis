@@ -38,12 +38,12 @@ bool CATimer::Frame()                       //init 후 frame 연속적으로 사용될듯.
 }
 bool CATimer::Render()
 {
-    HDC hdc = GetDC(g_hWnd);
-    SetBkColor(hdc, RGB(255,255, 0));
-    SetTextColor(hdc, RGB(255, 157, 0));
-    SetBkMode(hdc, TRANSPARENT);
-    TextOut(hdc, 0, 0, m_csBuffer, _tcslen(m_csBuffer));
-    ReleaseDC(g_hWnd, hdc);
+    //HDC hdc = GetDC(g_hWnd);
+    //SetBkColor(hdc, RGB(255,255, 0));
+    SetTextColor(g_hOffScreenDC, RGB(255, 157, 0));
+    SetBkMode(g_hOffScreenDC, TRANSPARENT);
+    TextOut(g_hOffScreenDC, 0, 0, m_csBuffer, _tcslen(m_csBuffer));
+    //ReleaseDC(g_hWnd, hdc);
     return true;
 
 }

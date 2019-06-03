@@ -149,15 +149,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CAButton.h" />
+    <ClInclude Include="CAPanel.h" />
+    <ClInclude Include="CAScene.h" />
+    <ClInclude Include="CAScene1_temp.h" />
     <ClInclude Include="Dante.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Slot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CAButton.cpp" />
+    <ClCompile Include="CAPanel.cpp" />
+    <ClCompile Include="CAScene.cpp" />
+    <ClCompile Include="CAScene1_temp.cpp" />
     <ClCompile Include="Dante.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Slot.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Scene1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

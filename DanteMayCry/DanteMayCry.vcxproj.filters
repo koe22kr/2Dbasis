@@ -13,18 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\UI">
+      <UniqueIdentifier>{8d8b850d-0b6b-4b2b-a8d2-65073ad81f96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Chara">
+      <UniqueIdentifier>{d08834f3-88b0-4f4e-b63e-5ec320bad133}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sample.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Dante.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Slot.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CAScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="CAButton.h">
+      <Filter>소스 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="CAPanel.h">
+      <Filter>소스 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dante.h">
+      <Filter>소스 파일\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>소스 파일\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="CAScene1_temp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,14 +50,29 @@
     <ClCompile Include="Sample.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Dante.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Slot.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="CAButton.cpp">
+    <ClCompile Include="CAScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CAButton.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CAPanel.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dante.cpp">
+      <Filter>소스 파일\Chara</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>소스 파일\Chara</Filter>
+    </ClCompile>
+    <ClCompile Include="CAScene1_temp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Scene1.txt" />
   </ItemGroup>
 </Project>
