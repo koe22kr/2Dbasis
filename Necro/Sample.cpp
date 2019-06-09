@@ -54,7 +54,6 @@ void Sample::KeyCheck()
 
 
     DWORD dwState = I_Input.KeyCheck('W');
-    
     if (dwState == KEY_PUSH)
     {
         dun.m_iInput_Key = UP;

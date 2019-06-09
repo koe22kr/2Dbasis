@@ -16,15 +16,16 @@ public:
 
     
     
-    CAPOINT m_Camera_pos = { 20,20 }; //20칸만 뽑자
+    POINT m_Camera_pos = { 20,20 }; //20칸만 뽑자
     
     CAPOINT m_Move_pos;  //상대적 이동위치 로 하자.
     float m_fDelta_time;
-    bool m_bCamera_move_flag=false;
+    bool m_bCamera_move_flag = false;
 
-    
+    bool rending_map[40][50] = { 0 };  //위아래 한칸씩 여유두기
     POINT rending_map_size = { 20,16 };//짝수만 사용
-    int map[40][50];
+    int Dungeon_map[40][50];
+    void Map_check(int x, int y);
     virtual bool Init();
     virtual bool Frame();
     virtual  bool Render();
@@ -32,6 +33,10 @@ public:
     void Make_dungeon();
     void Camera_move();
     void Dungeon_move();
+    
+    void temp();
+    void temp2();
+
     Dungeon();
     virtual ~Dungeon();
 };

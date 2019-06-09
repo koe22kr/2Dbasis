@@ -4,8 +4,8 @@
 class CAPOINT
 {
 public:
-    float x = 100.0f;
-    float y = 100.0f;
+    float x = 0.0f;
+    float y = 0.0f;
 
     CAPOINT() {};
     CAPOINT(float inx, float iny) :x(inx), y(iny) {};
