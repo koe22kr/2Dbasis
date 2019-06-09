@@ -1,12 +1,21 @@
 #include "Weapon.h"
 
-
-
-Weapon::Weapon()
+void Weapon::Attack()
 {
+    
 }
 
-
-Weapon::~Weapon()
+void Sword::Attack()
 {
+    
+}
+
+void Gratesword::Attack()
+{
+
+}
+
+void Spear::Attack()
+{
+
 }

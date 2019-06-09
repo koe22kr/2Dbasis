@@ -2,9 +2,9 @@
 
 bool CABitmapMgr::Collision(CABitmapObject* obj, CAPOINT pos)
 {
-    if (obj->m_pos.x < pos.x && pos.x < obj->m_pos.x + obj->m_Src_rt[obj->m_iRt_num]->right)
+    if (obj->m_pos.x < pos.x && pos.x < obj->m_pos.x + obj->m_Desk_rt[obj->m_iRt_num]->right)
     {
-        if (obj->m_pos.y < pos.y && pos.y < obj->m_pos.y + obj->m_Src_rt[obj->m_iRt_num]->bottom)
+        if (obj->m_pos.y < pos.y && pos.y < obj->m_pos.y + obj->m_Desk_rt[obj->m_iRt_num]->bottom)
         {
             return true;
         }
@@ -14,12 +14,12 @@ bool CABitmapMgr::Collision(CABitmapObject* obj, CAPOINT pos)
 bool CABitmapMgr::Collision(CABitmapObject* main_obj, CABitmapObject* target_obj)
 {
     POINT main;
-    main.x = main_obj->m_Src_rt[main_obj->m_iRt_num]->right / 2;
-    main.y = main_obj->m_Src_rt[main_obj->m_iRt_num]->bottom / 2;;
+    main.x = main_obj->m_Desk_rt[main_obj->m_iRt_num]->right / 2;
+    main.y = main_obj->m_Desk_rt[main_obj->m_iRt_num]->bottom / 2;;
 
     POINT target;
-    target.x = target_obj->m_Src_rt[target_obj->m_iRt_num]->right / 2;
-    target.y = target_obj->m_Src_rt[target_obj->m_iRt_num]->bottom / 2;
+    target.x = target_obj->m_Desk_rt[target_obj->m_iRt_num]->right / 2;
+    target.y = target_obj->m_Desk_rt[target_obj->m_iRt_num]->bottom / 2;
 
     POINT distance;
     distance.x = abs((main_obj->m_pos.x + main.x) - (target_obj->m_pos.x + target.x));
@@ -59,17 +59,47 @@ bool CABitmapMgr::Draw()
 }
 bool CABitmapMgr::Frame()
 {
-    for (int i = 0; i < m_Obj_list.size(); i++)
+    /*for (int i = 0; i < m_Obj_list.size(); i++)
     {
-        //rt++
         m_Obj_list[i]->Rt_Operate();
-
-        if (m_Obj_list[i]->m_bDead_flag)
+        if (m_Obj_list[i]->m_bDead_flag) 
         {
             m_Obj_list[i]->m_Src_rt.clear();
-            m_Obj_list.erase(m_Obj_list.begin() + i);
+            m_Obj_list[i]->m_Desk_rt.clear();
+        }
+        m_Obj_list
+    }*/
+
+    for (auto iter = m_Obj_list.begin(); iter != m_Obj_list.end();)
+    {
+        (*iter)->Rt_Operate();
+        if ((*iter)->m_bDead_flag) {
+            (*iter)->m_Src_rt.clear();
+            (*iter)->m_Desk_rt.clear();
+            iter = m_Obj_list.erase(iter);
+        }
+        else
+        {
+            ++iter;
         }
     }
+ //   int i = 0;
+ //  vITOR itor;
+ //   for (itor = m_Obj_list.begin(); itor != m_Obj_list.end();)
+ //   {
+ //       //rt++
+ //       
+ //       m_Obj_list[i]->Rt_Operate();
+ //
+ //       if (m_Obj_list[i]->m_bDead_flag)
+ //       {
+ //           m_Obj_list[i]->m_Src_rt.clear();
+ //           m_Obj_list[i]->m_Desk_rt.clear();
+ //           itor = m_Obj_list.erase(m_Obj_list.begin() + i);
+ //       
+ //       }
+ //       i++;
+ //   }
     
     ////player 비행기 이동 계산
     //if (m_Obj_list[m_Player_Num]->m_before_pos.x < m_Obj_list[m_Player_Num]->m_pos.x)
@@ -102,8 +132,10 @@ bool CABitmapMgr::Render()
     
     for (int i = 0; i < m_Obj_list.size(); i++) //모든 오브젝트 랜더(드로우)
     {
-        m_Obj_list[i]->Render();
-       
+        if (m_Obj_list[i]->m_bDraw_flag = true)
+        {
+            m_Obj_list[i]->Render();
+        }
     }
 
 
@@ -111,32 +143,29 @@ bool CABitmapMgr::Render()
 }
 bool CABitmapMgr::Release()
 {
-    for (ITOR itor = m_Bitmap_Map.begin(); itor != m_Bitmap_Map.end();)
+     /*for (ITOR itor = m_Bitmap_Map.begin(); itor != m_Bitmap_Map.end();)
     {
         CABitmap* pdata = itor->second;
         pdata->Release();
         delete pdata;
         itor = m_Bitmap_Map.erase(itor);
+    }*/
 
+    for (auto& element : m_Bitmap_Map) {
+        element.second->Release();
+        delete element.second; element.second = nullptr;
     }
+    m_Bitmap_Map.clear();
     for (int i = 0; i < m_Obj_list.size(); i++)
     {
-        m_Obj_list[i]->m_Src_rt.clear();
-        m_Obj_list[i]->m_Desk_rt.clear();
-        m_Obj_list.erase(m_Obj_list.begin() + i);
-        
+        m_Obj_list[i]->Release();
         
     }
+    m_Obj_list.clear();
     return true;
 
 }
 
-CABitmapObject* CABitmapMgr::New_Object(T_STR filename)
-{
-    CABitmapObject* NewObj = Load_Object(filename);
-   m_Obj_list.push_back(NewObj);
-    return NewObj;
-}
 
 CABitmapObject* CABitmapMgr::Load_Object(T_STR filename)//++ 맴버 데이터 입력 필요.
 {
@@ -145,29 +174,29 @@ CABitmapObject* CABitmapMgr::Load_Object(T_STR filename)//++ 맴버 데이터 입력 필
         return nullptr;
     }
 
-
     T_STR maskfile_name = mask_key + filename;
-    CABitmapObject temp;//삭제할 방법을 찾자.
-    CABitmapObject* temp_obj = &temp;//자식 포인터 받아서 배열 넣기 위한...
-    temp_obj = temp_obj->Clone();
+    shared_ptr<CABitmapObject> temp_obj = make_shared<CABitmapObject>();
+    //CABitmapObject temp;//삭제할 방법을 찾자.
+    //CABitmapObject* temp_obj = &temp;//자식 포인터 받아서 배열 넣기 위한...
+    //temp_obj = temp_obj->Clone();
     temp_obj->m_pbmp = Load_Bitmap(filename);//
     if (temp_obj->m_pbmp == nullptr)
     {
-        delete temp_obj;
+        //delete temp_obj;
         return nullptr;
     }
     temp_obj->m_pmask = Load_Bitmap(maskfile_name);//
 
     m_Obj_list.push_back(temp_obj);
 
-    return temp_obj;
+    return temp_obj.get();
 }
 CABitmap* CABitmapMgr::Load_Bitmap(T_STR filename)
 {
 
     // 중복제거
-    for (ITOR itor = m_Bitmap_Map.begin();
-        itor != m_Bitmap_Map.end();
+    for (ITOR itor = I_BITMAPMGR.m_Bitmap_Map.begin();
+        itor != I_BITMAPMGR.m_Bitmap_Map.end();
         itor++)
     {
         if ((*itor).first == filename)
@@ -185,7 +214,7 @@ CABitmap* CABitmapMgr::Load_Bitmap(T_STR filename)
         delete pbitmap;
         return nullptr;
     }
-    m_Bitmap_Map.insert(make_pair(filename, pbitmap));
+    I_BITMAPMGR.m_Bitmap_Map.insert(make_pair(filename, pbitmap));
     return pbitmap;
 }
 bool CABitmapMgr::Load_Bitmap_Script(T_STR fullpathname) //오류시 nullptr 반환
@@ -217,8 +246,10 @@ bool CABitmapMgr::Load_Bitmap_Script(T_STR fullpathname) //오류시 nullptr 반환
 
         for (int k = 0; k < tmp->m_iMax_rt_num; k++)
         {
-            RECT* temp = new RECT;
-            RECT* temp2 = new RECT;
+            shared_ptr<RECT> temp = make_shared<RECT>();
+            shared_ptr<RECT> temp2 = make_shared<RECT>();
+           // RECT* temp = new RECT;
+           // RECT* temp2 = new RECT;
             _fgetts(buffer, _countof(buffer), fp);
             _stscanf_s(buffer, _T("%d %d %d %d"), &temp->left, &temp->top, &temp->right, &temp->bottom);
             

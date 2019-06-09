@@ -5,8 +5,8 @@ void CABitmapObject::Rotation()
 {
 
 
-    int inewsize = sqrt((m_Src_rt[m_iRt_num - 1]->right * m_Src_rt[m_iRt_num - 1]->right)
-        + (m_Src_rt[m_iRt_num - 1]->bottom * m_Src_rt[m_iRt_num - 1]->bottom));
+    int inewsize = sqrt((m_Src_rt[m_iRt_num ]->right * m_Src_rt[m_iRt_num ]->right)
+        + (m_Src_rt[m_iRt_num ]->bottom * m_Src_rt[m_iRt_num ]->bottom));
 
     HBITMAP bitmap = CreateCompatibleBitmap(g_hScreenDC, inewsize, inewsize);
     if (bitmap == NULL)
@@ -35,8 +35,8 @@ void CABitmapObject::Rotation()
     int iOldGraphic = SetGraphicsMode(rotationDC, GM_ADVANCED);
     SetWorldTransform(rotationDC, &xform);
 
-    BitBlt(rotationDC, -m_Src_rt[m_iRt_num - 1]->right / 2, -m_Src_rt[m_iRt_num - 1]->bottom / 2, m_Src_rt[m_iRt_num - 1]->right, m_Src_rt[m_iRt_num - 1]->bottom,
-        m_pbmp->m_dc, m_Src_rt[m_iRt_num - 1]->left, m_Src_rt[m_iRt_num - 1]->top, SRCCOPY);
+    BitBlt(rotationDC, -m_Src_rt[m_iRt_num ]->right / 2, -m_Src_rt[m_iRt_num ]->bottom / 2, m_Src_rt[m_iRt_num ]->right, m_Src_rt[m_iRt_num]->bottom,
+        m_pbmp->m_dc, m_Src_rt[m_iRt_num ]->left, m_Src_rt[m_iRt_num]->top, SRCCOPY);
 
     xform.eM11 = 1; xform.eM12 = 0;
     xform.eM21 = 0; xform.eM22 = 1;
@@ -81,7 +81,7 @@ void CABitmapObject::Rotation()
 
 void CABitmapObject::Rt_Operate()
 {
-    if (m_iMax_rt_num != 1)
+    if (m_fSprite_time != 0)
     {
 
         m_fCur_time += g_fSecondPerFrame;    //현시간 += 프레임당
@@ -93,10 +93,10 @@ void CABitmapObject::Rt_Operate()
 
         }
         //rt값 초과방지
-        if (m_iRt_num > m_iMax_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
+        if (m_iRt_num == m_iMax_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
         {
             if (m_bLoop_flag == true)
-                m_iRt_num -= m_iMax_rt_num-1;
+                m_iRt_num -= m_iMax_rt_num;
             else
             {
                 m_iRt_num = min(m_iRt_num, m_iMax_rt_num-1);
@@ -158,6 +158,7 @@ bool CABitmapObject::Render()
 }
 bool CABitmapObject::Draw(int rt_num)// 1start;
 {
+    
     if (m_fAngle != 0)
     {
         Rotation();
@@ -170,7 +171,7 @@ bool CABitmapObject::Draw(int rt_num)// 1start;
         bf.SourceConstantAlpha = m_fAlpha;
         bf.AlphaFormat = AC_SRC_ALPHA;
         
-        m_pbmp->Draw(m_pos.x, m_pos.y,*m_Src_rt[rt_num -1], *m_Desk_rt[rt_num - 1], bf);
+        m_pbmp->Draw(m_pos.x, m_pos.y,*m_Src_rt[rt_num ], *m_Desk_rt[rt_num ], bf, m_bCenter_draw_flag);
     }
     //else if (m_fAlpha != 1)
     // {
@@ -178,13 +179,13 @@ bool CABitmapObject::Draw(int rt_num)// 1start;
     // }
     else if (m_pmask != nullptr)
     {
-        m_pmask->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCAND);       //NEED
-        m_pbmp->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCINVERT);
-        m_pmask->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCINVERT);
+        m_pmask->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num ], SRCAND, m_bCenter_draw_flag);       //NEED
+        m_pbmp->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num ], SRCINVERT, m_bCenter_draw_flag);
+        m_pmask->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num ], SRCINVERT, m_bCenter_draw_flag);
     }
     else
     {
-        m_pbmp->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num - 1], SRCCOPY);
+        m_pbmp->Draw(m_pos.x, m_pos.y, *m_Src_rt[rt_num ], SRCCOPY, m_bCenter_draw_flag);
     }
     return true;
 }
@@ -198,27 +199,37 @@ bool CABitmapObject::Frame()
 }
 bool CABitmapObject::Release()
 {
+    //for (int i = 0; i < m_Src_rt.size(); i++)
+    //{
+    //    //delete m_Src_rt[i]();
+    //    //delete m_Desk_rt[i]();
+    //}
+    m_Src_rt.clear();
+    m_Desk_rt.clear();
+
     return true;
 }
 
 
 void CABitmapObject::Move(float xstep, float ystep)//기울기
 {
-    m_pos.x += xstep * m_fSpeed * g_fSecondPerFrame;
-    m_pos.y += ystep * m_fSpeed * g_fSecondPerFrame;
-
-    if (m_pos.x + m_Src_rt[m_iRt_num - 1]->right > g_rtClient.right)
+    if (m_fSpeed != 0)
     {
-        m_pos.x = g_rtClient.right- m_Src_rt[m_iRt_num - 1]->right;
-    }
-    if (m_pos.y + m_Src_rt[m_iRt_num - 1]->bottom > g_rtClient.bottom)
-    {
-        m_pos.y = g_rtClient.bottom- m_Src_rt[m_iRt_num - 1]->bottom;
-    }
-    m_pos.x < 0 ? m_pos.x = 0 : m_pos.x;
-    m_pos.y < 0 ? m_pos.y = 0 : m_pos.y;
+        m_pos.x += xstep * m_fSpeed * g_fSecondPerFrame;
+        m_pos.y += ystep * m_fSpeed * g_fSecondPerFrame;
 
+      // if (m_pos.x + m_Src_rt[m_iRt_num]->right > g_rtClient.right)
+      // {
+      //     m_pos.x = g_rtClient.right - m_Src_rt[m_iRt_num]->right;
+      // }
+      // if (m_pos.y + m_Src_rt[m_iRt_num]->bottom > g_rtClient.bottom)
+      // {
+      //     m_pos.y = g_rtClient.bottom - m_Src_rt[m_iRt_num]->bottom;
+      // }
+      // m_pos.x < 0 ? m_pos.x = 0 : m_pos.x;
+      // m_pos.y < 0 ? m_pos.y = 0 : m_pos.y;
 
+    }
 
 }
 
@@ -314,21 +325,23 @@ bool CABitmapObject::Draw_ColorKey(RECT rt, COLORREF color)
 }
 
 
-void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, RECT rt,
+void CABitmapObject::Setobject(T_STR name, int max_rt_num, float inx, float iny, RECT rt, bool center_draw,
     bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
 {
     m_Obj_Name = name;
-    m_iMax_rt_num = max_frame_num;
+    m_iMax_rt_num = max_rt_num;
     m_pos = { inx,iny };
+    m_bCenter_draw_flag = center_draw;
     m_bLoop_flag = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
     m_fSpeed = fSpeed;
     m_fAlpha = alpha;
     m_bPlayer_flag = player_flag;
-
-    RECT* NewRect = new RECT;
-    RECT* NewRect2 = new RECT;
+    shared_ptr<RECT> NewRect = make_shared<RECT>();
+    shared_ptr<RECT> NewRect2 = make_shared<RECT>();
+    //RECT* NewRect = new RECT;
+    //RECT* NewRect2 = new RECT;
     NewRect->left = rt.left;
     NewRect->top = rt.top;
     NewRect->right = rt.right;
@@ -338,12 +351,13 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     m_Src_rt.push_back(NewRect);
     m_Desk_rt.push_back(NewRect2);
 }
-void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float iny, vector<RECT> rt_array,
+void CABitmapObject::Setobject(T_STR name, int max_rt_num, float inx, float iny, vector<RECT> rt_array, bool center_draw,
     bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
 {
     m_Obj_Name = name;
-    m_iMax_rt_num = max_frame_num;
+    m_iMax_rt_num = max_rt_num;
     m_pos = { inx,iny };
+    m_bCenter_draw_flag = center_draw;
     m_bLoop_flag = loop_flag;
     m_fSprite_time = sprite_time;
     m_fLife_time = life_time;
@@ -351,19 +365,39 @@ void CABitmapObject::Setobject(T_STR name, int max_frame_num, float inx, float i
     m_fAlpha = alpha;
     m_bPlayer_flag = player_flag;
 
-    RECT* NewRect = new RECT;
-    RECT* NewRect2 = new RECT;
-    for (int i = 0; m_Src_rt.begin() + i != m_Src_rt.end(); i++)
+    
+    for (int i = 0; rt_array.begin() + i != rt_array.end(); i++)
     {
-        m_Src_rt[i]->left = rt_array[i].left;
-        m_Src_rt[i]->top = rt_array[i].top;
-        m_Src_rt[i]->right = rt_array[i].right;
-        m_Src_rt[i]->bottom = rt_array[i].bottom;
+        shared_ptr<RECT> NewRect = make_shared<RECT>();
+        shared_ptr<RECT> NewRect2 = make_shared<RECT>();
+        //RECT* NewRect = new RECT;
+        //RECT* NewRect2 = new RECT;
+        NewRect->left = rt_array[i].left;
+        NewRect->top = rt_array[i].top;
+        NewRect->right = rt_array[i].right;
+        NewRect->bottom = rt_array[i].bottom;
         *NewRect2 = *NewRect;
+        //NewRect2->top = inx;
+        //NewRect2->left = iny;
         m_Src_rt.push_back(NewRect);
         m_Desk_rt.push_back(NewRect2);
     }
     
+}
+
+void CABitmapObject::Scale(float xscale, float yscale)
+{
+    for (int i = 0; i < m_Src_rt.size(); i++)
+    {
+        m_Desk_rt[i]->right = xscale * m_Src_rt[i]->right;
+        m_Desk_rt[i]->bottom = yscale * m_Src_rt[i]->bottom;
+    }
+}
+
+void CABitmapObject::Scale(int rt_num, float xscale, float yscale)
+{
+    m_Desk_rt[rt_num]->right = xscale * m_Src_rt[rt_num]->right;
+    m_Desk_rt[rt_num]->bottom = yscale * m_Src_rt[rt_num]->bottom;
 }
 
 CABitmapObject::CABitmapObject()

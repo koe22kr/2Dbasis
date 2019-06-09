@@ -1,11 +1,13 @@
 #pragma once
+#include "CABitmapMgr.h"
 class Scene
 {
 public:
-    virtual bool Init() { return true; };
-    virtual bool Frame() { return true; };
-    virtual  bool Render() { return true; };
-    virtual bool Release() { return true; };
+    CABitmapMgr Scenemgr;
+    virtual bool Init();
+    virtual bool Frame() ;
+    virtual  bool Render();
+    virtual bool Release() ;
 
 
     Scene();

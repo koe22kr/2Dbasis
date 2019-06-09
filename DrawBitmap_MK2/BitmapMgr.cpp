@@ -69,6 +69,7 @@ bool CABitmapMgr::Frame()
             {
                 m_Obj_list[i]->m_rt.clear();
                 m_Obj_list.erase(m_Obj_list.begin() + i);
+                i--;
             }
     }
        //player 이동 계산

@@ -1,0 +1,34 @@
+﻿  CABitmap.cpp
+d:\dir\2dbasis\cawindow_lib\cabitmap.cpp(80): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmap.cpp(90): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmap.cpp(104): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmap.cpp(112): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmap.cpp(123): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmap.cpp(131): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CABitmapMgr.cpp
+d:\dir\2dbasis\cawindow_lib\casound.h(4): fatal error C1083: 포함 파일을 열 수 없습니다. 'fmod.hpp': No such file or directory
+  CABitmapObject.cpp
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(8): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(32): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(33): warning C4244: '=': 'int'에서 'FLOAT'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(63): warning C4244: '=': 'float'에서 'BYTE'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(65): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(72): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(171): warning C4244: '=': 'float'에서 'BYTE'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(392): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(393): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(399): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+d:\dir\2dbasis\cawindow_lib\cabitmapobject.cpp(400): warning C4244: '=': 'float'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CACore.cpp
+d:\dir\2dbasis\cawindow_lib\casound.h(4): fatal error C1083: 포함 파일을 열 수 없습니다. 'fmod.hpp': No such file or directory
+  CAInput.cpp
+  CAObject.cpp
+  CASound.cpp
+d:\dir\2dbasis\cawindow_lib\casound.h(4): fatal error C1083: 포함 파일을 열 수 없습니다. 'fmod.hpp': No such file or directory
+  CASoundMgr.cpp
+d:\dir\2dbasis\cawindow_lib\casound.h(4): fatal error C1083: 포함 파일을 열 수 없습니다. 'fmod.hpp': No such file or directory
+  CATimer.cpp
+d:\dir\2dbasis\cawindow_lib\catimer.cpp(45): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  CAWindow.cpp
+d:\dir\2dbasis\cawindow_lib\cawindow.cpp(41): warning C4302: '형식 캐스트': 'LPWSTR'에서 'WORD'(으)로 잘립니다.
+d:\dir\2dbasis\cawindow_lib\cawindow.cpp(44): warning C4302: '형식 캐스트': 'LPWSTR'에서 'WORD'(으)로 잘립니다.

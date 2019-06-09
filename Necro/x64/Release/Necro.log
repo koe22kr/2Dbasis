@@ -1,0 +1,17 @@
+﻿  Bit.cpp
+d:\dir\2dbasis\necro\bit.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory
+  Dungeon.cpp
+d:\dir\2dbasis\necro\dungeon.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CACore.h': No such file or directory
+  Enemy.cpp
+  Player.cpp
+  Sample.cpp
+d:\dir\2dbasis\necro\sample.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory
+  Scene.cpp
+d:\dir\2dbasis\necro\scene.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CABitmapMgr.h': No such file or directory
+  Scene_Dungeon.cpp
+d:\dir\2dbasis\necro\ui.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory
+  Scene_Title.cpp
+  State.cpp
+  UI.cpp
+d:\dir\2dbasis\necro\ui.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory
+  Weapon.cpp

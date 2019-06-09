@@ -1,9 +1,1 @@
-﻿  Sample.cpp
-d:\dir\2dbasis\tbasis_2d\twindow.h(49): warning C4302: '형식 캐스트': 'LPSTR'에서 'WORD'(으)로 잘립니다.
-d:\dir\2dbasis\tbasis_2d\twindow.h(53): error C2440: '=': 'const wchar_t [17]'에서 'LPCSTR'(으)로 변환할 수 없습니다.
-  d:\dir\2dbasis\tbasis_2d\twindow.h(53): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
-d:\dir\2dbasis\tbasis_2d\twindow.h(54): warning C4302: '형식 캐스트': 'LPSTR'에서 'WORD'(으)로 잘립니다.
-d:\dir\2dbasis\tbasis_2d\twindow.h(61): error C2664: 'HWND CreateWindowExA(DWORD,LPCSTR,LPCSTR,DWORD,int,int,int,int,HWND,HMENU,HINSTANCE,LPVOID)': 인수 2을(를) 'const wchar_t [17]'에서 'LPCSTR'(으)로 변환할 수 없습니다.
-  d:\dir\2dbasis\tbasis_2d\twindow.h(62): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
-d:\dir\2dbasis\tbasis_2d\sample.cpp(19): error C2664: 'bool TWindow::InitWindow(HINSTANCE,int,const TCHAR *)': 인수 3을(를) 'const wchar_t [12]'에서 'const TCHAR *'(으)로 변환할 수 없습니다.
-  d:\dir\2dbasis\tbasis_2d\sample.cpp(19): note: 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+﻿

@@ -5,7 +5,8 @@
 
 bool Sample::Init()//모든 세팅은 이곳에서 하는게 나을듯.
 {
-    //I_BITMAPMGR.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
+    mgr.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
+
     ////I_SoundMgr.
     ////UI = START EXIT OPTION.
     //I_BITMAPMGR.m_Obj_list[7]->m_bScale_flag = true;
@@ -17,20 +18,20 @@ bool Sample::Init()//모든 세팅은 이곳에서 하는게 나을듯.
 
 bool Sample::Frame() //프래임은 Scene별
 {
-    
+    mgr.Frame();
     Cur_Scene->Frame();
     //KeyCheck();
     return true;
 }
 bool Sample::Render()
 {
-    
+    mgr.Render();
     Cur_Scene->Render();
     return true;
 }
 bool Sample::Release() 
 {
-    
+    mgr.Release();
     title.Release(); //신 전환시 릴리즈 할지는 생각해보기
     game.Release();
     return true;

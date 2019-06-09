@@ -24,17 +24,22 @@ public:
     bool             m_bMove_flag = 0;
     float            m_fSpeed = 0;
     float            m_fAngle = 0;
-    int              m_iRt_num = 1; //로드시 1start 
+    int              m_iRt_num = 0; //로드시 1start 
     int              m_iMax_rt_num;
     float            m_fAlpha = 0;
-    vector<RECT*>    m_Src_rt;
-    vector<RECT*>    m_Desk_rt;  //기본값으로 Srcrt 값을 대입!
+    vector<shared_ptr<RECT>> m_Src_rt;
+    vector<shared_ptr<RECT>> m_Desk_rt;
+
+    //vector<RECT*>    m_Src_rt;
+    //vector<RECT*>    m_Desk_rt;  //기본값으로 Srcrt 값을 대입!
+    RECT m_coll_rt;
 public:   //스프라이트용 멤버들
     float            m_fCur_time = 0;
     float            m_fSprite_time = 0;
     float            m_fDelta_time = 0;
     float            m_fLife_time = 0;
-    
+    bool m_bDraw_flag = true; 
+    bool  m_bCenter_draw_flag = false;
     bool             m_bLoop_flag = false;
     bool             m_bDead_flag = false;  //소멸 할 예정이 있는 오브젝트는 소멸용.
     bool       m_bScale_flag = false;
@@ -45,16 +50,17 @@ public:
     virtual void             Move(float xstep, float ystep);
     bool             Draw(int rt_num = 1);
     bool             Draw_ColorKey(RECT rt, COLORREF color);
-
+    void             Scale(float xscale, float yscale);
+    void             Scale(int rt_num, float xscale, float yscale);
     bool             Init();
     bool             Render();
     bool             Frame();
     bool             Release();
 
-    void             Setobject(T_STR name, int max_frame_num, float inx, float iny, RECT rt,
-        bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 1, int player_flag = 0);
-    void             Setobject(T_STR name, int max_frame_num, float inx, float iny, vector<RECT> rt_array,
-        bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 1, int player_flag = 0);
+    void             Setobject(T_STR name, int max_rt_num, float inx, float iny, RECT rt,bool center_draw=false,
+        bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 255, int player_flag = 0);
+    void             Setobject(T_STR name, int max_rt_num, float inx, float iny, vector<RECT> rt_array, bool center_draw=false,
+        bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 255, int player_flag = 0);
     virtual CABitmapObject* Clone() { return new CABitmapObject; };
     CABitmapObject();
     virtual ~CABitmapObject();

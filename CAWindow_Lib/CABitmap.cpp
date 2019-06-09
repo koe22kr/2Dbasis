@@ -14,13 +14,14 @@ bool	CABitmap::Render()
 }
 bool	CABitmap::Release()
 {
-
-    DeleteObject(m_bmp);
+  
+    //DeleteObject(m_bmp);
     return true;
 }
 
 bool    CABitmap::Load(T_STR filename)
 {
+    
     // API 파일입출력
     HANDLE hFile = CreateFile(filename.c_str(),
         GENERIC_READ, 0,
@@ -72,33 +73,67 @@ bool    CABitmap::Load(T_STR filename)
     return true;
 }
 
-bool    CABitmap::Draw(float inx, float iny, RECT rt, DWORD imode)
+bool    CABitmap::Draw(float inx, float iny, RECT rt, DWORD imode, bool draw_center)
 {
-    BitBlt(g_hOffScreenDC, inx, iny,
-        rt.right,
-        rt.bottom,
-        m_dc,
-        rt.left,
-        rt.top, imode);
-    return true;
+    if (draw_center)
+    {
+        BitBlt(g_hOffScreenDC, inx - (rt.right / 2), iny - (rt.bottom / 2),
+            rt.right,
+            rt.bottom,
+            m_dc,
+            rt.left,
+            rt.top, imode);
+        return true;
+    }
+    else
+    {
+        BitBlt(g_hOffScreenDC, inx, iny,
+            rt.right,
+            rt.bottom,
+            m_dc,
+            rt.left,
+            rt.top, imode);
+        return true;
+    }
 }
-bool    CABitmap::Draw(float inx, float iny, RECT rt, BLENDFUNCTION bf)
+bool    CABitmap::Draw(float inx, float iny, RECT rt, BLENDFUNCTION bf, bool draw_center)
 {
-    // DC -> DC
-    AlphaBlend(g_hOffScreenDC, inx, iny, rt.right, rt.bottom,
-        m_dc,
-        rt.left, rt.top, rt.right, rt.bottom,
-        bf);
-    return true;
+    if (draw_center)
+    {
+        // DC -> DC
+        AlphaBlend(g_hOffScreenDC, inx - (rt.right / 2), iny - (rt.bottom / 2), rt.right, rt.bottom,
+            m_dc,
+            rt.left, rt.top, rt.right, rt.bottom,
+            bf);
+        return true;
+    }
+    else
+    {
+        AlphaBlend(g_hOffScreenDC, inx, iny, rt.right, rt.bottom,
+            m_dc,
+            rt.left, rt.top, rt.right, rt.bottom,
+            bf);
+        return true;
+    }
 }
-bool    CABitmap::Draw(float inx, float iny, RECT Srcrt, RECT Deskrt, BLENDFUNCTION bf)
+bool    CABitmap::Draw(float inx, float iny, RECT Srcrt, RECT Deskrt, BLENDFUNCTION bf, bool draw_center)
 {
-    // DC -> DC
-    AlphaBlend(g_hOffScreenDC, inx, iny, Deskrt.right, Deskrt.bottom,
-        m_dc,
-        Srcrt.left, Srcrt.top, Srcrt.right, Srcrt.bottom,
-        bf);
-    return true;
+    if (draw_center)
+    {// DC -> DC
+        AlphaBlend(g_hOffScreenDC, inx - (Deskrt.right / 2), iny - (Deskrt.bottom / 2), Deskrt.right, Deskrt.bottom,
+            m_dc,
+            Srcrt.left, Srcrt.top, Srcrt.right, Srcrt.bottom,
+            bf);
+        return true;
+    }
+    else
+    {
+        AlphaBlend(g_hOffScreenDC, inx , iny , Deskrt.right, Deskrt.bottom,
+            m_dc,
+            Srcrt.left, Srcrt.top, Srcrt.right, Srcrt.bottom,
+            bf);
+        return true;
+    }
 }
 
 

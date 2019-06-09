@@ -115,7 +115,8 @@ bool CASoundMgr::Release()
     ITOR = m_SoundList.begin();
     while (ITOR != m_SoundList.end())
     {
-        delete ITOR->second;
+        ITOR->second->m_pSound->release();
+        delete ITOR->second->m_pSound;
         m_SoundList.erase(ITOR);
     }
 

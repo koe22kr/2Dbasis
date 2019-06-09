@@ -13,27 +13,38 @@ bool Sample::Init()//모든 세팅은 이곳에서 하는게 나을듯.
     //// 
     //I_BITMAPMGR.m_Obj_list[7]->m_Desk_rt[0]->right = 400;
     //I_BITMAPMGR.m_Obj_list[7]->m_Desk_rt[0]->bottom = 400;
-    
-    bit.Init();
+    dun.Init();
+   // scene.Init();
+  //  ui.Init();
+   // bit.Init();
     return true;
 }
 
 bool Sample::Frame() //프래임은 Scene별
 {
-    bit.Frame();
+    dun.Frame();
+    //scene.Frame();
+   // ui.Frame();
+   // bit.Frame();
     //    Cur_Scene->Frame();
-        //KeyCheck();
+        KeyCheck();
     return true;
 }
 bool Sample::Render()
 {
-    bit.Render();
+    dun.Render();
+    //scene.Render();
+  //  ui.Render();
+    //bit.Render();
     // Cur_Scene->Render();
     return true;
 }
 bool Sample::Release()
 {
-    bit.Release();
+    dun.Release();
+    //scene.Release();
+  //  ui.Release();
+   // bit.Release();
     // title.Release(); //신 전환시 릴리즈 할지는 생각해보기
     // game.Release();
     return true;
@@ -43,39 +54,37 @@ void Sample::KeyCheck()
 
 
     DWORD dwState = I_Input.KeyCheck('W');
-    if (dwState == KEY_HOLD)
+    
+    if (dwState == KEY_PUSH)
     {
-        I_BITMAPMGR.Move(0, -100, 1);
-    }  dwState = I_Input.KeyCheck('S');
-    if (dwState == KEY_HOLD)
+        dun.m_iInput_Key = UP;
+        dun.m_bCamera_move_flag = true;
+        dun.m_Move_pos = { 0,-1 };
+    }
+    dwState = I_Input.KeyCheck('S');
+    if (dwState == KEY_PUSH)
     {
-        I_BITMAPMGR.Move(0, 100, 1);
-
-
+        dun.m_iInput_Key = DOWN;
+        dun.m_bCamera_move_flag = true;
+        dun.m_Move_pos = { 0,1 };
     }
     dwState = I_Input.KeyCheck('A');
-    if (dwState == KEY_HOLD)
+    if (dwState == KEY_PUSH)
+       
     {
-        I_BITMAPMGR.Move(-100, 0, 1);
-
+        dun.m_iInput_Key = LEFT;
+        dun.m_bCamera_move_flag = true;
+        dun.m_Move_pos = { -1,0 };
+        
     }
     dwState = I_Input.KeyCheck('D');
-    if (dwState == KEY_HOLD)
+    if (dwState == KEY_PUSH)
     {
-        I_BITMAPMGR.Move(100, 0, 1);
-
+        dun.m_iInput_Key = RIGHT;
+        dun.m_bCamera_move_flag = true;
+        dun.m_Move_pos = { 1,0 };
     }
-    dwState = I_Input.KeyCheck('V');
-    if (dwState == KEY_HOLD)
-    {
-        I_BITMAPMGR.Move(-200, 0, 2);
-
-    }
-    dwState = I_Input.KeyCheck('B');
-    if (dwState == KEY_HOLD)
-    {
-        I_BITMAPMGR.Move(200, 0, 2);
-    }
+    
 }
 
 
