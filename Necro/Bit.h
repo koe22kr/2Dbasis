@@ -1,6 +1,7 @@
 #pragma once
 #include "CAStd.h"
 #include "CABitmapMgr.h"
+#include "Std.h"
 
 class Bit
 {
@@ -12,13 +13,16 @@ public:
     bool Render();
     bool Release();
     float m_fBit_Speed = 200;
-    float m_fBit_making_term = 0.8f;
+    float m_fBit_making_term = g_fSpeed;
     float m_fCur_time;
     bool m_bBit_maked_flag;
 
     void BitMake();
     bool BitCheck();
-
+    bool KeyCheck();
+    bool Turn_flag;
+    //bool Bit_success_flag = false;
+    bool Key_push;
     Bit();
     virtual ~Bit();
 };

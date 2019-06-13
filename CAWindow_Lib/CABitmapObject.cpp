@@ -77,7 +77,12 @@ void CABitmapObject::Rotation()
 
 }
 
-
+void CABitmapObject::Setrt(int start_rt_num, int end_rt_num)
+{
+    m_iStart_rt_num = start_rt_num;
+    m_iRt_num = start_rt_num;
+    m_iEnd_rt_num = end_rt_num;
+}
 
 void CABitmapObject::Rt_Operate()
 {
@@ -86,20 +91,20 @@ void CABitmapObject::Rt_Operate()
 
         m_fCur_time += g_fSecondPerFrame;    //현시간 += 프레임당
         m_fDelta_time += g_fSecondPerFrame;   //
-        if (m_fDelta_time > m_fSprite_time / m_iMax_rt_num)
+        if (m_fDelta_time > m_fSprite_time / m_iEnd_rt_num)
         {
-            m_fDelta_time -= m_fSprite_time / m_iMax_rt_num;
+            m_fDelta_time -= m_fSprite_time / m_iEnd_rt_num;
             m_iRt_num += 1;
 
         }
         //rt값 초과방지
-        if (m_iRt_num == m_iMax_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
+        if (m_iRt_num >= m_iEnd_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화
         {
             if (m_bLoop_flag == true)
-                m_iRt_num -= m_iMax_rt_num;
+                m_iRt_num = m_iStart_rt_num;
             else
             {
-                m_iRt_num = min(m_iRt_num, m_iMax_rt_num-1);
+                m_iRt_num = min(m_iRt_num, m_iEnd_rt_num-1);
             }
         }
     }
@@ -149,7 +154,7 @@ bool CABitmapObject::Init()
 bool CABitmapObject::Render()
 {
     
-    if (m_iMax_rt_num > 0)
+    if (m_iEnd_rt_num > 0)
     {
         
         Draw(m_iRt_num);
@@ -329,7 +334,7 @@ void CABitmapObject::Setobject(T_STR name, int max_rt_num, float inx, float iny,
     bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
 {
     m_Obj_Name = name;
-    m_iMax_rt_num = max_rt_num;
+    m_iEnd_rt_num = max_rt_num;
     m_pos = { inx,iny };
     m_bCenter_draw_flag = center_draw;
     m_bLoop_flag = loop_flag;
@@ -355,7 +360,7 @@ void CABitmapObject::Setobject(T_STR name, int max_rt_num, float inx, float iny,
     bool loop_flag, float sprite_time, float life_time, float fSpeed, float alpha, int player_flag)
 {
     m_Obj_Name = name;
-    m_iMax_rt_num = max_rt_num;
+    m_iEnd_rt_num = max_rt_num;
     m_pos = { inx,iny };
     m_bCenter_draw_flag = center_draw;
     m_bLoop_flag = loop_flag;

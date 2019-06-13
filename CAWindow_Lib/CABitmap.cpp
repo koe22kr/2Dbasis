@@ -118,6 +118,8 @@ bool    CABitmap::Draw(float inx, float iny, RECT rt, BLENDFUNCTION bf, bool dra
 }
 bool    CABitmap::Draw(float inx, float iny, RECT Srcrt, RECT Deskrt, BLENDFUNCTION bf, bool draw_center)
 {
+           
+    
     if (draw_center)
     {// DC -> DC
         AlphaBlend(g_hOffScreenDC, inx - (Deskrt.right / 2), iny - (Deskrt.bottom / 2), Deskrt.right, Deskrt.bottom,

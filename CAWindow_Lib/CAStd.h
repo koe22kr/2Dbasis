@@ -7,7 +7,8 @@
 #include <string>
 #include <assert.h>
 #include <cstdlib>
-
+#include <set>
+#include <algorithm>
 #pragma comment( lib, "msimg32") //msing32.lib
 #pragma comment (lib, "CAWindow_Lib.lib") //이놈은 좋은놈이다. 프로잭트에서 std불러오면 TCorelib 를 연결하는 좋은놈
 

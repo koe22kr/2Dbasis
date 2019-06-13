@@ -96,13 +96,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../data/CA</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../data/CA/debug</AdditionalIncludeDirectories>
       <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>../../data/CA</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../data/CA/debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>fmod_vc.lib;CAWindow_Lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -145,16 +145,20 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../data/CA/release</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>../../data/CA/release</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bit.cpp" />
+    <ClCompile Include="Chara.cpp" />
+    <ClCompile Include="Charamgr.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -163,11 +167,14 @@
     <ClCompile Include="Scene_Dungeon.cpp" />
     <ClCompile Include="Scene_Title.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="Std.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bit.h" />
+    <ClInclude Include="Chara.h" />
+    <ClInclude Include="Charamgr.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player.h" />

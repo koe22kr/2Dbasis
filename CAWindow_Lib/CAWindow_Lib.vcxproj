@@ -49,7 +49,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../output/CAWindow_Lib</OutDir>
-    <IntDir>../../output/CAWindow_Lib</IntDir>
+    <OutDir>../../output/CAWindow_Lib/debug</OutDir>
+    <IntDir>../../output/CAWindow_Lib/debug</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -83,6 +83,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>../../output/CAWindow_Lib/release</OutDir>
+    <IntDir>../../output/CAWindow_Lib/release</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -108,8 +110,8 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>copy "*.lib" "..\\..\\data\\CA"
-copy "*.h" "..\\..\\data\\CA"</Command>
+      <Command>copy "*.lib" "..\\..\\data\\CA/debug"
+copy "*.h" "..\\..\\data\\CA/debug"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -157,6 +159,7 @@ copy "*.h" "..\\..\\data\\CA"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../../data/FMOD/inc;../../data\CA\inc;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -164,6 +167,15 @@ copy "*.h" "..\\..\\data\\CA"</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <OutputFile>CAWindow_Lib.lib</OutputFile>
+      <AdditionalDependencies>winmm.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../data/FMOD/lib/x64</AdditionalLibraryDirectories>
+    </Lib>
+    <PostBuildEvent>
+      <Command>copy "*.lib" "..\\..\\data\\CA/release"
+copy "*.h" "..\\..\\data\\CA/release"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CABitmap.cpp" />

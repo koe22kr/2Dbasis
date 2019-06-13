@@ -24,12 +24,13 @@ public:
     bool             m_bMove_flag = 0;
     float            m_fSpeed = 0;
     float            m_fAngle = 0;
+    int m_iStart_rt_num = 0;
     int              m_iRt_num = 0; //로드시 1start 
-    int              m_iMax_rt_num;
+    int              m_iEnd_rt_num = 0;
     float            m_fAlpha = 0;
     vector<shared_ptr<RECT>> m_Src_rt;
     vector<shared_ptr<RECT>> m_Desk_rt;
-
+    bool m_bRevers_draw_flag=false;
     //vector<RECT*>    m_Src_rt;
     //vector<RECT*>    m_Desk_rt;  //기본값으로 Srcrt 값을 대입!
     RECT m_coll_rt;
@@ -56,7 +57,7 @@ public:
     bool             Render();
     bool             Frame();
     bool             Release();
-
+    void Setrt(int start_rt_num,int end_rt_num);
     void             Setobject(T_STR name, int max_rt_num, float inx, float iny, RECT rt,bool center_draw=false,
         bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 255, int player_flag = 0);
     void             Setobject(T_STR name, int max_rt_num, float inx, float iny, vector<RECT> rt_array, bool center_draw=false,

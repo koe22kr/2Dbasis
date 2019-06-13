@@ -27,9 +27,6 @@
     <ClCompile Include="Sample.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Charactor</Filter>
-    </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
@@ -57,13 +54,22 @@
     <ClCompile Include="Dungeon.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Charamgr.cpp">
+      <Filter>Charactor</Filter>
+    </ClCompile>
+    <ClCompile Include="Std.cpp">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara.cpp">
+      <Filter>Charactor</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Charactor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sample.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Charactor</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Weapon</Filter>
@@ -94,6 +100,15 @@
     </ClInclude>
     <ClInclude Include="Std.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Charamgr.h">
+      <Filter>Charactor</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara.h">
+      <Filter>Charactor</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Charactor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

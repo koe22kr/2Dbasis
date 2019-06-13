@@ -3,10 +3,13 @@
 #include "CABitmapMgr.h"
 #include <stdlib.h>
 #include "Bit.h"
+#include "Std.h"
 
 class UI
 {
 public:
+
+
     T_STR UI_file_name = L"Necro_UI.bmp";
     float heart_speed;
     int maxHP = 10;

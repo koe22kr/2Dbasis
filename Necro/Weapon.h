@@ -1,13 +1,12 @@
 #pragma once
-
-
+#include "Std.h"
+#include "Chara.h"
 class Weapon
 {
 public:
     int POWER;
 
-    virtual void Attack();
-    virtual bool Init() { return true; };
+    virtual bool Attack(int target_x, int target_y, int chara_x, int chara_y);
     virtual bool Frame() { return true; };
     virtual bool Render() { return true; };
     virtual bool Release() { return true; };
@@ -15,66 +14,39 @@ public:
     Weapon();
     virtual ~Weapon();
 };
-Weapon::Weapon()
-{
-}
-Weapon::~Weapon()
-{
-}
+
 
 
 class Sword :public Weapon
 {
 public:
-    void Attack();
+    bool Attack(int target_x, int target_y, int chara_x, int chara_y);
     Sword();
     ~Sword();
 
 private:
 
 };
-Sword::Sword()
-{
-    POWER = 1;
-}
-Sword::~Sword()
-{
 
-    
-}
 
 class Gratesword :public Weapon
 {
 public:
-    void Attack();
+    bool Attack(int target_x, int target_y, int chara_x, int chara_y);
     Gratesword();
     ~Gratesword();
 
 private:
 
 };
-Gratesword::Gratesword()
-{
-    POWER = 2;
-}
-Gratesword::~Gratesword()
-{
-}
 
 class Spear :public Weapon
 {
 public:
-    void Attack();
+    bool Attack(int target_x, int target_y, int chara_x, int chara_y);
     Spear();
     ~Spear();
 
 private:
 
 };
-Spear::Spear()
-{
-    POWER = 2;
-}
-Spear::~Spear()
-{
-}

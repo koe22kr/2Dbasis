@@ -240,11 +240,11 @@ bool CABitmapMgr::Load_Bitmap_Script(T_STR fullpathname) //오류시 nullptr 반환
         assert(tmp != nullptr);
 
         _fgetts(buffer, _countof(buffer), fp);
-        _stscanf_s(buffer, _T("%s %d %f %f %d %f %f %f %d"), name, _countof(name), &tmp->m_iMax_rt_num,
+        _stscanf_s(buffer, _T("%s %d %f %f %d %f %f %f %d"), name, _countof(name), &tmp->m_iEnd_rt_num,
             &tmp->m_pos.x, &tmp->m_pos.y, &tmp->m_bLoop_flag, &tmp->m_fSprite_time, &tmp->m_fLife_time, &tmp->m_fAlpha, &tmp->m_bPlayer_flag);
         tmp->m_Obj_Name = name;
 
-        for (int k = 0; k < tmp->m_iMax_rt_num; k++)
+        for (int k = 0; k < tmp->m_iEnd_rt_num; k++)
         {
             shared_ptr<RECT> temp = make_shared<RECT>();
             shared_ptr<RECT> temp2 = make_shared<RECT>();

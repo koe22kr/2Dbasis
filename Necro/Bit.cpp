@@ -12,30 +12,81 @@ bool Bit::Init()
 bool Bit::Frame()
 {
     BitMake();
+
+
+
     if (m_bBit_maked_flag)
     {
+
         for (auto data : Bitmgr.m_Obj_list)
         {
             data->Move(1, 0);
         }
         if (Bitmgr.m_Obj_list.size()>1)
-            if (Bitmgr.m_Obj_list[0]->m_pos.x > 400)
+
+            if (Bitmgr.m_Obj_list[0]->m_pos.x > 420)
             {
-                
-                Bitmgr.m_Obj_list[0]->m_bDead_flag = true; //충돌시 두개 삭재
-                Bitmgr.m_Obj_list[1]->m_bDead_flag = true;
+                Turn_flag = !Turn_flag;//미스 상황
+                ;
+                Bitmgr.m_Obj_list.erase(Bitmgr.m_Obj_list.begin());
+                Bitmgr.m_Obj_list.erase(Bitmgr.m_Obj_list.begin());
+               // Bitmgr.m_Obj_list[0]->m_bDead_flag = true; //충돌시 두개 삭재
+               // Bitmgr.m_Obj_list[1]->m_bDead_flag = true;
             }
+            else if (Bitmgr.m_Obj_list[0]->m_pos.x > 350&& KeyCheck())
+            {
+               
+                Turn_flag = !Turn_flag;
+                
+                Bitmgr.m_Obj_list.erase(Bitmgr.m_Obj_list.begin());
+                Bitmgr.m_Obj_list.erase(Bitmgr.m_Obj_list.begin());
+            }
+
     }
     Bitmgr.Frame();
     
     
     return true;
 }
+bool Bit::KeyCheck()
+{
 
+
+    DWORD dwState = I_Input.KeyCheck('W');
+    if (dwState == KEY_PUSH)
+    {
+            Player_Move_pos = { 0,-1 };
+            Move_flag = true;
+            return true;
+    }
+    dwState = I_Input.KeyCheck('S');
+    if (dwState == KEY_PUSH)
+    {
+            Player_Move_pos = { 0,1 };
+            Move_flag = true;
+            return true;
+    }
+    dwState = I_Input.KeyCheck('A');
+    if (dwState == KEY_PUSH)
+    {
+            Player_Move_pos = { -1,0 };
+            Move_flag = true;
+            return true;
+    }
+    dwState = I_Input.KeyCheck('D');
+    if (dwState == KEY_PUSH)
+    {
+            Player_Move_pos = { 1,0 };
+            Move_flag = true;
+            return true;
+    }
+    return false;
+}
 bool Bit::Render()
 {
 
     Bitmgr.Render();
+   
     return true;
 }
 bool Bit::Release()
@@ -57,6 +108,9 @@ void Bit::BitMake()
         newbit2->Setobject(L"R_BIT", 1, 700, 550, { 199,9,8,32 }, true,false, 0, 0, -m_fBit_Speed, 255, 0);
         m_bBit_maked_flag = true;
         m_fCur_time -= m_fBit_making_term;
+        newbit1->Scale(1.5,1.5);
+        newbit2->Scale(1.5,1.5);
+        
     }
 }
 bool Bit::BitCheck()

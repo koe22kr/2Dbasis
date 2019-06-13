@@ -34,7 +34,8 @@ bool UI::Init()
 
    CABitmapObject* beat_heart = UImgr.Load_Object(UI_file_name);
 
-   beat_heart->Setobject(L"Beat_heart", 2, 400, 550, { {116,0,40,50},{156,0,40,50 } }, true,true, 0.76);
+   beat_heart->Setobject(L"Beat_heart", 2, 400, 550, { {116,0,40,50},{156,0,40,50 } }, true,true, g_fSpeed);
+   beat_heart->Scale(2,2 );
    UImgr.Init();
    
    
