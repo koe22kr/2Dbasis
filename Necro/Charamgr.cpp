@@ -1,7 +1,7 @@
 #include "Charamgr.h"
 int World_Charactor_pos[40][50];
 vector<Chara*> Charactor_list;
-CAPOINT Player_Move_pos;
+//CAPOINT Player_Move_pos;
 bool Move_flag;
 void Charamgr::Load(int inx, int iny, int i, int k)
 {
@@ -39,6 +39,7 @@ bool Charamgr::Init()
     Charactor_list[0]->start_end_rt_set_list.push_back({ 4, 8 }); //rt_set 2개; 시간나면 스크립트로 빼자
     Charactor_list[0]->cur_rt_set_num = 0;
     Chara_bit_mgr.m_Obj_list[0]->Setrt(0,4);
+    Charactor_list[0]->m_bJump_flag = 1;
 
     Chara* skeleton = new Enemy;
     skeleton->m_Chara_pos = { 40,6 };
@@ -50,7 +51,7 @@ bool Charamgr::Init()
     Charactor_list[1]->start_end_rt_set_list.push_back({ 4, 8 });
     Charactor_list[1]->cur_rt_set_num = 0;
     Chara_bit_mgr.m_Obj_list[1]->Setrt(0, 4);
-
+    Charactor_list[1]->m_bJump_flag = 1;
     
     
    
@@ -114,78 +115,72 @@ bool Charamgr::Release()
 //}
 void Charamgr::Move_chara()//캬라 리스트 map화 가능
 {
-    
 
     m_fDelta_time += 10 * g_fSecondPerFrame; //0.5초 동안 이동
-
+    
+    
+   
+    
+    if (m_fDelta_time >= 1)
+    {
+        Move_done = true;
+        Move_flag = 0;
+        m_fDelta_time = 0;
+        /*rt_num++;
+        rt_num=rt_num % 2;*/
+        for (int k = 0; k < Charactor_list.size(); k++)
+        {
+            Charactor_list[k]->Action_point += 1;
+            Charactor_list[k]->m_Move_pos = { 0,0 };
+        }
+        return;
+    }
+   
     for (int i = 0;i<Charactor_list.size();i++)
     {
-        
-      
-        
-            if (m_fDelta_time >= 1)
-            {
-                
-                Move_flag = 0;
-                Move_done = true;
-                m_fDelta_time = 0;
-                for (int k = 0; k < Charactor_list.size(); k++)
-                {
-                    Charactor_list[k]->Process();//리듬 한번마다 프로세싱 하게 할 예정
-                   // Charactor_list[k]->Move();// 프로새싱으로 다 하자
-                    Charactor_list[k]->Action_point += 1;
-                    //POINT& temp = Charactor_list[k]->m_Chara_pos;
-                    
-                    //World_Charactor_pos[temp.y][temp.x] = 0;
-                    
-                    //temp.x += Charactor_list[k]->m_Move_pos.x;
-                    //temp.y += Charactor_list[k]->m_Move_pos.y;
-                   // World_Charactor_pos[temp.y][temp.x] = Charactor_list[k]->Chara_num;
-                    //Charactor_list[k]->m_Move_pos = { 0,0 };
-                    Chara_bit_mgr.m_Obj_list[k]->Setrt(Charactor_list[k]->start_end_rt_set_list[rt_num]);
-                }
-                rt_num++;
-                rt_num=rt_num % 2;
-               
-                //PostMessage(g_hWnd, WM_CHARA_MOVED, 0, 0);
-                return;
-            }
-            if (Charactor_list[i]->m_Move_pos.x == 1)
-            {
-                Charactor_list[i]->cur_rt_set_num = 0;
-                Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
-//                Chara_bit_mgr.m_Obj_list[i]->Setrt(0, 4);
-                m_jump_step = 1;
-                //오른쪽 보고 있을
-            }
-            else if ((Charactor_list[i]->m_Move_pos.x == -1))
-            {
-                Charactor_list[i]->cur_rt_set_num = 1;
-                Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
-//                Chara_bit_mgr.m_Obj_list[i]->Setrt(4, 8);
-                m_jump_step = 1;
-                //왼쪽 보고 있을
-            }
-            else if (Charactor_list[i]->m_Move_pos.y == 1)
-            {
+        Charactor_list[i]->Process();//리듬 한번마다 프로세싱 하게 할 예정
 
-                m_jump_step = -1;
-            }
-            else if (Charactor_list[i]->m_Move_pos.y == -1)
-            {
-                m_jump_step = 1;
-            }
-            //for (auto chara : Chara_bit_mgr.m_Obj_list)
-            Chara_bit_mgr.m_Obj_list[i]->m_pos.x += (40 * 10 * g_fSecondPerFrame * Charactor_list[i]->m_Move_pos.x);
+        if (Charactor_list[i]->m_Move_pos.x == 1)
+        {
+            Charactor_list[i]->cur_rt_set_num = 0;
+            Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
+            //                Chara_bit_mgr.m_Obj_list[i]->Setrt(0, 4);
+            Charactor_list[i]->m_jump_step = 1;
+            //오른쪽 보고 있을
+        }
+        else if ((Charactor_list[i]->m_Move_pos.x == -1))
+        {
+            Charactor_list[i]->cur_rt_set_num = 1;
+            Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
+            //                Chara_bit_mgr.m_Obj_list[i]->Setrt(4, 8);
+            Charactor_list[i]->m_jump_step = 1;
+            //왼쪽 보고 있을
+        }
+        else if (Charactor_list[i]->m_Move_pos.y == 1)
+        {
+
+            Charactor_list[i]->m_jump_step = -0.7;
+        }
+        else if (Charactor_list[i]->m_Move_pos.y == -1)
+        {
+            Charactor_list[i]->m_jump_step = 1;
+        }
+       
+       
+       
+           
+           
+            Chara_bit_mgr.m_Obj_list[i]->m_pos.x += (40 * 10 * g_fSecondPerFrame * Charactor_list[i]->m_Move_pos.x*Charactor_list[i]->m_bJump_flag);
             if (m_fDelta_time > 0.5f)
             {
-                Chara_bit_mgr.m_Obj_list[i]->m_pos.y += (24 * 20 * g_fSecondPerFrame*Charactor_list[i]->m_bJump_flag*m_jump_step);
+                Chara_bit_mgr.m_Obj_list[i]->m_pos.y += (24 * 20 * g_fSecondPerFrame*Charactor_list[i]->m_bJump_flag*Charactor_list[i]->m_jump_step);
             }
-            else if(m_fDelta_time<1)
+            else if (m_fDelta_time < 1)
             {
-                Chara_bit_mgr.m_Obj_list[i]->m_pos.y -= (36 * 20 * g_fSecondPerFrame*Charactor_list[i]->m_bJump_flag*m_jump_step);
+                Chara_bit_mgr.m_Obj_list[i]->m_pos.y -= (36 * 20 * g_fSecondPerFrame*Charactor_list[i]->m_bJump_flag*Charactor_list[i]->m_jump_step);
             }
 
+            Charactor_list[i]->m_jump_step = 0;
     }
    // Player_Move_pos = { 0,0 };
 }

@@ -96,10 +96,10 @@ POINT Enemy::Astar()
             
             break;
         }
-        if (cur_pather->Score > 8)
-        {
-            break;
-        }
+       //if (cur_pather->Score > 8)
+       //{
+       //    break;
+       //}
         Closelist.insert(cur_pather);
         Openlist.erase(cur_pather);   //안되면 find 클래스 쓰자...
         

@@ -209,16 +209,16 @@ void Dungeon::Dungeon_move()
       m_bCamera_move_flag = false;
       m_fDelta_time = 0;
   
-      m_Camera_pos.x += Player_Move_pos.x;
-      m_Camera_pos.y += Player_Move_pos.y;
+      m_Camera_pos.x += Charactor_list[0]->m_Move_pos.x;
+      m_Camera_pos.y += Charactor_list[0]->m_Move_pos.y;
       
      // Make_dungeon();
-      Player_Move_pos = { 0,0 };
+      //Player_Move_pos = { 0,0 };
   }
   for (auto obj : Dunmgr.m_Obj_list)
   {
-      obj->m_pos.x -= (48 *20* g_fSecondPerFrame * Player_Move_pos.x);
-      obj->m_pos.y -= (48 *20* g_fSecondPerFrame * Player_Move_pos.y);
+      obj->m_pos.x -= (48 *20* g_fSecondPerFrame * Charactor_list[0]->m_Move_pos.x);
+      obj->m_pos.y -= (48 *20* g_fSecondPerFrame * Charactor_list[0]->m_Move_pos.y);
   }
     
 }

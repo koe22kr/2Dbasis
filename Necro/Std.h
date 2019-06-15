@@ -22,7 +22,7 @@ enum weapon
 extern int World_Charactor_pos[40][50];   //1== player   2==skeleton
 extern vector<Chara*> Charactor_list;
 
-extern CAPOINT Player_Move_pos;  //상대적 이동위치 로 하자.
+//extern CAPOINT Player_Move_pos;  //상대적 이동위치 로 하자.
 
 extern int Dungeon_world[40][50];
 extern  bool rending_arr[40][50];  //위아래 한칸씩 여유두기

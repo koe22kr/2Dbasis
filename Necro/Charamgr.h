@@ -20,7 +20,7 @@ public:
     void Move_chara();
 
     void Load(int inx, int iny, int i, int k);
-    float m_jump_step;
+    //float m_jump_step;
     bool Move_done;
     
     int rt_num;

@@ -14,6 +14,7 @@ public:
     WINT cur_WINT;
     //bool m_bChara_move_flag;
     bool m_bJump_flag;
+    float m_jump_step;
     virtual bool Init();
 
     virtual void Process();
