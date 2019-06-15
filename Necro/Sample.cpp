@@ -4,6 +4,8 @@
 #include "CABitmapMgr.h"
 
 
+POINT start_pos;
+
 bool Sample::Init()//모든 세팅은 이곳에서 하는게 나을듯.
 {
     //I_BITMAPMGR.Load_Bitmap_Script(L"../../data/bitmap_object.txt");
@@ -154,7 +156,7 @@ void    Sample::Make()
 
         dun.Map_check(Charactor_list[0]->m_Chara_pos.x, Charactor_list[0]->m_Chara_pos.y);
 
-        POINT start_pos = { Charactor_list[0]->m_Chara_pos.x - (rending_arr_size.x / 2), Charactor_list[0]->m_Chara_pos.y - (rending_arr_size.y / 2) };
+        start_pos = { Charactor_list[0]->m_Chara_pos.x - (rending_arr_size.x / 2), Charactor_list[0]->m_Chara_pos.y - (rending_arr_size.y / 2) };
 
         for (int i = 0; i < 16; i++)
         {

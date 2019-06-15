@@ -60,6 +60,7 @@ bool Charamgr::Init()
         a->Init();
     }
     Chara_bit_mgr.Init();
+    Charactor_list[0]->Action_bitmap_mgr.Init();
    // Make_chara();
     return true;
 }
@@ -71,23 +72,25 @@ bool Charamgr::Frame()  //죽은몹 릴리즈 여기서 하자
        
         
     }
-   
+    
     if (Move_flag)
     {
         Move_chara();
     }
     Chara_bit_mgr.Frame();
-    
+    Charactor_list[0]->Action_bitmap_mgr.Frame();
     return true;
 }
 bool Charamgr::Render() 
 {
     Chara_bit_mgr.Render();
+    Charactor_list[0]->Action_bitmap_mgr.Render();
     return true;
 }
 bool Charamgr::Release()
 {
     Chara_bit_mgr.Release();
+    Charactor_list[0]->Action_bitmap_mgr.Release();
     return true;
 }
 //void Charamgr::Make_chara()

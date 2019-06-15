@@ -1,6 +1,7 @@
 #pragma once
 #include "CAStd.h"
 #include "Std.h"
+#include "CABitmapMgr.h"
 class Chara
 {
 public:
@@ -11,17 +12,23 @@ public:
     POINT m_Move_pos;
     int cur_rt_set_num;
     vector<WINT> start_end_rt_set_list;
-    WINT cur_WINT;
+    //WINT cur_WINT;
     //bool m_bChara_move_flag;
     bool m_bJump_flag;
     float m_jump_step;
-    virtual bool Init();
+    static CABitmapMgr Action_bitmap_mgr;
+    
+    
 
+    virtual bool Init();
+    virtual bool Frame();
+    virtual bool Render();
+    virtual bool Release();
     virtual void Process();
 
     virtual void Move();
     virtual bool Mining();
-    virtual void Attack();
+    WINT Attack();
 
     bool Chara_active_flag;
 

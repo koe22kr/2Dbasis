@@ -51,8 +51,9 @@ bool Enemy::Mining()
 {
     return true;
 }
-void Enemy::Attack()
+WINT Enemy::Attack()
 {
+    return { 0,0 };
 }
 void Enemy::Change_rt(int start_rt, int end_rt)
 {

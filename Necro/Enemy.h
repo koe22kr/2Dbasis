@@ -27,7 +27,7 @@ public:
     virtual void Process();
     virtual void Move();
     virtual bool Mining();
-    virtual void Attack();
+    virtual WINT Attack();
     virtual void Change_rt(int start_rt,int end_rt);
     POINT Astar();
     vector<POINT> Direction_for_search;
