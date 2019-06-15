@@ -32,12 +32,13 @@ bool Bit::Frame()
                 Bitmgr.m_Obj_list.erase(Bitmgr.m_Obj_list.begin());
                // Bitmgr.m_Obj_list[0]->m_bDead_flag = true; //충돌시 두개 삭재
                // Bitmgr.m_Obj_list[1]->m_bDead_flag = true;
+                Move_flag = true;
             }
             else if (Bitmgr.m_Obj_list[0]->m_pos.x > 350&& KeyCheck())
             {
                
                 Turn_flag = !Turn_flag;
-                
+                Move_flag = true;
                 Bitmgr.m_Obj_list.erase(Bitmgr.m_Obj_list.begin());
                 Bitmgr.m_Obj_list.erase(Bitmgr.m_Obj_list.begin());
             }
@@ -55,29 +56,26 @@ bool Bit::KeyCheck()
     DWORD dwState = I_Input.KeyCheck('W');
     if (dwState == KEY_PUSH)
     {
-            Player_Move_pos = { 0,-1 };
-            Move_flag = true;
+        Charactor_list[0]->m_Move_pos = { 0,-1 };
+           
             return true;
     }
     dwState = I_Input.KeyCheck('S');
     if (dwState == KEY_PUSH)
     {
-            Player_Move_pos = { 0,1 };
-            Move_flag = true;
+        Charactor_list[0]->m_Move_pos = { 0,1 };
             return true;
     }
     dwState = I_Input.KeyCheck('A');
     if (dwState == KEY_PUSH)
     {
-            Player_Move_pos = { -1,0 };
-            Move_flag = true;
+        Charactor_list[0]->m_Move_pos = { -1,0 };
             return true;
     }
     dwState = I_Input.KeyCheck('D');
     if (dwState == KEY_PUSH)
     {
-            Player_Move_pos = { 1,0 };
-            Move_flag = true;
+        Charactor_list[0]->m_Move_pos = { 1,0 };
             return true;
     }
     return false;

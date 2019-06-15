@@ -2,19 +2,24 @@
 
 void Player::Process()
 {
-
-    POINT target_pos;
-    target_pos.x = m_Chara_pos.x + Player_Move_pos.x;
-    target_pos.y = m_Chara_pos.y + Player_Move_pos.y;
-    if (Dungeon_world[target_pos.y][target_pos.x] == FLOOR)
+   // Action_point += 1;
+    //POINT target_pos = { 0, 0};
+    /*target_pos.x = m_Chara_pos.x + Player_Move_pos.x;
+    target_pos.y = m_Chara_pos.y + Player_Move_pos.y;*/
+    if (Dungeon_world[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == FLOOR)
     {
-        if(Attack(target_pos.x, target_pos.y, m_Chara_pos.x, m_Chara_pos.y))
+        if(World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x])
         {
+            Attack(Player_Move_pos);
+            //어택
+            
+            Player_Move_pos = { 0,0 };
+            
             return;
         }
         else
         {
-            Move();
+           Move();
             return;
         }
     }
@@ -25,22 +30,23 @@ void Player::Process()
         || Dungeon_world[target_pos.y][target_pos.x] == DOOR1
         || Dungeon_world[target_pos.y][target_pos.x] == DOOR2)*/
     {
-        Mining(target_pos.x, target_pos.y);
+        Mining();
         return;
     }
 
 }
-bool Player::Mining(int target_x, int target_y)
-{
-    if (Dungeon_world[target_y][target_x] == WALL1
-        || Dungeon_world[target_y][target_x] == WALL2
-        || Dungeon_world[target_y][target_x] == WALL3
-        || Dungeon_world[target_y][target_x] == DOOR1
-        || Dungeon_world[target_y][target_x] == DOOR2)
+bool Player::Mining()
+{//        if(World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x])
+
+    if (Dungeon_world[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == WALL1
+        || Dungeon_world[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == WALL2
+        || Dungeon_world[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == WALL3
+        || Dungeon_world[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == DOOR1
+        || Dungeon_world[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == DOOR2)
     {
-        Dungeon_world[target_y][target_x] = FLOOR;
+        Dungeon_world[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] = FLOOR;
         Player_Move_pos = {0,0};
-        m_bJump_flag = false;
+        m_bJump_flag = true;
         return true;
     }
     //마이닝 실패
@@ -50,16 +56,23 @@ bool Player::Mining(int target_x, int target_y)
 void Player::Move()
 {
     m_bJump_flag = true;
-    
-    m_Move_pos.x = Player_Move_pos.x;
-    m_Move_pos.y = Player_Move_pos.y;
+    if (World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == 0)
+    {
+        World_Charactor_pos[m_Chara_pos.y][m_Chara_pos.x] = 0;
+        m_Chara_pos.x += m_Move_pos.x;
+        m_Chara_pos.y += m_Move_pos.y;
+        World_Charactor_pos[m_Chara_pos.y][m_Chara_pos.x] = Chara_num;
+        m_Move_pos = { 0,0 };
+    }
+   /* m_Move_pos.x = Player_Move_pos.x;
+    m_Move_pos.y = Player_Move_pos.y;*/
 
 
 }
 
-bool Player::Attack(int target_x, int target_y, int chara_x, int chara_y)
+bool Player::Attack(CAPOINT Player_Move_pos)
 {
-    if (m_My_Weapon->Attack(target_x, target_y, chara_x, chara_y))
+    if (m_My_Weapon->Attack(,Player_Move_pos.x, Player_Move_pos.y))
     {
         return true;
     }

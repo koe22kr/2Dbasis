@@ -58,6 +58,7 @@ public:
     bool             Frame();
     bool             Release();
     void Setrt(int start_rt_num,int end_rt_num);
+    void Setrt(WINT wint);
     void             Setobject(T_STR name, int max_rt_num, float inx, float iny, RECT rt,bool center_draw=false,
         bool loop_flag = 0, float sprite_time = 0, float life_time = 0, float fSpeed = 0, float alpha = 255, int player_flag = 0);
     void             Setobject(T_STR name, int max_rt_num, float inx, float iny, vector<RECT> rt_array, bool center_draw=false,

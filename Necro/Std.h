@@ -19,7 +19,7 @@ enum weapon
 //{
 //    UP=1,DOWN,LEFT,RIGHT
 //};
-extern int World_Charactor_pos[40][50];
+extern int World_Charactor_pos[40][50];   //1== player   2==skeleton
 extern vector<Chara*> Charactor_list;
 
 extern CAPOINT Player_Move_pos;  //상대적 이동위치 로 하자.
@@ -33,4 +33,3 @@ extern POINT rending_arr_size;
 //extern POINT m_Camera_pos;
 extern float g_fSpeed;
 extern bool Move_flag;
-

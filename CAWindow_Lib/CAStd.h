@@ -66,3 +66,21 @@ public:
     }
 };
 //getinstance I_~~~로 매크로화.
+
+
+
+
+class WINT
+{
+public:
+    int x = 0;
+    int y = 0;
+    WINT() {};
+    WINT(int a, int b):x(a),y(b) {};
+    WINT(const WINT& wint) :x(wint.x), y(wint.y) {};
+    WINT(int& a, int&b) : x(a), y(b) {};
+    ~WINT() {};
+    WINT operator +(WINT& wint) { return WINT(x + wint.x, y + wint.y); };
+    WINT operator +(POINT& point) { return WINT(x + point.x, y + point.y); };
+
+};

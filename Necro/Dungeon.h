@@ -17,7 +17,7 @@ public:
 
     bool m_bCamera_move_flag = false;
 
-    POINT m_Camera_pos = { 40,6 }; //20Ä­¸¸ »ÌÀÚ    
+    POINT m_Camera_pos = { 41,7 }; //20Ä­¸¸ »ÌÀÚ    
     
     float m_fDelta_time;
     

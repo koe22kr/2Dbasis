@@ -12,8 +12,8 @@ public:
   
 
     void Move();
-    bool Mining(int target_x, int target_y);
-    bool Attack(int target_x, int target_y, int chara_x, int chara_y);
+    bool Mining();
+    bool Attack(CAPOINT Player_Move_pos);
     
     
     void Process();

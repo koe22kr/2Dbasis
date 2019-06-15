@@ -31,18 +31,17 @@ Spear::~Spear()
 {
 }
 
-
-bool Weapon::Attack(int target_x, int target_y, int chara_x, int chara_y)
+bool Weapon::Attack(int x, int y)
 {
     
     return true;    
 }
 
-bool Sword::Attack(int target_x, int target_y, int chara_x, int chara_y)
+bool Sword::Attack(int x, int y)
 {
-    if (World_Charactor_pos[target_y][target_x] != 0)
+    if (World_Charactor_pos[y][x] != 0)
     {
-        POINT target1 = { target_x,target_y };
+
         for (int i = 0; i < Charactor_list.size(); i++)
         {
             if (Charactor_list[i]->m_Chara_pos.x == target1.x
@@ -62,12 +61,12 @@ bool Sword::Attack(int target_x, int target_y, int chara_x, int chara_y)
     return false;
 }
 
-bool Gratesword::Attack(int target_x, int target_y, int chara_x, int chara_y)
+bool Gratesword::Attack(int x, int y)
 {
     return true;
 }
 
-bool Spear::Attack(int target_x, int target_y, int chara_x, int chara_y)
+bool Spear::Attack(int x, int y)
 {
     return true;
   

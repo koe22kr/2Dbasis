@@ -23,6 +23,7 @@ public:
     float m_jump_step;
     bool Move_done;
     
+    int rt_num;
 
     LRESULT		MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

@@ -9,16 +9,16 @@ bool Chara::Init()
 
 void Chara::Process()
 {
-
+    
 }
 
  void Chara::Move()
 {
 
 }
- void Chara::Mining()
+ bool Chara::Mining()
  {
-
+     return true;
  }
 
  void Chara::Attack()

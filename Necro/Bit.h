@@ -2,6 +2,7 @@
 #include "CAStd.h"
 #include "CABitmapMgr.h"
 #include "Std.h"
+#include "Chara.h"
 
 class Bit
 {

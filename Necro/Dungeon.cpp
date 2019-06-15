@@ -60,7 +60,7 @@ void Dungeon::Map_check(int x, int y,int count)
         {
             if (cha->m_Chara_pos.x == x&& cha->m_Chara_pos.y == y)
             {
-                Charactor_list[y][x].Chara_active_flag = true;
+                cha->Chara_active_flag = true;
             }
         }
         if (Dungeon_world[y][x] == 0)

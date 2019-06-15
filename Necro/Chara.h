@@ -9,6 +9,9 @@ public:
     int m_iAtk;
     POINT m_Chara_pos;
     POINT m_Move_pos;
+    int cur_rt_set_num;
+    vector<WINT> start_end_rt_set_list;
+    WINT cur_WINT;
     //bool m_bChara_move_flag;
     bool m_bJump_flag;
     virtual bool Init();
@@ -16,7 +19,7 @@ public:
     virtual void Process();
 
     virtual void Move();
-    virtual void Mining();
+    virtual bool Mining();
     virtual void Attack();
 
     bool Chara_active_flag;

@@ -83,6 +83,12 @@ void CABitmapObject::Setrt(int start_rt_num, int end_rt_num)
     m_iRt_num = start_rt_num;
     m_iEnd_rt_num = end_rt_num;
 }
+void CABitmapObject::Setrt(WINT wint)
+{
+    m_iStart_rt_num = wint.x;
+    m_iRt_num = wint.y;
+    m_iEnd_rt_num = wint.y;
+}
 
 void CABitmapObject::Rt_Operate()
 {

@@ -1,4 +1,5 @@
 #pragma once
+#include "CAStd.h"
 #include "Std.h"
 #include "Chara.h"
 class Weapon
@@ -6,7 +7,7 @@ class Weapon
 public:
     int POWER;
 
-    virtual bool Attack(int target_x, int target_y, int chara_x, int chara_y);
+    virtual bool Attack(int x,int y);
     virtual bool Frame() { return true; };
     virtual bool Render() { return true; };
     virtual bool Release() { return true; };
@@ -20,7 +21,7 @@ public:
 class Sword :public Weapon
 {
 public:
-    bool Attack(int target_x, int target_y, int chara_x, int chara_y);
+    bool Attack(int x, int y);
     Sword();
     ~Sword();
 
@@ -32,7 +33,7 @@ private:
 class Gratesword :public Weapon
 {
 public:
-    bool Attack(int target_x, int target_y, int chara_x, int chara_y);
+    bool Attack(int x, int y);
     Gratesword();
     ~Gratesword();
 
@@ -43,7 +44,7 @@ private:
 class Spear :public Weapon
 {
 public:
-    bool Attack(int target_x, int target_y, int chara_x, int chara_y);
+    bool Attack(int x, int y);
     Spear();
     ~Spear();
 
