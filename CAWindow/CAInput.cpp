@@ -15,6 +15,7 @@
 
 DWORD CAInput::KeyCheck(DWORD dwKey)//
 {
+    
    SHORT sKey = GetAsyncKeyState(dwKey);
    // enum { KEY_FREE, KEY_PUSH, KEY_HOLD, KEY_UP, MOUSE_DBL_CLICK, MB_UP, MB_DOWN}
        //  1000 0000 0000 0000
@@ -59,7 +60,7 @@ bool       CAInput::Frame()
     GetCursorPos(&m_MousePos);   //화면 스크린. 위도우 좌표계
     ScreenToClient(g_hWnd, &m_MousePos);  //클라이언트 좌표계로 변경
 
-    for (int iButton = 0; iButton < 3; iButton++)
+    for (int iButton = 0; iButton < 3; iButton++) //이거 왜 도는거지?
     {
         if (m_dwBeforeMouseState[iButton] == KEY_PUSH)
         {
@@ -86,6 +87,7 @@ bool       CAInput::Release()
 
 LRESULT		CAInput::MsgProc(MSG msg)
 {
+    
     switch (msg.message)            //메세지의 WParam 으로 상태가 온다고 함 MK_LBUTTON
     {
         //LB

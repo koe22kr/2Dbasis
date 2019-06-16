@@ -5,6 +5,7 @@
 #include "CASoundMgr.h"
 #include "CABitmapMgr.h"
 #include "CAStd.h"
+#include "CAMessageList.h"
 
 class CACore :public CAWindow                 
 {

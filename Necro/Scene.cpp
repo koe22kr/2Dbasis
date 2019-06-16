@@ -2,7 +2,7 @@
 
 Dungeon Scene::dun;
 //int Scene::Scene_num=0;
-vector<Scene> Scene::scene;
+//vector<Scene> Scene::scene;
 Bit Scene::bit;
 UI Scene::ui;
 Charamgr Scene::cha;

@@ -183,6 +183,7 @@ copy "*.h" "..\\..\\data\\CA/release"</Command>
     <ClCompile Include="CABitmapObject.cpp" />
     <ClCompile Include="CACore.cpp" />
     <ClCompile Include="CAInput.cpp" />
+    <ClCompile Include="CAMessageList.cpp" />
     <ClCompile Include="CAObject.cpp" />
     <ClCompile Include="CASound.cpp" />
     <ClCompile Include="CASoundMgr.cpp" />
@@ -195,6 +196,7 @@ copy "*.h" "..\\..\\data\\CA/release"</Command>
     <ClInclude Include="CABitmapObject.h" />
     <ClInclude Include="CACore.h" />
     <ClInclude Include="CAInput.h" />
+    <ClInclude Include="CAMessageList.h" />
     <ClInclude Include="CAObject.h" />
     <ClInclude Include="CASound.h" />
     <ClInclude Include="CASoundMgr.h" />

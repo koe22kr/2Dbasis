@@ -45,6 +45,9 @@
     <ClCompile Include="CABitmapObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CAMessageList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CACore.h">
@@ -78,6 +81,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CABitmapObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CAMessageList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,12 +14,14 @@ public:
     DWORD m_dwMouseState[3];
     POINT m_MousePos;
 public:
+    int a;
     bool       Init() ;
     bool       Frame() ;
     bool       Render() ;
     bool       Release() ;
     DWORD      KeyCheck(DWORD dwKey);
-    LRESULT		MsgProc(MSG msg);
+    MSG Getmessage(MSG dwkey);
+
     LRESULT MouseCheck(MSG dwKey);
 
 private:

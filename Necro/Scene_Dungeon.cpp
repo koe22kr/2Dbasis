@@ -45,10 +45,7 @@ bool Scene_Dungeon::Release()
 
 void    Scene_Dungeon::Make()
 {
-    //void Dungeon::Make_dungeon()
     {
-
-
         ZeroMemory(rending_arr, sizeof(rending_arr));
         for (int i = 0; i < dun.Dunmgr.m_Obj_list.size(); i++)
         {
@@ -73,10 +70,6 @@ void    Scene_Dungeon::Make()
 
                     cha.Load(start_pos.x, start_pos.y, i, k);//괄호 밖에 있엇는데 이곳으로 옴기는게 더 좋을 것 같아서 옴김 190616-20:40;
                 }
-
-                
-
-               
             }
         }
     }

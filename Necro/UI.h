@@ -9,7 +9,6 @@ class UI
 {
 public:
 
-
     T_STR UI_file_name = L"Necro_UI.bmp";
     float heart_speed;
     int maxHP = 10;
@@ -29,5 +28,8 @@ public:
     bool Release();
     UI();
     virtual ~UI();
+
+
+
 };
 

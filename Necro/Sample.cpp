@@ -7,14 +7,22 @@ POINT start_pos;
 
 bool Sample::Init()
 {
-    Cur_scene = new Scene_Dungeon;
+    Cur_scene = new Scene_Title;
     Cur_scene->Init();
     return true;
 }
 
 bool Sample::Frame() 
 {
+
     Cur_scene->Frame();
+    if (Cur_scene->Scene_num == 2)
+    {
+        Cur_scene->Release();
+        Cur_scene = new Scene_Dungeon;
+        Cur_scene->Init();
+        Cur_scene->Frame();
+    }
     return true;
 }
 bool Sample::Render()

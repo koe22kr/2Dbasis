@@ -68,6 +68,7 @@ bool CACore::CACoreInit()
 }
 bool CACore::CACoreFrame()
 {
+    
     I_BITMAPMGR.Frame();
     m_Timer.Frame();
     I_Input.Frame();
@@ -133,8 +134,8 @@ bool CACore::Run()
 
 void CACore::MessageProc(MSG msg)
 {
-    //m_Input.MsgProc(msg);//마우스 프록시저...
     I_Input.MouseCheck(msg);
+    I_MSG.Msg_list.push_back(msg);
 }
 
 CACore::CACore()

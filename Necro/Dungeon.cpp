@@ -8,8 +8,10 @@ float g_fSpeed = 0.7;
 
 bool Dungeon::Init()
 {
-    Dunmgr.Load_Bitmap(L"../../data/bitmap/walls.bmp");
-    Dunmgr.Load_Bitmap(L"../../data/bitmap/floors.bmp");
+    //../../data/bitmap/
+    //../../data/bitmap/   
+    Dunmgr.Load_Bitmap(L"walls.bmp");
+    Dunmgr.Load_Bitmap(L"floors.bmp");
   // CABitmapObject* walls = Dunmgr.Load_Object(L"walls.bmp");
   // walls->Setobject(L"walls", 8, 0, 0, rt_list,false,false);
 

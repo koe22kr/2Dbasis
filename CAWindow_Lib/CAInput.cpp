@@ -83,72 +83,10 @@ bool       CAInput::Release()
     return true;
 
 }
-
-LRESULT		CAInput::MsgProc(MSG msg)
+MSG CAInput::Getmessage(MSG dwkey)
 {
-    switch (msg.message)            //메세지의 WParam 으로 상태가 온다고 함 MK_LBUTTON
-    {
-        //LB
-        case WM_LBUTTONDOWN:
-        {
-            if (msg.wParam & MK_LBUTTON) // 눌러져잇음
-            {
-                m_dwMouseState[0] = KEY_HOLD;
-            }
-            else
-            m_dwMouseState[0] = KEY_PUSH;
-        }break;
-        
-        case WM_LBUTTONUP:
-        {
-            m_dwMouseState[0] = KEY_UP;
-        }break;
-        
-        case WM_LBUTTONDBLCLK:
-        {
-            m_dwMouseState[0] = MOUSE_DBL_CLICK;
-        }break;
-        
-        //MB
-        case WM_MBUTTONDOWN:
-        {
-            if (msg.wParam & MK_MBUTTON) // 눌러져잇음
-            {
-                m_dwMouseState[1] = KEY_HOLD;
-            }
-            else
-            m_dwMouseState[1] = KEY_PUSH;
-        }break;
-        
-        case WM_MBUTTONUP:
-        {
-            m_dwMouseState[1] = KEY_UP;
-        }break;
-    
 
-        //RB
-        case WM_RBUTTONDOWN:
-        {
-            if (msg.wParam & MK_MBUTTON) // 눌러져잇음
-            {
-                m_dwMouseState[2] = KEY_HOLD;
-            }
-            else
-            m_dwMouseState[2] = KEY_PUSH;
-        }
-        break;
-
-        case WM_RBUTTONUP:
-        {
-            m_dwMouseState[2] = KEY_UP;
-        }break;
-
-        case WM_RBUTTONDBLCLK:
-        {
-            m_dwMouseState[2] = MOUSE_DBL_CLICK;
-        }
-    }
-    return 1;
+    return dwkey;
 }
 LRESULT CAInput::MouseCheck(MSG dwmouse)
 {
