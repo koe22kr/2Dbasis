@@ -62,7 +62,9 @@ void CABitmapObject::Rotation()
         bf.BlendFlags = 0;
         bf.SourceConstantAlpha = m_fAlpha;
         bf.AlphaFormat = AC_SRC_ALPHA;
-        AlphaBlend(g_hOffScreenDC, pos.x, pos.y, inewsize, inewsize,
+        float scaleX= m_Desk_rt[m_iRt_num]->right/m_Src_rt[m_iRt_num]->right;
+        float scaleY = m_Desk_rt[m_iRt_num]->bottom / m_Src_rt[m_iRt_num]->bottom;
+        AlphaBlend(g_hOffScreenDC, pos.x, pos.y, inewsize*scaleX, inewsize*scaleY,////inewsize 를 right, bott
             rotationDC,
             0, 0, inewsize, inewsize,
             bf);
@@ -70,7 +72,7 @@ void CABitmapObject::Rotation()
     else
     {
         BitBlt(g_hOffScreenDC, pos.x, pos.y,
-            inewsize, inewsize, rotationDC, 0, 0, SRCCOPY);
+            m_Desk_rt[m_iRt_num]->right, m_Desk_rt[m_iRt_num]->bottom, rotationDC, 0, 0, SRCCOPY);////
     }
     DeleteObject(bitmap);
     DeleteDC(rotationDC);
@@ -86,7 +88,7 @@ void CABitmapObject::Setrt(int start_rt_num, int end_rt_num)
 void CABitmapObject::Setrt(WINT wint)
 {
     m_iStart_rt_num = wint.x;
-    m_iRt_num = wint.y;
+    m_iRt_num = wint.x;
     m_iEnd_rt_num = wint.y;
 }
 
@@ -97,11 +99,11 @@ void CABitmapObject::Rt_Operate()
 
         m_fCur_time += g_fSecondPerFrame;    //현시간 += 프레임당
         m_fDelta_time += g_fSecondPerFrame;   //
-        if (m_fDelta_time > m_fSprite_time / m_iEnd_rt_num)
+        if (m_fDelta_time > m_fSprite_time / (m_iEnd_rt_num-m_iStart_rt_num))
         {
-            m_fDelta_time -= m_fSprite_time / m_iEnd_rt_num;
+            m_fDelta_time -= m_fSprite_time / (m_iEnd_rt_num-m_iStart_rt_num);
             m_iRt_num += 1;
-
+            
         }
         //rt값 초과방지
         if (m_iRt_num >= m_iEnd_rt_num)  //루프하고 프레임넘버 >사이즈 = 프레임초기화

@@ -29,7 +29,7 @@ public:
     virtual void Move();
     virtual bool Mining();
     WINT Attack();
-
+    virtual bool Weapon_swap(int weapon_num);
     bool Chara_active_flag;
 
     int Action_point;

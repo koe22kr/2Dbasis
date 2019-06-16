@@ -119,34 +119,40 @@ bool Charamgr::Release()
 void Charamgr::Move_chara()//캬라 리스트 map화 가능
 {
 
-    m_fDelta_time += 10 * g_fSecondPerFrame; //0.5초 동안 이동
+    m_fDelta_time2 += 10 * g_fSecondPerFrame; //0.5초 동안 이동
     
     
    
     
-    if (m_fDelta_time >= 1)
+    if (m_fDelta_time2 >= 1)
     {
         Move_done = true;
         Move_flag = 0;
-        m_fDelta_time = 0;
+        m_fDelta_time2 = 0;
         /*rt_num++;
         rt_num=rt_num % 2;*/
         for (int k = 0; k < Charactor_list.size(); k++)
         {
             Charactor_list[k]->Action_point += 1;
             Charactor_list[k]->m_Move_pos = { 0,0 };
+            
         }
         return;
     }
    
     for (int i = 0;i<Charactor_list.size();i++)
     {
+        if (Charactor_list[i]->m_Move_pos.x != 0)
+        {
+
+            Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
+        }
         Charactor_list[i]->Process();//리듬 한번마다 프로세싱 하게 할 예정
 
         if (Charactor_list[i]->m_Move_pos.x == 1)
         {
             Charactor_list[i]->cur_rt_set_num = 0;
-            Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
+            //Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
             //                Chara_bit_mgr.m_Obj_list[i]->Setrt(0, 4);
             Charactor_list[i]->m_jump_step = 1;
             //오른쪽 보고 있을
@@ -154,7 +160,7 @@ void Charamgr::Move_chara()//캬라 리스트 map화 가능
         else if ((Charactor_list[i]->m_Move_pos.x == -1))
         {
             Charactor_list[i]->cur_rt_set_num = 1;
-            Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
+            //Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
             //                Chara_bit_mgr.m_Obj_list[i]->Setrt(4, 8);
             Charactor_list[i]->m_jump_step = 1;
             //왼쪽 보고 있을
@@ -174,11 +180,11 @@ void Charamgr::Move_chara()//캬라 리스트 map화 가능
            
            
             Chara_bit_mgr.m_Obj_list[i]->m_pos.x += (40 * 10 * g_fSecondPerFrame * Charactor_list[i]->m_Move_pos.x*Charactor_list[i]->m_bJump_flag);
-            if (m_fDelta_time > 0.5f)
+            if (m_fDelta_time2 > 0.5f)
             {
                 Chara_bit_mgr.m_Obj_list[i]->m_pos.y += (24 * 20 * g_fSecondPerFrame*Charactor_list[i]->m_bJump_flag*Charactor_list[i]->m_jump_step);
             }
-            else if (m_fDelta_time < 1)
+            else if (m_fDelta_time2 < 1)
             {
                 Chara_bit_mgr.m_Obj_list[i]->m_pos.y -= (36 * 20 * g_fSecondPerFrame*Charactor_list[i]->m_bJump_flag*Charactor_list[i]->m_jump_step);
             }

@@ -70,10 +70,10 @@ WINT Gratesword::Attack(POINT chara_pos, POINT chara_move_pos)
     
     if (chara_move_pos.x !=0)
     {
-        target_pos2.y = target_pos.x;
+        target_pos2.x = target_pos.x;
         target_pos2.y = target_pos.y + 1;
 
-        target_pos3.y = target_pos.x;
+        target_pos3.x = target_pos.x;
         target_pos3.y = target_pos.y - 1;
 
     }

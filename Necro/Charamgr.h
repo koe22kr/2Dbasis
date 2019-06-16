@@ -13,7 +13,7 @@ public:
    
     
    
-    float m_fDelta_time;
+    float m_fDelta_time2;
    //기본 0 무브 1
     
     //void Make_chara();

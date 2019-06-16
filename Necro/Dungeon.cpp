@@ -203,11 +203,11 @@ void Dungeon::Load(int inx, int iny,int i,int k)
 //}
 void Dungeon::Dungeon_move()
 {
-  m_fDelta_time += 20 * g_fSecondPerFrame; //0.5초 동안 이동
-  if (m_fDelta_time >= 1)
+  m_fDelta_time2 += 20 * g_fSecondPerFrame; //0.5초 동안 이동
+  if (m_fDelta_time2 >= 1)
   {
       m_bCamera_move_flag = false;
-      m_fDelta_time = 0;
+      m_fDelta_time2 = 0;
   
       m_Camera_pos.x += Charactor_list[0]->m_Move_pos.x;
       m_Camera_pos.y += Charactor_list[0]->m_Move_pos.y;

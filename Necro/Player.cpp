@@ -67,6 +67,11 @@ void Player::Move()
         m_Chara_pos.y += m_Move_pos.y;
         World_Charactor_pos[m_Chara_pos.y][m_Chara_pos.x] = Chara_num;
         //m_Move_pos = { 0,0 };
+
+        
+        
+
+
     }
    /* m_Move_pos.x = Player_Move_pos.x;
     m_Move_pos.y = Player_Move_pos.y;*/
@@ -90,8 +95,8 @@ WINT Player::Attack()
         atk = Action_bitmap_mgr.Load_Object(L"swipe_dagger.bmp");
         atk->Setobject(L"swipe_dagger", 3,
             (m_Chara_pos.x + m_Move_pos.x - start_pos.x) * 48,
-            (m_Chara_pos.y + m_Move_pos.y - start_pos.y) * 48-48,
-            rtlist, false, false, 0.3f, 0.3f);
+            (m_Chara_pos.y + m_Move_pos.y - start_pos.y) * 48-55,
+            rtlist, false, false, 0.09f, 0.09f);
         atk->Scale(2, 2);
 
         if (m_Move_pos.y == -1)//상
@@ -106,43 +111,79 @@ WINT Player::Attack()
         {
             atk->m_fAngle = 90;//아래
         }
-        
+        m_Move_pos = { 0,0 };
+        m_bJump_flag = false;
         return attack_result;
     }
     else if (attack_result.x == 2)//그소
     {
         CABitmapObject* atk;
-        vector<RECT> rtlist = { {0,0,24,24},{24,0,24,24},{48,0,24,24} };
+        vector<RECT> rtlist = { {0,0,24,72},{24,0,24,72},{48,0,24,72} };
 
         atk = Action_bitmap_mgr.Load_Object(L"swipe_broadsword.bmp");
         atk->Setobject(L"swipe_broadsword", 3, 
             (m_Chara_pos.x + m_Move_pos.x- start_pos.x)*48,
-            (m_Chara_pos.y + m_Move_pos.y- start_pos.y)*48-48,
-            rtlist, false, false, 0.3f, 0.3f);
+            (m_Chara_pos.y + m_Move_pos.y- start_pos.y)*48-55,
+            rtlist, false, false, 0.09f, 0.09f);
         atk->Scale(2, 2);
+        if (m_Move_pos.x == +1)
+        {
+            atk->m_pos.y -= 48;
+        }
+        if (m_Move_pos.y == -1)//상
+        {
+            atk->m_fAngle = 270;
+        }
+        if (m_Move_pos.x == -1)
+        {
+            atk->m_fAngle = 180; //좌
+        }
+        if (m_Move_pos.y == +1)
+        {
+            atk->m_fAngle = 90;//아래
+        }
+
+        m_Move_pos = { 0,0 };
+        m_bJump_flag = false;
         return attack_result;
     }
     else if (attack_result.x == 3)//창
     {
         CABitmapObject* atk;
-        vector<RECT> rtlist = { {0,0,24,24},{24,0,24,24},{48,0,24,24} };
+        vector<RECT> rtlist = { {0,0,48,24},{48,0,48,24},{96,0,48,24},{144,0,48,24} };
 
         atk = Action_bitmap_mgr.Load_Object(L"swipe_rapier.bmp");
-        atk->Setobject(L"swipe_rapier", 3,
+        atk->Setobject(L"swipe_rapier", 4,
             (m_Chara_pos.x + m_Move_pos.x - start_pos.x)*48,
-            (m_Chara_pos.y + m_Move_pos.y - start_pos.y)*48-48,
-            rtlist, false, false, 0.3f, 0.3f);
+            (m_Chara_pos.y + m_Move_pos.y - start_pos.y)*48-55,
+            rtlist, false, false, 0.09f, 0.09f);
         atk->Scale(2, 2);
+
+        if (m_Move_pos.y == -1)//상
+        {
+            atk->m_fAngle = 270;
+        }
+        if (m_Move_pos.x == -1)
+        {
+            atk->m_fAngle = 180; //좌
+        }
+        if (m_Move_pos.y == +1)
+        {
+            atk->m_fAngle = 90;//아래
+        }
+
+        m_Move_pos = { 0,0 };
+        m_bJump_flag = false;
         return attack_result;
     }
-
+   
     return { 0, 0 };
 }
 
 bool Player::Weapon_swap(int weapon_num)
 {
     delete m_My_Weapon;
-    switch (m_My_Weapon_num)
+    switch (weapon_num)
     {
         case 1: 
         {

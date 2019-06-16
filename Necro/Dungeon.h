@@ -19,7 +19,7 @@ public:
 
     POINT m_Camera_pos = { 41,7 }; //20Ä­¸¸ »ÌÀÚ    
     
-    float m_fDelta_time;
+    float m_fDelta_time2;
     
  
    

@@ -1,10 +1,26 @@
 #pragma once
-#include "UI.h"
+#include "Scene.h"
 
-class Scene_Dungeon
+class Scene_Dungeon:public Scene
 {
 public:
-    UI uimgr;
+    int Scene_num;
+
+    /*Dungeon dun;
+    vector<Scene> scene;
+    Bit bit;
+    UI ui;
+    Charamgr cha;*/
+    bool Init();
+    bool Frame();
+    bool Render();
+    bool Release();
+
+
+  //  LRESULT		MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+    void Make();
+
 
     Scene_Dungeon();
     virtual ~Scene_Dungeon();

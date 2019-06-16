@@ -38,7 +38,10 @@ void Chara::Process()
      return { 0,0 };
  }
 
-
+ bool Chara::Weapon_swap(int weapon_num)
+ {
+     return true;
+ }
 
 Chara::Chara()
 {

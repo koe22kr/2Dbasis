@@ -78,6 +78,22 @@ bool Bit::KeyCheck()
         Charactor_list[0]->m_Move_pos = { 1,0 };
             return true;
     }
+    dwState = I_Input.KeyCheck('1');
+    if (dwState == KEY_PUSH)
+    {
+        Charactor_list[0]->Weapon_swap(1);
+        return true;
+    }  dwState = I_Input.KeyCheck('2');
+    if (dwState == KEY_PUSH)
+    {
+        Charactor_list[0]->Weapon_swap(2);
+        return true;
+    }  dwState = I_Input.KeyCheck('3');
+    if (dwState == KEY_PUSH)
+    {
+        Charactor_list[0]->Weapon_swap(3);
+        return true;
+    }
     return false;
 }
 bool Bit::Render()
