@@ -3,7 +3,7 @@
 
 void Enemy::Process()
 {
-    cur_rt_set_num = 1;
+    
     //Change_rt(4, 8);
     if (Chara_active_flag&&Action_point>=Action_delay)
     {
@@ -18,24 +18,30 @@ void Enemy::Process()
             }
             else
             {
+                
                 m_Move_pos.x = target_pos.x - m_Chara_pos.x;
                 m_Move_pos.y = target_pos.y - m_Chara_pos.y;
                 Move();
+                m_bJump_flag = true;
             }
+            Action_point -= Action_delay;
+            active_motion_flag = !active_motion_flag;  //+2
+            
         }
+
         //이동 알고리즘
         //타겟 pos 선정
         //타겟 pos if(플레이어)  
         //          어택
         //    아니면 무브
         //   rt 기본(0,4) 설정
-        Action_point -= Action_delay;
-        cur_rt_set_num = 0;
+        
         //Change_rt(0, 4);
     }
 
 }
 void Enemy::Move()
+
 {
     m_bJump_flag = true;
     if (World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] == 0)
@@ -44,7 +50,7 @@ void Enemy::Move()
         m_Chara_pos.x += m_Move_pos.x;
         m_Chara_pos.y += m_Move_pos.y;
         World_Charactor_pos[m_Chara_pos.y][m_Chara_pos.x] = Chara_num;
-        m_Move_pos = { 0,0 };
+        //m_Move_pos = { 0,0 };
     }
 }
 bool Enemy::Mining()

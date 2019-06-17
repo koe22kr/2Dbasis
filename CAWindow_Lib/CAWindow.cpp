@@ -1,4 +1,5 @@
 #include "CAWindow.h"
+#include "CAMessageList.h"
 HWND g_hWnd;            //이거 언제 전역핸들 달았는지 확인해보기. 190508// CAStd 에 extern 선언됨
 HINSTANCE g_hInstance;
 CAWindow* g_pWindow = NULL;
@@ -9,13 +10,15 @@ LRESULT CALLBACK WndProc(
     if (g_pWindow != NULL)
     {
         g_pWindow->MsgProc(hWnd, msg, wParam, lParam);
+        I_MSG.Msg_list.push_back({ hWnd,msg,wParam,lParam });
     }
     switch (msg)
     {
         case WM_DESTROY:
         {
-            PostQuitMessage(0);// WM_QUIT 메세지큐 등록       
-        }break;
+            PostQuitMessage(0);// WM_QUIT 메세지큐 등록      
+        }
+        break;
     }
     return DefWindowProc(hWnd, msg, wParam, lParam); //<- _In_ HWND hWnd, 
 }                                                     //  _In_ UINT Msg,

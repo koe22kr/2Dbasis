@@ -9,6 +9,7 @@ public:
     virtual bool Render();
     virtual bool Release();
 
+    int m_icur_button_num;
 
     Scene_Title();
     virtual ~Scene_Title();

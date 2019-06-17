@@ -10,6 +10,7 @@ public:
     int m_iAtk;
     POINT m_Chara_pos;
     POINT m_Move_pos;
+    bool active_motion_flag;
     int cur_rt_set_num;
     vector<WINT> start_end_rt_set_list;
     //WINT cur_WINT;

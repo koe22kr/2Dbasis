@@ -21,6 +21,7 @@ private:
 class Enemy :public Chara
 {
 public:
+    
 
     virtual bool Init();
     bool release();
@@ -30,6 +31,7 @@ public:
     virtual WINT Attack();
     virtual void Change_rt(int start_rt,int end_rt);
     POINT Astar();
+
     vector<POINT> Direction_for_search;
     vector<POINT> path;
     set <Pather*> Openlist;

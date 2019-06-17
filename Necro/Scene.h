@@ -19,8 +19,8 @@ public:
    static UI ui;
    static Charamgr cha;
 
-
-
+   bool Active_flag;
+   
    int m_iphase_num;
    float m_fScene_deltatime_1s=0;
    bool m_Scene_scale_flag;

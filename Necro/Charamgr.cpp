@@ -49,6 +49,8 @@ bool Charamgr::Init()
     Chara_bit_mgr.m_Obj_list[1]->Scale(2.0, 2.0);
     Charactor_list[1]->start_end_rt_set_list.push_back({ 0, 4 });
     Charactor_list[1]->start_end_rt_set_list.push_back({ 4, 8 });
+    Charactor_list[1]->start_end_rt_set_list.push_back({ 8, 12 });
+    Charactor_list[1]->start_end_rt_set_list.push_back({ 12, 16 });
     Charactor_list[1]->cur_rt_set_num = 0;
     Chara_bit_mgr.m_Obj_list[1]->Setrt(0, 4);
     Charactor_list[1]->m_bJump_flag = 1;
@@ -142,16 +144,16 @@ void Charamgr::Move_chara()//캬라 리스트 map화 가능
    
     for (int i = 0;i<Charactor_list.size();i++)
     {
-        if (Charactor_list[i]->m_Move_pos.x != 0)
-        {
-
-            Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
-        }
+       
         Charactor_list[i]->Process();//리듬 한번마다 프로세싱 하게 할 예정
-
+      
         if (Charactor_list[i]->m_Move_pos.x == 1)
         {
             Charactor_list[i]->cur_rt_set_num = 0;
+           /* if (Charactor_list[i]->active_motion_flag)
+            {
+                Charactor_list[i]->cur_rt_set_num += 2;
+            }*/
             //Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
             //                Chara_bit_mgr.m_Obj_list[i]->Setrt(0, 4);
             Charactor_list[i]->m_jump_step = 1;
@@ -160,6 +162,10 @@ void Charamgr::Move_chara()//캬라 리스트 map화 가능
         else if ((Charactor_list[i]->m_Move_pos.x == -1))
         {
             Charactor_list[i]->cur_rt_set_num = 1;
+            /*if (Charactor_list[i]->active_motion_flag)
+            {
+                Charactor_list[i]->cur_rt_set_num += 2;
+            }*/
             //Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
             //                Chara_bit_mgr.m_Obj_list[i]->Setrt(4, 8);
             Charactor_list[i]->m_jump_step = 1;
@@ -174,6 +180,26 @@ void Charamgr::Move_chara()//캬라 리스트 map화 가능
         {
             Charactor_list[i]->m_jump_step = 1;
         }
+        //모션 rt
+        if (Charactor_list[i]->active_motion_flag == true && Charactor_list[i]->cur_rt_set_num < 2)
+        {
+            Charactor_list[i]->cur_rt_set_num += 2;
+        }
+        if (Charactor_list[i]->active_motion_flag == false && Charactor_list[i]->cur_rt_set_num >= 2)
+        {
+               
+            Charactor_list[i]->cur_rt_set_num -= 2;
+        }
+        
+
+
+        if (Charactor_list[i]->m_Move_pos.x != 0|| Charactor_list[i]->m_Move_pos.y != 0)
+        {
+
+            Chara_bit_mgr.m_Obj_list[i]->Setrt(Charactor_list[i]->start_end_rt_set_list[Charactor_list[i]->cur_rt_set_num]);
+        }
+
+      
        
        
        

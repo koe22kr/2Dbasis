@@ -39,6 +39,125 @@ void Player::Process()
         }
     }
 }
+bool Player::check_attack()
+{
+  // if (m_iWeapon_num == 1)
+  // {
+  //     if (World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] != 0 &&
+  //         World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] != Chara_num)
+  //     {
+  //         return true;
+  //     }
+  // }
+  // if (m_iWeapon_num == 2)
+  // {
+  //     (World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] != 0 &&
+  //         World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x] != Chara_num)
+  //
+  // }
+  // WINT attack_result;
+  // attack_result = m_My_Weapon->Attack(m_Chara_pos, m_Move_pos);
+  // if (attack_result.x == 0)
+  // {
+  //     return { 0,0 };
+  // }
+  // else if (attack_result.x == 1)//검
+  // {
+  //     CABitmapObject* atk;
+  //     vector<RECT> rtlist = { {0,0,24,24},{24,0,24,24},{48,0,24,24} };
+  //
+  //     atk = Action_bitmap_mgr.Load_Object(L"swipe_dagger.bmp");
+  //     atk->Setobject(L"swipe_dagger", 3,
+  //         (m_Chara_pos.x + m_Move_pos.x - start_pos.x) * 48,
+  //         (m_Chara_pos.y + m_Move_pos.y - start_pos.y) * 48 - 55,
+  //         rtlist, false, false, 0.09f, 0.09f);
+  //     atk->Scale(2, 2);
+  //
+  //     if (m_Move_pos.y == -1)//상
+  //     {
+  //         atk->m_fAngle = 270;
+  //     }
+  //     if (m_Move_pos.x == -1)
+  //     {
+  //         atk->m_fAngle = 180; //좌
+  //     }
+  //     if (m_Move_pos.y == +1)
+  //     {
+  //         atk->m_fAngle = 90;//아래
+  //     }
+  //     m_Move_pos = { 0,0 };
+  //     m_bJump_flag = false;
+  //    // return attack_result;
+  // }
+  // else if (attack_result.x == 2)//그소
+  // {
+  //     CABitmapObject* atk;
+  //     vector<RECT> rtlist = { {0,0,24,72},{24,0,24,72},{48,0,24,72} };
+  //
+  //     atk = Action_bitmap_mgr.Load_Object(L"swipe_broadsword.bmp");
+  //     atk->Setobject(L"swipe_broadsword", 3,
+  //         (m_Chara_pos.x + m_Move_pos.x - start_pos.x) * 48,
+  //         (m_Chara_pos.y + m_Move_pos.y - start_pos.y) * 48 - 55,
+  //         rtlist, false, false, 0.09f, 0.09f);
+  //     atk->Scale(2, 2);
+  //     if (m_Move_pos.x == +1)
+  //     {
+  //         atk->m_pos.y -= 48;
+  //     }
+  //     if (m_Move_pos.y == -1)//상
+  //     {
+  //         atk->m_fAngle = 270;
+  //     }
+  //     if (m_Move_pos.x == -1)
+  //     {
+  //         atk->m_fAngle = 180; //좌
+  //     }
+  //     if (m_Move_pos.y == +1)
+  //     {
+  //         atk->m_fAngle = 90;//아래
+  //     }
+  //
+  //     m_Move_pos = { 0,0 };
+  //     m_bJump_flag = false;
+  //     return attack_result;
+  // }
+  // else if (attack_result.x == 3)//창
+  // {
+  //     CABitmapObject* atk;
+  //     vector<RECT> rtlist = { {0,0,48,24},{48,0,48,24},{96,0,48,24},{144,0,48,24} };
+  //
+  //     atk = Action_bitmap_mgr.Load_Object(L"swipe_rapier.bmp");
+  //     atk->Setobject(L"swipe_rapier", 4,
+  //         (m_Chara_pos.x + m_Move_pos.x - start_pos.x) * 48,
+  //         (m_Chara_pos.y + m_Move_pos.y - start_pos.y) * 48 - 55,
+  //         rtlist, false, false, 0.09f, 0.09f);
+  //     atk->Scale(2, 2);
+  //
+  //     if (m_Move_pos.y == -1)//상
+  //     {
+  //         atk->m_fAngle = 270;
+  //     }
+  //     if (m_Move_pos.x == -1)
+  //     {
+  //         atk->m_fAngle = 180; //좌
+  //     }
+  //     if (m_Move_pos.y == +1)
+  //     {
+  //         atk->m_fAngle = 90;//아래
+  //     }
+  //
+  //     m_Move_pos = { 0,0 };
+  //     m_bJump_flag = false;
+  //     return attack_result;
+  // }
+  //
+  // return { 0, 0 };
+  //
+  // //if (m_iWeapon_num == 3)
+    return false;
+}
+
+
 bool Player::Mining()
 {//        if(World_Charactor_pos[m_Chara_pos.y + m_Move_pos.y][m_Chara_pos.x + m_Move_pos.x])
 
@@ -189,18 +308,21 @@ bool Player::Weapon_swap(int weapon_num)
         {
             Weapon* new_weapon = new Sword;
             m_My_Weapon = new_weapon;
+            m_iWeapon_num = 1;
             break;
         }
         case 2:
         {
             Weapon* new_weapon = new Gratesword;
             m_My_Weapon = new_weapon;
+            m_iWeapon_num = 2;
             break;
         }
         case 3:
         {
             Weapon* new_weapon = new Spear;
             m_My_Weapon = new_weapon;
+            m_iWeapon_num = 3;
             break;
         }
         default:
@@ -233,7 +355,7 @@ Player::Player()
     m_iHp = 10;
     //m_Chara_pos = { 40,6 };
     m_My_Weapon = new Sword;
-    m_My_Weapon_num = 1;
+    m_iWeapon_num = 1;
     //기본무기 여기서 지급하기
     Action_delay = 1;
     Action_point = 1;

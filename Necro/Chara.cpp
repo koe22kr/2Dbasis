@@ -45,6 +45,7 @@ void Chara::Process()
 
 Chara::Chara()
 {
+    active_motion_flag = false;
 }
 
 
