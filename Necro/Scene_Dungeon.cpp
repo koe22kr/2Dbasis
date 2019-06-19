@@ -6,7 +6,6 @@ bool Scene_Dungeon::Init()
     cha.Init();
     ui.Init();
     bit.Init();
-    Make();
     return true;
 }
 
@@ -67,7 +66,8 @@ void    Scene_Dungeon::Make()
                 {
 
                     dun.Load(start_pos.x, start_pos.y, i, k);
-
+                    //cha.chara_init();
+                    
                     cha.Load(start_pos.x, start_pos.y, i, k);//괄호 밖에 있엇는데 이곳으로 옴기는게 더 좋을 것 같아서 옴김 190616-20:40;
                 }
             }

@@ -43,6 +43,7 @@ public:   //스프라이트용 멤버들
     bool  m_bCenter_draw_flag = false;
     bool             m_bLoop_flag = false;
     bool             m_bDead_flag = false;  //소멸 할 예정이 있는 오브젝트는 소멸용.
+    float m_fDead_delay;
     bool       m_bScale_flag = false;
     //bool AlphaBlendRender(RECT rt);
 public:

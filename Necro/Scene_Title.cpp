@@ -25,6 +25,10 @@ bool Scene_Title::Init()
         frameeffect01->Scale(2.0, 2.0);
         CABitmapObject* pushenter = ui.UImgr.Load_Object(L"PAK.bmp");
         pushenter->Setobject(L"Push_Enter", 1, 400, 300, { 0,0,268,76 }, true);
+
+
+        I_MSG.Msg_list.clear();
+        I_SoundMgr.PlayBGM("main.mp3");
     }
     //ÆäÀÌÁî1
     if (m_iphase_num == 1)
@@ -41,8 +45,13 @@ bool Scene_Title::Init()
 
         m_icur_button_num = 1;
     }
+   
 
 
+
+
+
+    //I_SoundMgr.PlayBGM("zone1_2.ogg");
 
 
     return true;
@@ -95,7 +104,8 @@ bool Scene_Title::Frame()
                 else if (dwkey.message == WM_KEYDOWN)
                 {
                     m_iphase_num = 1;
-                    ui.UImgr.m_Obj_list.erase(ui.UImgr.m_Obj_list.begin() + 2);
+                    I_SoundMgr.PlaySE("select2.mp3");
+                    ui.UImgr.m_Obj_list[2]->m_bDead_flag = true;
                     Init();
                 }
             }
@@ -110,6 +120,7 @@ bool Scene_Title::Frame()
             DWORD dwState = I_Input.KeyCheck('W');
                 if (dwState == KEY_PUSH)
                 {
+                    I_SoundMgr.PlaySE("select.mp3");
                     m_icur_button_num -= 1;
                     if (m_icur_button_num == 0)
                     {
@@ -120,6 +131,7 @@ bool Scene_Title::Frame()
             dwState = I_Input.KeyCheck('S');
             if (dwState == KEY_PUSH)
             {
+                I_SoundMgr.PlaySE("select.mp3");
                 m_icur_button_num += 1;
                 if (m_icur_button_num == 4)
                 {
@@ -135,7 +147,8 @@ bool Scene_Title::Frame()
                 dwState = I_Input.KeyCheck(VK_RETURN);
                 if (dwState == KEY_PUSH)
                 {
-                    Scene_num = 2;
+                    I_SoundMgr.PlaySE("select2.mp3");
+                    m_iNext_Scene_num = 2;
                     //ui.UImgr.m_Obj_list.clear();
                 }
             }
@@ -148,7 +161,9 @@ bool Scene_Title::Frame()
                 dwState = I_Input.KeyCheck(VK_RETURN);
                 if (dwState == KEY_PUSH)
                 {
-                    Scene_num = 2;
+                    I_SoundMgr.PlaySE("select2.mp3");
+
+                    m_iNext_Scene_num = 2;
                     //
                 }
             }
@@ -181,15 +196,18 @@ bool Scene_Title::Render()
     }
 bool Scene_Title::Release()
 {
+   
+    ui.Release();
     
-    ui.UImgr.Release();
-    ui.UImgr.m_Obj_list.clear();
+//    ui.UImgr.Release();
+   // ui.UImgr.m_Obj_list.clear();
     return true;
 }
 
 
 Scene_Title::Scene_Title()
 {
+    m_iNext_Scene_num = 0;
     m_iphase_num = 0;
     m_icur_button_num = 0;
 }

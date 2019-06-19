@@ -18,7 +18,7 @@ public:
     bool m_bJump_flag;
     float m_jump_step;
     static CABitmapMgr Action_bitmap_mgr;
-    
+    bool m_bDead_flag=false;
     
 
     virtual bool Init();

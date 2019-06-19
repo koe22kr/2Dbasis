@@ -59,30 +59,46 @@ bool CABitmapMgr::Draw()
 }
 bool CABitmapMgr::Frame()
 {
-    /*for (int i = 0; i < m_Obj_list.size(); i++)
+    for (int i = 0; i < m_Obj_list.size(); i++)
     {
         m_Obj_list[i]->Rt_Operate();
-        if (m_Obj_list[i]->m_bDead_flag) 
-        {
-            m_Obj_list[i]->m_Src_rt.clear();
-            m_Obj_list[i]->m_Desk_rt.clear();
-        }
-        m_Obj_list
-    }*/
-
-    for (auto iter = m_Obj_list.begin(); iter != m_Obj_list.end();)
-    {
-        (*iter)->Rt_Operate();
-        if ((*iter)->m_bDead_flag) {
-            (*iter)->m_Src_rt.clear();
-            (*iter)->m_Desk_rt.clear();
-            iter = m_Obj_list.erase(iter);
-        }
-        else
-        {
-            ++iter;
-        }
+      //  if (m_Obj_list[i]->m_bDead_flag) 
+      //  {
+      //      m_Obj_list[i]->m_Src_rt.clear();
+      //      m_Obj_list[i]->m_Desk_rt.clear();
+      //  }
     }
+
+   for (vITOR itor = m_Obj_list.begin(); itor != m_Obj_list.end();)  //190618 데드플래그 잠금
+   {
+       if(*itor)
+       
+       if ((*itor)->m_bDead_flag && (*itor)->m_fDead_delay <= 0)
+       {
+           (*itor)->m_Src_rt.clear();
+           (*itor)->m_Desk_rt.clear();
+           itor = m_Obj_list.erase((itor));
+           continue;
+       }
+       if ((*itor)->m_bDead_flag && (*itor)->m_fDead_delay > 0)
+       {
+           (*itor)->m_fDead_delay -= g_fSecondPerFrame;
+           (*itor)->m_fAlpha -= 255 * 4 * g_fSecondPerFrame;
+           if ((*itor)->m_fAlpha < 0)
+           {
+               (*itor)->m_fAlpha = 0;
+           }
+       }
+           itor++;
+       
+   }
+        //if ((*iter)->m_bDead_flag) {
+        //    (*iter)->m_Src_rt.clear();
+        //    (*iter)->m_Desk_rt.clear();
+        //    iter = m_Obj_list.erase(iter);
+        //}
+        
+    
  //   int i = 0;
  //  vITOR itor;
  //   for (itor = m_Obj_list.begin(); itor != m_Obj_list.end();)
@@ -132,7 +148,7 @@ bool CABitmapMgr::Render()
     
     for (int i = 0; i < m_Obj_list.size(); i++) //모든 오브젝트 랜더(드로우)
     {
-        if (m_Obj_list[i]->m_bDraw_flag = true)
+        if (m_Obj_list[i]->m_bDraw_flag == true)
         {
             m_Obj_list[i]->Render();
         }

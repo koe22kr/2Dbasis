@@ -14,7 +14,6 @@ public:
 
     void Move();
     bool Mining();
-    bool check_attack();
     WINT Attack();
     
     bool Weapon_swap(int weapon_num);

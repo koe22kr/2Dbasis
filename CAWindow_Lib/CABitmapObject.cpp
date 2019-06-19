@@ -162,7 +162,7 @@ bool CABitmapObject::Init()
 bool CABitmapObject::Render()
 {
     
-    if (m_iEnd_rt_num > 0)
+    if (m_iEnd_rt_num > 0&& m_bDraw_flag==true)
     {
         
         Draw(m_iRt_num);
@@ -415,7 +415,7 @@ void CABitmapObject::Scale(int rt_num, float xscale, float yscale)
 
 CABitmapObject::CABitmapObject()
 {
-
+    m_fDead_delay = 0.3;
 }
 
 

@@ -1,0 +1,8 @@
+﻿  Bitmap.cpp
+d:\dir\2dbasis\drawbitmap_mk2\bitmap.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory
+  BitmapMgr.cpp
+d:\dir\2dbasis\drawbitmap_mk2\bitmapmgr.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory
+  Object.cpp
+d:\dir\2dbasis\drawbitmap_mk2\bitmap.h(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory
+  Sample.cpp
+d:\dir\2dbasis\drawbitmap_mk2\sample.cpp(2): fatal error C1083: 포함 파일을 열 수 없습니다. 'CAStd.h': No such file or directory

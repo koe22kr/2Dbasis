@@ -11,11 +11,9 @@
 class Scene
 {
 public:
-    int Scene_num;
-
-   static Dungeon dun;
-//   static vector<Scene> scene; 사용할지 생각해보고.필요 없을것 같음;
-   static Bit bit;
+    int m_iNext_Scene_num;
+    static Dungeon dun;
+    static Bit bit;
    static UI ui;
    static Charamgr cha;
 

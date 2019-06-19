@@ -15,12 +15,9 @@ class CASoundMgr : public CASingleton<CASoundMgr>
     //사전식 컨테이너
 public:
     float           m_fVolume = 1.0f;// 마스터 볼륨
-
     map<string, CASound*> m_SoundList; //CASound 클래스 안에서는 메모리 할당 관련 아무것도 하지 않는다.
-
     FMOD::System*   m_pSystem;
     FMOD::Channel*  m_pBGM_Channel;//게임의 BGM 단일 가정, SE는 지역체널(ㅋ) 사용
-  
  public:
 
      int Load(const char* csound_file_name); //생성시 m_SoundList에 insert, CASound 동적할당, 키값=파일이름 ,실패시-1 성공시 1;

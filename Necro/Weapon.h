@@ -6,8 +6,9 @@ class Weapon
 {
 public:
     int POWER;
-
     virtual WINT Attack(POINT chara_pos, POINT chara_move_pos);
+    virtual bool Check(WINT target);
+
     virtual bool Frame() { return true; };
     virtual bool Render() { return true; };
     virtual bool Release() { return true; };
@@ -21,6 +22,7 @@ class Sword :public Weapon
 {
 public:
     WINT Attack(POINT chara_pos, POINT chara_move_pos);
+    bool Check(WINT target);
     Sword();
     ~Sword();
 
@@ -33,6 +35,7 @@ class Gratesword :public Weapon
 {
 public:
     WINT Attack(POINT chara_pos, POINT chara_move_pos);
+    bool Check(WINT target);
     Gratesword();
     ~Gratesword();
 
@@ -44,6 +47,7 @@ class Spear :public Weapon
 {
 public:
     WINT Attack(POINT chara_pos, POINT chara_move_pos);
+    bool Check(WINT target);
     Spear();
     ~Spear();
 

@@ -37,22 +37,22 @@ bool UI::Init()
    beat_heart->Setobject(L"Beat_heart", 2, 400, 550, { {116,0,40,50},{156,0,40,50 } }, true,true, g_fSpeed);
    beat_heart->Scale(2,2 );
    UImgr.Init();
-   
-   
+   maxHP = 10;
+   dis_count_hp = 0;
    
 
     return true;
 }
 
 void UI::HP_operate()
-{
+{ 
     //test¿ë ÇÔ¼ö
-    //test_time += g_fSecondPerFrame;
-    //if (test_time > 4)
-    //{
-    //    dis_count_hp += 1;
-    //    test_time -= 4;
-    //}
+  //  test_time += g_fSecondPerFrame;
+  //  if (test_time > 4)
+  //  {
+  //      dis_count_hp += 1;
+  //      test_time -= 4;
+  //  }
 
     int i;
     dis_count_hp=min(dis_count_hp, 10);
@@ -86,6 +86,7 @@ bool UI::Release()
     UImgr.Release();
     return true;
 }
+
 UI::UI()
 {
 }

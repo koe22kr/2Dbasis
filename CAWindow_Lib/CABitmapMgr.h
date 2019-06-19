@@ -11,7 +11,7 @@ class CABitmapMgr : public CASingleton<CABitmapMgr>
     friend CASingleton<CABitmapMgr>;
 public:
     vector <shared_ptr<CABitmapObject>> m_Obj_list; //0번 =bk, 1번은 player 로 고정 되어 있다. //플레이어 변경시 frame의 player계산, object의 player_render 변경or 삭제 해야함
-    using vITOR = vector <CABitmapObject*>::iterator;
+    using vITOR = vector <shared_ptr<CABitmapObject>>::iterator;
     map<T_STR, CABitmap*> m_Bitmap_Map;
     using ITOR = map<T_STR, CABitmap*>::iterator;
 

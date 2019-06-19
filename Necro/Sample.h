@@ -4,7 +4,10 @@
 class Sample :public CACore
 {
 public:
+    int m_iCur_Scene_num;
     Scene* Cur_scene;
+    void Scene_change(int scene_num);
+
     bool Init();
     bool Frame();
     bool Render();

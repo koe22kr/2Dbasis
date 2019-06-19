@@ -28,3 +28,4 @@ extern POINT rending_arr_size;
 //extern POINT m_Camera_pos;
 extern float g_fSpeed;
 extern bool Move_flag;
+extern void Scene_change(int scene_num);

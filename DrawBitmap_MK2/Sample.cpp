@@ -1,5 +1,6 @@
 
 #include "CAStd.h"
+#include ""
 #include "Sample.h"
 
 //Bitmap-> Bitmap //blit  비트맵은 비트맵에만 뿌릴수있.

@@ -4,13 +4,13 @@
 //시스템 사운드 체널 인터페이스만 사용
 int CASoundMgr::Load(const char* csound_file_name)
 {
-    std::string strpath ="../../sound/";
+    std::string strpath ="../../data/sound/";
     strpath += csound_file_name;
     char cpath[256];
     strcpy(cpath, strpath.c_str());
     
     CASound* newSound = new CASound;
-    m_SoundList.insert(std::make_pair(strpath, newSound));
+    m_SoundList.insert(std::make_pair(csound_file_name, newSound));
     FMOD_RESULT ret = m_pSystem->createSound(cpath, FMOD_LOOP_OFF, 0,
         &newSound->m_pSound);
     if (ret != 0)
@@ -116,7 +116,7 @@ bool CASoundMgr::Release()
     while (ITOR != m_SoundList.end())
     {
         ITOR->second->m_pSound->release();
-        delete ITOR->second->m_pSound;
+        //delete ITOR->second->m_pSound;
        ITOR = m_SoundList.erase(ITOR);
     }
 

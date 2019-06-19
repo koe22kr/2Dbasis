@@ -13,7 +13,7 @@ public:
     float heart_speed;
     int maxHP = 10;
     int dis_count_hp; //hp 소모량, 체력의 역
-    CABitmapObject* HP[5] = {};
+    CABitmapObject* HP[5] = {0};
     //CABitmapObject* HP1;
     //CABitmapObject* HP2;
     //CABitmapObject* HP3;

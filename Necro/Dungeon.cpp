@@ -4,7 +4,7 @@
 int Dungeon_world[40][50];
 POINT rending_arr_size = { 16,12 };//Â¦¼ö¸¸ »ç¿ë
 bool rending_arr[40][50] = { 0 };
-float g_fSpeed = 0.7;
+float g_fSpeed = 0.8;
 
 bool Dungeon::Init()
 {
@@ -37,16 +37,17 @@ bool Dungeon::Init()
    
    
    //Make_dungeon();
+    I_SoundMgr.PlayBGM("zone3_2c.ogg");
    Dunmgr.Init();
     return true;
 }
 void Dungeon::Map_check(int x, int y,int count)
 {
-    count++;
-    if (count > 100)
-    {
-        return;
-    }
+    //count++;
+    //if (count > 45)
+    //{
+    //    return;
+    //}
     if (rending_arr[y][x] == true)
     {
         return;
@@ -67,9 +68,9 @@ void Dungeon::Map_check(int x, int y,int count)
         }
         if (Dungeon_world[y][x] == 0)
         {
-            Map_check(x - 1, y - 1, count);
-            Map_check(x - 1, y + 1, count);
-            Map_check(x + 1, y - 1,count );
+           // Map_check(x - 1, y - 1, count);
+           // Map_check(x - 1, y + 1, count);
+           // Map_check(x + 1, y - 1,count );
             
             Map_check(x + 1, y + 1,count );
             Map_check(x, y - 1, count);

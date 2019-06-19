@@ -3,31 +3,39 @@
 
 void Enemy::Process()
 {
+    /*if(m_bDead_flag)
+    {
+        return;
+    }*/
     
     //Change_rt(4, 8);
-    if (Chara_active_flag&&Action_point>=Action_delay)
+    if (Chara_active_flag&&Action_point >= Action_delay)
     {
-        
-        POINT target_pos =  Astar();
+
+        POINT target_pos = Astar();
+
         if (target_pos.x != 0 || target_pos.y != 0) //이동0 ==[이동경로 없음]
         {
-            if (Charactor_list[0]->m_Chara_pos.x == target_pos.x&&
-                Charactor_list[0]->m_Chara_pos.y == target_pos.y)
+
+        
+            m_Move_pos.x = target_pos.x - m_Chara_pos.x;
+            m_Move_pos.y = target_pos.y - m_Chara_pos.y;
+            WINT result;
+            result = Attack();
+        
+            if (result.x == 0)
             {
-                Attack();
-            }
-            else
-            {
-                
+
                 m_Move_pos.x = target_pos.x - m_Chara_pos.x;
                 m_Move_pos.y = target_pos.y - m_Chara_pos.y;
                 Move();
                 m_bJump_flag = true;
             }
-            Action_point -= Action_delay;
-            active_motion_flag = !active_motion_flag;  //+2
-            
         }
+        Action_point -= Action_delay;
+        active_motion_flag = !active_motion_flag;  //+2
+
+    }
 
         //이동 알고리즘
         //타겟 pos 선정
@@ -37,7 +45,7 @@ void Enemy::Process()
         //   rt 기본(0,4) 설정
         
         //Change_rt(0, 4);
-    }
+    
 
 }
 void Enemy::Move()
@@ -59,6 +67,52 @@ bool Enemy::Mining()
 }
 WINT Enemy::Attack()
 {
+    WINT attack_result;
+    WINT target1 = { m_Chara_pos.x + m_Move_pos.x,m_Chara_pos.y + m_Move_pos.y };
+
+    
+    for (int i = 0; i < Charactor_list.size(); i++)
+    {
+        int num = World_Charactor_pos[target1.y][target1.x];
+        if (num == 1)
+        {
+            I_SoundMgr.PlaySE("en_skel_attack_melee.ogg");
+            I_SoundMgr.PlaySE("vo_cad_hurt_06.ogg");
+            Charactor_list[num - 1]->m_iHp -= 1;
+            attack_result = { 1,0 };
+        }
+    }
+
+
+
+    if (attack_result.x == 1)
+    {
+        CABitmapObject* atk;
+        vector<RECT> rtlist = { {0,0,27,24},{27,0,27,24},{54,0,27,24} ,{81,0,27,24},{108,0,27,24} };
+        atk = Action_bitmap_mgr.Load_Object(L"swipe_enemy.bmp");
+        atk->Setobject(L"swipe_enemy", 5,
+            (m_Chara_pos.x + m_Move_pos.x - start_pos.x) * 48,
+            (m_Chara_pos.y + m_Move_pos.y - start_pos.y) * 48 - 55,
+            rtlist, false, false, 0.09f, 0.09f);
+        atk->Scale(2, 2);
+
+        if (m_Move_pos.y == -1)//상
+        {
+            atk->m_fAngle = 270;
+        }
+        if (m_Move_pos.x == -1)
+        {
+            atk->m_fAngle = 180; //좌
+        }
+        if (m_Move_pos.y == +1)
+        {
+            atk->m_fAngle = 90;//아래
+        }
+        m_Move_pos = { 0,0 };
+        m_bJump_flag = false;
+        return attack_result;
+    }
+
     return { 0,0 };
 }
 void Enemy::Change_rt(int start_rt, int end_rt)
@@ -103,10 +157,11 @@ POINT Enemy::Astar()
             
             break;
         }
-       //if (cur_pather->Score > 8)
-       //{
-       //    break;
-       //}
+        if (cur_pather->Score > 8)
+        {
+            
+            break;
+        }
         Closelist.insert(cur_pather);
         Openlist.erase(cur_pather);   //안되면 find 클래스 쓰자...
         
@@ -217,7 +272,8 @@ bool Enemy::Init()
 Enemy::Enemy()
 {
     Action_delay = 2;
-
+    m_iHp = 2;
+    
 }
 
 
