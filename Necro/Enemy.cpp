@@ -6,26 +6,19 @@ void Enemy::Process()
     /*if(m_bDead_flag)
     {
         return;
-    }*/
-    
-    //Change_rt(4, 8);
+    }
+    Change_rt(4, 8);*/
     if (Chara_active_flag&&Action_point >= Action_delay)
     {
-
         POINT target_pos = Astar();
-
         if (target_pos.x != 0 || target_pos.y != 0) //이동0 ==[이동경로 없음]
         {
-
-        
             m_Move_pos.x = target_pos.x - m_Chara_pos.x;
             m_Move_pos.y = target_pos.y - m_Chara_pos.y;
             WINT result;
             result = Attack();
-        
             if (result.x == 0)
             {
-
                 m_Move_pos.x = target_pos.x - m_Chara_pos.x;
                 m_Move_pos.y = target_pos.y - m_Chara_pos.y;
                 Move();
@@ -34,7 +27,6 @@ void Enemy::Process()
         }
         Action_point -= Action_delay;
         active_motion_flag = !active_motion_flag;  //+2
-
     }
 
         //이동 알고리즘
@@ -45,8 +37,6 @@ void Enemy::Process()
         //   rt 기본(0,4) 설정
         
         //Change_rt(0, 4);
-    
-
 }
 void Enemy::Move()
 
