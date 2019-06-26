@@ -49,15 +49,43 @@ DWORD WINAPI RecvThread(LPVOID arg)
             } while (iMsgByte > iRecvByte);
             //
             iRecvByte = 0;
-            //
-            //switch (packet.ph.type)
-            //{
-            //case PACKET_TYPE_CHAT:
-            //{
-                printf("%s", packet.msg);
-            //}//break;
 
-           // }
+            switch (packet.ph.type)
+            {
+            case PACKET_TYPE_CHAT:
+            {
+                printf("%s\n", packet.msg);
+            }break;
+            case 1001:
+            {
+                char name[20] = { "김형기" };
+                USER_BASE base;
+                ZeroMemory(&base, sizeof(base));
+                base.iIndex = 61;
+                strcpy(base.szName, name);
+                //PACKET_CHAR_NAME_CS_ACK
+                PACKET sendpacket;
+                ZeroMemory(&sendpacket, sizeof(base) + PACKET_HEADER_SIZE);
+                sendpacket.ph.len = PACKET_HEADER_SIZE + sizeof(base);
+                sendpacket.ph.type = 1002;
+                memcpy(sendpacket.msg, &base, sendpacket.ph.len);
+
+                do
+                {
+                    int iSendByte = send(*sock, (char*)&sendpacket, sendpacket.ph.len, 0);
+                    if (iSendByte == SOCKET_ERROR)
+                    {
+                        E_MSG("send");
+                        printf("서버 다운");
+                        // closesocket(*sock);
+                        return 1;
+                    }
+                    iMsgByte += iSendByte;
+                } while (sendpacket.ph.len > iMsgByte);
+            }
+            // }
+
+            }
         }
     }
     closesocket(*sock);
@@ -78,11 +106,15 @@ DWORD WINAPI SendThread(LPVOID arg)
         }
         
         PACKET sendpacket;
+        USER_CHAT_MSG msg;
+        char name[20] = "김형기";
+        strcpy(msg.szName, name);
+        memcpy(msg.msg, buffer,iBuffersize);
         ZeroMemory(&sendpacket, sizeof(sendpacket));
-        sendpacket.ph.len = PACKET_HEADER_SIZE + iBuffersize;
+        sendpacket.ph.len = PACKET_HEADER_SIZE + iBuffersize + sizeof(msg.szName);
         sendpacket.ph.type = PACKET_TYPE_CHAT;
-        memcpy(sendpacket.msg, buffer, iBuffersize);
 
+        memcpy(sendpacket.msg, &msg, sendpacket.ph.len);
         do
         {
             int iSendByte = send(*sock, (char*)&sendpacket, sendpacket.ph.len, 0);
@@ -124,7 +156,7 @@ void main()
     ZeroMemory(&sa, sizeof(sa));
     sa.sin_family = AF_INET;
     sa.sin_port = htons(10000); //숏 형이기 때문에,  host to network short
-    sa.sin_addr.s_addr = inet_addr("192.168.0.128");
+    sa.sin_addr.s_addr = inet_addr("192.168.0.8");
 
     
 
