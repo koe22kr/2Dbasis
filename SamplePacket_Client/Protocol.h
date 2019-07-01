@@ -10,7 +10,7 @@ struct PacketHeader
 struct PACKET
 {
     PacketHeader ph;
-    char msg[2044];
+    char msg[2048];
 };
 #define PACKET_MAX_DATA_SIZE 2048
 #define PACKET_HEADER_SIZE 4

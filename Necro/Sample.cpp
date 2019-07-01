@@ -145,8 +145,8 @@ bool Sample::Release()
 
 Sample::Sample()
 {
+    int a = 0;
 }
-
 
 Sample::~Sample()
 {

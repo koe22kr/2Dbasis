@@ -10,15 +10,14 @@ CRITICAL_SECTION cs;
 
 DWORD WINAPI RecvThread(LPVOID arg)
 {
-    SOCKET* sock = (SOCKET*)arg;
+    SOCKET sock = (SOCKET)arg;
     char buffer[256] = { 0 };
     int iRecvByte = 0;
     while (1)
     {
 
 
-
-        iRecvByte = recv(*sock, &buffer[iRecvByte], PACKET_HEADER_SIZE - iRecvByte, 0);
+        iRecvByte = recv(sock, &buffer[iRecvByte], PACKET_HEADER_SIZE - iRecvByte, 0);
         if (iRecvByte == 0)
         {
             //연결은 되었는데 보낸게 없다.  혹은?
@@ -38,7 +37,7 @@ DWORD WINAPI RecvThread(LPVOID arg)
             iRecvByte = 0;
             do
             {
-                int iByte = recv(*sock, (char*)&packet.msg[iRecvByte], iMsgByte - iRecvByte, 0);
+                int iByte = recv(sock, (char*)&packet.msg[iRecvByte], iMsgByte - iRecvByte, 0);
                 if (iByte == SOCKET_ERROR)
                 {
                     E_MSG("Recv");
@@ -54,7 +53,10 @@ DWORD WINAPI RecvThread(LPVOID arg)
             {
             case PACKET_TYPE_CHAT:
             {
-                printf("%s\n", packet.msg);
+               USER_CHAT_MSG msg;
+               ZeroMemory(&msg, sizeof(msg));
+               memcpy(&msg, packet.msg, packet.ph.len);
+                printf("%s : %s \n", msg.szName, msg.msg);
             }break;
             case 1001:
             {
@@ -72,12 +74,12 @@ DWORD WINAPI RecvThread(LPVOID arg)
 
                 do
                 {
-                    int iSendByte = send(*sock, (char*)&sendpacket, sendpacket.ph.len, 0);
+                    int iSendByte = send(sock, (char*)&sendpacket, sendpacket.ph.len, 0);
                     if (iSendByte == SOCKET_ERROR)
                     {
                         E_MSG("send");
                         printf("서버 다운");
-                        // closesocket(*sock);
+                        // closesocket(sock);
                         return 1;
                     }
                     iMsgByte += iSendByte;
@@ -88,22 +90,22 @@ DWORD WINAPI RecvThread(LPVOID arg)
             }
         }
     }
-    closesocket(*sock);
+    closesocket(sock);
     return 1;
 }
 DWORD WINAPI SendThread(LPVOID arg)
 {
-    SOCKET* sock = (SOCKET*)arg;
+    SOCKET sock = (SOCKET)arg;
     char buffer[256] = { 0 };
     while (1)
     {
         int iMsgByte = 0;
         fgets(buffer, sizeof(buffer), stdin);
         int iBuffersize = strlen(buffer);
-        if (buffer[0] == '\n')
-        {
-            break;
-        }
+       // if (buffer[0] == '\n')
+       // {
+       //     break;
+       // }
         
         PACKET sendpacket;
         USER_CHAT_MSG msg;
@@ -117,21 +119,23 @@ DWORD WINAPI SendThread(LPVOID arg)
         memcpy(sendpacket.msg, &msg, sendpacket.ph.len);
         do
         {
-            int iSendByte = send(*sock, (char*)&sendpacket, sendpacket.ph.len, 0);
+            int iSendByte = send(sock, (char*)&sendpacket, sendpacket.ph.len, 0);
             if (iSendByte == SOCKET_ERROR)
             {
                 E_MSG("send");
                 printf("서버 다운");
-               // closesocket(*sock);
+               // closesocket(sock);
                 return 1;
             }
             iMsgByte += iSendByte;
         } while (iBuffersize > iMsgByte);
     }
-    closesocket(*sock);
-    return 1;
+    closesocket(sock);
+    
     LeaveCriticalSection(&cs);
     Sleep(1);
+    return 1;
+    
 }
 
 
@@ -168,6 +172,7 @@ void main()
             //E_MSG("connect");
             E_MSG("connect");
             return;
+            
         }
 
     }
@@ -175,14 +180,14 @@ void main()
     DWORD iThreadID_1;
     HANDLE hThreadSend = CreateThread(0, 0,
         SendThread,
-        (void*)&sock,
+        (void*)sock,
         0,
         &iThreadID_1);
 
     DWORD iThreadID_2;
     HANDLE hThreadRecv = CreateThread(0, 0,
         RecvThread,
-        (void*)&sock,
+        (void*)sock,
         0,
         &iThreadID_2);
 

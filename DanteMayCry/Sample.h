@@ -16,8 +16,7 @@ public:
     void KeyCheck();
     CAScene title;
     CAScene game;
-    CAScene* Cur_Scene = &title;
-
+    CAScene* Cur_Scene;
 
     Sample();
     virtual ~Sample();
