@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Window,lib", "Window,lib", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SamplePacket_Client", "SamplePacket_Client\SamplePacket_Client.vcxproj", "{8BE5236B-E998-4234-9911-12A27EC865A6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Black_Jack", "Black_Jack\Black_Jack.vcxproj", "{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -162,6 +164,14 @@ Global
 		{8BE5236B-E998-4234-9911-12A27EC865A6}.Release|x64.Build.0 = Release|x64
 		{8BE5236B-E998-4234-9911-12A27EC865A6}.Release|x86.ActiveCfg = Release|Win32
 		{8BE5236B-E998-4234-9911-12A27EC865A6}.Release|x86.Build.0 = Release|Win32
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Debug|x64.ActiveCfg = Debug|x64
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Debug|x64.Build.0 = Debug|x64
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Debug|x86.ActiveCfg = Debug|Win32
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Debug|x86.Build.0 = Debug|Win32
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Release|x64.ActiveCfg = Release|x64
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Release|x64.Build.0 = Release|x64
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Release|x86.ActiveCfg = Release|Win32
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -180,6 +190,7 @@ Global
 		{6002C0CA-5F3E-4419-AA2A-A088ABE8D23D} = {429A6C05-CE88-4F0E-A40B-68E7DDBA0412}
 		{06549C2B-01A9-4823-BA3C-EF186A18C95A} = {429A6C05-CE88-4F0E-A40B-68E7DDBA0412}
 		{8BE5236B-E998-4234-9911-12A27EC865A6} = {429A6C05-CE88-4F0E-A40B-68E7DDBA0412}
+		{BC5572F6-F2C8-416C-8CD2-C35FA8AACC76} = {6A70A7F1-BF50-4E04-9DA5-D4D459E2C77F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A943983-5CA3-4FA3-9DEB-AB351018EA34}
