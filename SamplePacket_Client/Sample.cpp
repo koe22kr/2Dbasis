@@ -160,7 +160,7 @@ void main()
     ZeroMemory(&sa, sizeof(sa));
     sa.sin_family = AF_INET;
     sa.sin_port = htons(10000); //숏 형이기 때문에,  host to network short
-    sa.sin_addr.s_addr = inet_addr("192.168.0.8");
+    sa.sin_addr.s_addr = inet_addr("192.168.0.61");
 
     
 

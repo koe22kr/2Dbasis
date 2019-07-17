@@ -17,7 +17,7 @@ class Card
     int m_Card_num;
 
 public:
-  
+    bool Check() const;
 
 public:
     Card();

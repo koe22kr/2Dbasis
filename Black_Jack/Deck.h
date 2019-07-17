@@ -15,7 +15,8 @@ public:
     void Reset();
     //void Shuffle();
     Card Draw(); //랜덤 카드 드로우!
-
+    bool Check_Card(Card target);
+    
     Deck();
    virtual ~Deck();
 };

@@ -15,6 +15,11 @@ void Deck::Reset()
   
 }
 
+bool Deck::Check_Card(Card target)
+{
+    return target.Check();
+}
+
 Card Deck::Draw()
 {
     random_device rd;
@@ -22,15 +27,20 @@ Card Deck::Draw()
     int ran;
     do
     {
-        uniform_int_distribution<> rand_card(0, Cards.size()-1);
-         ran = rand_card(random);
+        uniform_int_distribution<> rand_card(0, Cards.size() - 1);
+        ran = rand_card(random);
     } while (Cards.find(ran) == Cards.end() && Cards.size() > 0);
+
+    Card ret = Cards[ran];
     if (Cards.size() == 0)
     {
         throw out_of_range("Cards_size_zero_in_Draw");
+        ret = { 0,0 };
     }
-    Card ret = Cards[ran];
-    Cards.erase(ran);
+    else
+    {
+        Cards.erase(ran);
+    }
     return ret;
     
 }

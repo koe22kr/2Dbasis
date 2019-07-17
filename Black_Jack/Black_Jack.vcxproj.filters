@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="소스 파일\ui">
       <UniqueIdentifier>{186a8cfb-b662-4f60-8388-1fd82ae63a8a}</UniqueIdentifier>
     </Filter>
@@ -22,13 +18,13 @@
     <Filter Include="소스 파일\ui\소스">
       <UniqueIdentifier>{7941d684-f057-492d-ab10-6807b5f9a0c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\card">
+    <Filter Include="card">
       <UniqueIdentifier>{47b03b68-7604-41b1-9bb9-0d7b439b4252}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\card\헤더">
+    <Filter Include="card\헤더">
       <UniqueIdentifier>{08cba3c6-f299-4b58-9d1c-504a9dadf373}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\card\소스">
+    <Filter Include="card\소스">
       <UniqueIdentifier>{2e136daa-2c17-47db-941e-c786ffd6fdd1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -55,10 +51,10 @@
       <Filter>소스 파일\ui\헤더</Filter>
     </ClInclude>
     <ClInclude Include="Deck.h">
-      <Filter>소스 파일\card\헤더</Filter>
+      <Filter>card\헤더</Filter>
     </ClInclude>
     <ClInclude Include="Card.h">
-      <Filter>소스 파일\card\헤더</Filter>
+      <Filter>card\헤더</Filter>
     </ClInclude>
     <ClInclude Include="Custom_MSG.h">
       <Filter>헤더 파일</Filter>
@@ -84,10 +80,10 @@
       <Filter>소스 파일\ui\소스</Filter>
     </ClCompile>
     <ClCompile Include="Card.cpp">
-      <Filter>소스 파일\card\소스</Filter>
+      <Filter>card\소스</Filter>
     </ClCompile>
     <ClCompile Include="Deck.cpp">
-      <Filter>소스 파일\card\소스</Filter>
+      <Filter>card\소스</Filter>
     </ClCompile>
     <ClCompile Include="Custom_MSG.cpp">
       <Filter>소스 파일</Filter>
