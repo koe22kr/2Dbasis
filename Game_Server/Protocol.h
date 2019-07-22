@@ -12,14 +12,28 @@
 #define PACK_END 103
 #define PACK_ERROR 104
 
-#define PACKET_NEW_ACCOUNT 2004                 // msg 에 이름 or 닉네임?
-#define PACKET_JOIN_RQ 2001                     // msg 에 이름 or 닉네임 일치하는거 확인 해야하니 보내야.
-#define PACKET_JOIN_ACK 2002                    // 채팅서버 포트 번호 보내줘야함 블랙잭의 맵의 int 값을 UID로 사용하여 보내주기.
-#define PACKET_GAME_READY 3001                  // 해더의 UID 읽고, 데이터X
-#define PACKET_GAME_START 3002                  // 데이터 X
+/////접속 관련//////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//#define PACKET_ACCESS_RQ 2001           -> 로그인 전 접속요청??
+#define PACKET_ACCESS_ACK 2002                    // 채팅서버 포트 번호 보내줘야함 블랙잭의 맵의 int 값을 UID로 사용하여 보내주기.    -> 서버 온 확인
+
+#define PACKET_NEW_ACCOUNT_RQ 2003                 // msg 에 이름 적어서 보내면 이름 중복 확인후 UID 지급
+#define PACKET_NEW_ACCOUNT_ACK 2004
+
+#define PACKET_LOGIN_RQ 2005
+#define PACKET_LOGIN_ACK 2006
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////인 게임///////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+#define PACKET_GAME_READY 3001       //>>>           // 해더의 UID 읽고, 데이터X
+#define PACKET_GAME_START 3002       //<<<<<           // 데이터 X
+
 #define PACKET_COMMAND_HIT 4001                 // 패킷 보내면   
 #define PACKET_COMMAND_STAY 4002                //
 #define PACKET_UPDATE 9000                      //
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PACKET_EXIT 9999                        //
 
 #define PACKET_CHAT_MSG 1001
