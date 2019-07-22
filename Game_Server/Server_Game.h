@@ -1,7 +1,9 @@
 #pragma once
 #include "Server_std.h"
 #include "IOCP.h"
-
+#include "Acceptor.h"
+#include "Packet_Pool.h"
+//#include "ODBC_Query.h"
 
 
 class Server_Game :public Thread
@@ -13,6 +15,7 @@ public:
     void Init();
     
 
+    void Frame();
 
     void Pre_Frame();
     void Post_Frame();

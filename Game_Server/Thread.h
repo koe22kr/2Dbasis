@@ -9,7 +9,7 @@ public:
     bool		 m_bStarted;
 public:
     void CreateThread();
-    virtual bool Thread_Runner() = 0;
+    virtual bool Thread_Runner();
     static unsigned int WINAPI Handle_Runner(LPVOID prameter);
 public:
     Thread();

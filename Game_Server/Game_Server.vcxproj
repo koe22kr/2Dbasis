@@ -146,25 +146,36 @@
     <ClInclude Include="Acceptor.h" />
     <ClInclude Include="IOCP.h" />
     <ClInclude Include="Lock.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Object_Pool.h" />
+    <ClInclude Include="ODBC_Query.h" />
+    <ClInclude Include="Packet_Pool.h" />
+    <ClInclude Include="Player_Mgr.h" />
     <ClInclude Include="Protocol.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Server_Game.h" />
     <ClInclude Include="Server_Obj.h" />
     <ClInclude Include="Server_std.h" />
     <ClInclude Include="Thread.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="User.h" />
-    <ClInclude Include="User_Mgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Acceptor.cpp" />
     <ClCompile Include="IOCP.cpp" />
     <ClCompile Include="Lock.cpp" />
+    <ClCompile Include="ODBC_Query.cpp" />
+    <ClCompile Include="Packet_Pool.cpp" />
+    <ClCompile Include="Player_Mgr.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Server_Game.cpp" />
     <ClCompile Include="Server_Obj.cpp" />
     <ClCompile Include="Thread.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="User.cpp" />
-    <ClCompile Include="User_Mgr.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Account_DB.accdb" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

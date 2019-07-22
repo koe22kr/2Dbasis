@@ -2,9 +2,10 @@
 #include "Thread.h"
 #include "IOCP.h"
 
-class Acceptor :public Thread
-{
 
+class Acceptor :public Thread , public Singleton<Acceptor>
+{
+    friend Singleton<Acceptor>;
 public:
 
     SOCKET  m_Listen_Sock;
@@ -17,3 +18,4 @@ public:
     virtual ~Acceptor();
 };
 
+#define I_ACCEPTOR Acceptor::GetInstance()

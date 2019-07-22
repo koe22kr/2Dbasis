@@ -1,0 +1,212 @@
+#include "ODBC_Query.h"
+#include "Player_Mgr.h"
+void ODBC_Query::New(User* user_data)
+{
+    TCHAR sql[MAX_PATH] = { 0 };
+    
+    wsprintf(sql, L"Select count UID from acc");
+
+    Exec(sql);
+
+    wsprintf(sql, L"Insert into acc values(%d,'%s')", user_data->UID, user_data->Name.c_str);
+
+    Update(user_data->UID);
+
+}
+
+void ODBC_Query::Modify(User* user_data)
+{
+    TCHAR sql[MAX_PATH] = { 0 };
+    wsprintf(sql, L"Update acc set user_name='%s' where UID=%d", user_data->Name, user_data->UID);
+
+    Exec(sql);
+    Update(user_data->UID);
+}
+
+void ODBC_Query::Delete(User* user_data)
+{
+    TCHAR sql[MAX_PATH] = { 0 };
+    swprintf(sql, L"Delete from acc where UID=%d", user_data->UID);
+
+    Exec(sql);
+    Update(user_data->UID);
+}
+
+void ODBC_Query::Delete(int UID)
+{
+    TCHAR sql[MAX_PATH] = { 0 };
+    swprintf(sql, L"Delete from acc where UID=%d", UID);
+
+    Exec(sql);
+    Update(UID);
+}
+
+void ODBC_Query::Update(int User_UID)//이름바꾸기
+{
+  
+    TCHAR sql[MAX_PATH] = { 0, };
+    wsprintf(sql, L"select user_name from acc where UID=%d", User_UID);
+
+    Exec(sql);
+
+      //TCHAR sql[MAX_PATH] = L"select UID from acc";
+    //int Uid;
+    //SQLLEN Uid_Len;
+    WCHAR Name[21] = { 0 };
+    SQLLEN Name_Len;
+   //SQLRETURN ret = SQLBindCol(m_hStmt, 1, SQL_C_LONG, &Uid, 0, &Uid_Len);
+   SQLRETURN ret = SQLBindCol(m_hStmt, 2, SQL_WCHAR, Name, sizeof(Name), &Name_Len);
+    //ret = SQLPrepare(g_odbc.m_hStmt,sql, _tcslen(sql));
+    
+        SQLRETURN ret = SQLFetch(m_hStmt);
+        if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+        {
+            Check();
+        }
+        
+        I_PLAYER_MGR.Update_Player(User_UID, Name);
+        //User update_user;
+        //update_user.Name = Name;
+        //update_user.UID = Uid;
+        
+        SQLCloseCursor(m_hStmt);
+
+}
+//void ODBC_Query::Update_All() 쓸모 없을듯.
+//{
+//    TCHAR sql[MAX_PATH] = L"select UID from acc";
+//    int Uid;
+//    SQLLEN Uid_Len;
+//    WCHAR Name[21] = { 0 };
+//    SQLLEN Name_Len;
+//   SQLRETURN ret = SQLBindCol(m_hStmt, 1, SQL_C_LONG, &Uid, 0, &Uid_Len);
+//   SQLRETURN ret = SQLBindCol(m_hStmt, 2, SQL_WCHAR, Name, sizeof(Name), &Name_Len);
+//    //ret = SQLPrepare(g_odbc.m_hStmt,sql, _tcslen(sql));
+//    if (SQLExecDirect(m_hStmt, sql, SQL_NTS) != SQL_SUCCESS)
+//    {
+//        Check();
+//        return;
+//    }
+//    
+//    while (1)
+//    {
+//        SQLRETURN ret = SQLFetch(m_hStmt);
+//        if (ret == SQL_NO_DATA)
+//        {
+//            break;
+//        }
+//        else if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//        {
+//            Check();
+//            break;
+//        }
+//        
+//        유저 map 을 알아야 거기에 푸쉬를...
+//    }
+//    SQLCloseCursor(m_hStmt);
+//}
+
+bool ODBC_Query::Exec(const TCHAR* sql)
+{
+    SQLRETURN ret = SQLExecDirect(m_hStmt, (SQLTCHAR*)sql, SQL_NTS);
+    if (ret != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }
+
+    /*
+    SQLRETURN ret = SQLBindParameter(g_odbc.m_hStmt, 1, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_UNICODE, _tcslen(szSelectName), 0, szSelectName, 0, &namelen);
+
+    TCHAR sql[MAX_PATH] = { 0, };
+    wsprintf(sql, L"select name, price, korean from tblCigar where name= ?");*/
+
+
+}
+
+void ODBC_Query::Check()
+{//이거 부터 보기.
+    SQLTCHAR szSQLState[SQL_SQLSTATE_SIZE + 1];
+    SQLTCHAR errorBuffer[SQL_MAX_MESSAGE_LENGTH + 1];
+    SQLINTEGER iSQLCode;
+    SQLSMALLINT length;
+    SQLError(this->m_hEnv, this->m_hDbc,
+        this->m_hStmt,
+        szSQLState,
+        &iSQLCode,
+        errorBuffer,
+        sizeof(errorBuffer),
+        &length);
+    MessageBox(NULL, errorBuffer, szSQLState, MB_OK);
+}
+
+bool ODBC_Query::Connect(const TCHAR* loadDB) // FileDsn 으로 연결
+{
+    SQLRETURN ret;
+
+    TCHAR Dir[MAX_PATH] = { 0, };
+    GetCurrentDirectory(MAX_PATH, Dir);
+
+    TCHAR InCon[256] = { 0, };
+    _stprintf(InCon, _T("DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=%s\\%s"), Dir, loadDB);
+    SQLSMALLINT cbOutLen;
+
+    
+    wsprintf(InCon, _T("FileDsn=%s"), loadDB);
+    ret = SQLDriverConnect(m_hDbc, NULL, InCon, _countof(InCon), NULL, 0, &cbOutLen, SQL_DRIVER_NOPROMPT);
+    if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+    {
+        Check();
+        return false;
+    }
+    if (SQLAllocHandle(SQL_HANDLE_STMT, m_hDbc, &m_hStmt) != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }	
+    return true;
+
+}
+
+bool ODBC_Query::Init()
+{
+    if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_hEnv) != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }
+    if (SQLSetEnvAttr(m_hEnv, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, SQL_IS_INTEGER) != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }
+    // 연결 핸들 -> 할당 -> 해제	
+    if (SQLAllocHandle(SQL_HANDLE_DBC, m_hEnv, &m_hDbc) != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }
+    if (Connect(DB_Name));
+    return true;
+}
+
+bool ODBC_Query::Release()
+{
+    SQLFreeHandle(SQL_HANDLE_STMT, m_hStmt);
+    SQLDisconnect(m_hDbc);
+    SQLFreeHandle(SQL_HANDLE_DBC, m_hDbc);
+    SQLFreeHandle(SQL_HANDLE_ENV, m_hEnv);
+    return true;
+
+}
+
+ODBC_Query::ODBC_Query()
+{
+
+}
+
+
+ODBC_Query::~ODBC_Query()
+{
+
+}

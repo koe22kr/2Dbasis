@@ -2,10 +2,10 @@
 
 
 
-//bool Thread::Thread_Runner()
-//{
-//    return true;
-//}
+bool Thread::Thread_Runner()
+{
+    return true;
+}
 
 
 unsigned int WINAPI Thread::Handle_Runner(LPVOID prameter)

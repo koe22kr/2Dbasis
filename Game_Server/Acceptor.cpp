@@ -1,6 +1,6 @@
 #include "Acceptor.h"
 #include "IOCP.h"
-#include "User.h"
+#include "Player_Mgr.h"
 
 bool Acceptor::Set(int iPort, const char* address)
 {
@@ -27,7 +27,7 @@ bool Acceptor::Set(int iPort, const char* address)
         E_MSG("Server::listen");
         return false;
     }
-    cout << "서버 시작!!!" << endl;
+    cout << "Server_Open" << endl;
 
     /*int socketType;
     int typeLen = sizeof(socketType);
@@ -47,12 +47,12 @@ bool Acceptor::Set(int iPort, const char* address)
     return true;
 }
 
-bool Acceptor::Thread_Runner()
+bool Acceptor::Thread_Runner()                                                                  ////로그인 전 서버 연결 부분
 {
     int addlen = sizeof(SOCKADDR);
     while (1)
     {
-        User* puser = new User;
+        Player* puser = new Player;
         puser->Sock = accept(m_Listen_Sock, (SOCKADDR*)&puser->Client_Addr, &addlen);
         if (puser->Sock == INVALID_SOCKET)
         {
@@ -60,8 +60,8 @@ bool Acceptor::Thread_Runner()
         }
 
 
-        I_IOCP.SetSocketBind(puser->Sock, (ULONG_PTR)puser);
-        I_UserMgr.AddUser(user);
+        I_IOCP.SetSocketBind(puser->Sock, (ULONG_PTR)puser);   
+        I_PLAYER_MGR.Add_Access_user(puser);
     }
     closesocket(m_Listen_Sock);
     return true;
