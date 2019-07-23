@@ -19,7 +19,7 @@ void Thread::CreateThread()
 {
     if (m_bStarted == false)
     {
-        m_hThread = _beginthreadex(NULL, 0, Handle_Runner, (LPVOID)this, 0, &m_iID);
+        m_hThread = (HANDLE)_beginthreadex(NULL, 0, Handle_Runner, (LPVOID)this, 0, &m_iID);
         
         m_bStarted = true;
     }
@@ -35,4 +35,8 @@ Thread::Thread()
 
 Thread::~Thread()
 {
+    if (m_hThread != 0)
+    {
+        CloseHandle(m_hThread);
+    }
 }

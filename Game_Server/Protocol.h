@@ -22,17 +22,24 @@
 
 #define PACKET_LOGIN_RQ 2005
 #define PACKET_LOGIN_ACK 2006
+#define PACKET_JOIN_NEW_USER 2007
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////인 게임///////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PACKET_GAME_READY 3001       //>>>           // 해더의 UID 읽고, 데이터X
-#define PACKET_GAME_START 3002       //<<<<<           // 데이터 X
+#define PACKET_SOME_BODY_READY 3002                     //
 
-#define PACKET_COMMAND_HIT 4001                 // 패킷 보내면   
+#define PACKET_GAME_READY_CANCEL 3003
+#define PACKET_SOME_BODY_READY_CANCEL 3004
+
+#define PACKET_ALL_PLAYER_READY 3005
+#define PACKET_GAME_START 3006             //<<<<<           // 데이터 X
+//////////////////////////////////////
+#define PACKET_COMMAND_HIT 4001   
+#define PACKET_SOME_BODY_HIT 4003                      //// 패킷 보내면   
 #define PACKET_COMMAND_STAY 4002                //
-#define PACKET_UPDATE 9000                      //
-
+#define PACKET_SOME_BODY_STAY 4004
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PACKET_EXIT 9999                        //
 
@@ -44,7 +51,7 @@
 #pragma pack(push,1)
 ////////////////////
 //패킷 구조체 
-struct PacketHeader //해더 사이즈는 6 .
+struct Packet_Header //해더 사이즈는 6 .
 {
     WORD len;
     WORD type;
@@ -52,11 +59,23 @@ struct PacketHeader //해더 사이즈는 6 .
 };
 struct Packet //패킷 사이즈는 2046 + 6 .
 {
-    PacketHeader ph;
+    Packet_Header ph;
     char msg[2046];
 };
 
+struct Update
+{
+    Card hit_card
 
+};
+
+
+
+struct Card_List
+{
+    WORD card_count;
+    Card card[256];
+};
 
 
 

@@ -10,7 +10,7 @@ public:
 
     SOCKET  m_Listen_Sock;
 public:
-    bool	Set(int iPort = 10000, const char* address = nullptr);
+    bool	Init(int iPort = 10000, const char* address = nullptr);
 public:
     virtual bool Thread_Runner() override;
 public:

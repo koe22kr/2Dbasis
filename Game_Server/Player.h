@@ -1,13 +1,21 @@
 #pragma once
 #include "User.h"
+#include "Card.h"
 class Player :public User ,public Singleton<Player>
 {
     friend class Singleton<Player>;
 public:
-    map<int, Player> Player_map;
-    bool			bCan_Chatting;
-    bool			bBe_Connected;
-    
+    //map<int, Player> Player_map;
+    bool m_bBe_Ready;
+    int Score;
+    int Ace_Counter;
+    vector<Card> Card_List;
+public:
+    bool Hit_Card(Card hit_card);//get_score도 내부에서 함
+    void  Set_Score();
+
+public:
+
     DWORD			m_dwStart_Pos;
     DWORD			m_dwWrite_Pos;
     DWORD			m_dwByte_To_Read;

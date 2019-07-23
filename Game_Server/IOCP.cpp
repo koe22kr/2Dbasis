@@ -1,15 +1,14 @@
 #include "IOCP.h"
-#include "User.h"
+#include "Player_Mgr.h"
 DWORD WINAPI Worker_Thread(LPVOID param)
 {
-
     IOCP* pIOCP = (IOCP*)param;
     HANDLE hIOCP = pIOCP->m_hIOCP;
     
     BOOL bReturn;
     DWORD dwTransfer;
     ULONG_PTR uKeyValue;
-    OVERLAPPED* ov;
+    OVERLAPPED2* ov;
 
     while (1)
     {
@@ -19,24 +18,23 @@ DWORD WINAPI Worker_Thread(LPVOID param)
             (LPOVERLAPPED*)&ov, INFINITE);
 
 
-        User* pUser = (User*)uKeyValue;
-        ov = &pUser->m_ovRecv_OV;
-        //if (ov != nullptr && pUser->i_Flag == PACK_END)
-        //{
-        //    I_UserMgr.DelUser(pUser);
-        //    continue;
-        //}
+        Player* pPlayer = (Player*)uKeyValue;
+        if (ov != nullptr && ov->dw_Flag == PACK_END)
+        {
+            I_PLAYER_MGR.Del_User(pPlayer->UID);
+            continue;
+        }
         if (bReturn == TRUE && dwTransfer != 0)
         {
-            if (pUser->Dispatch(dwTransfer, ov) == false)  // 분배 부분만 수정하기.
+            if (I_PLAYER_MGR.Dispatch(pPlayer,dwTransfer, ov) == false)  // 분배 부분만 수정하기.
             {
-                pUser->i_Flag = PACK_END;
+                ov->dw_Flag = PACK_END;
                 PostQueuedCompletionStatus(hIOCP, 0, uKeyValue, (LPOVERLAPPED)ov);
             }
         }
         else
         {
-            pUser->i_Flag = PACK_END;
+            ov->dw_Flag = PACK_END;
             PostQueuedCompletionStatus(hIOCP, 0, uKeyValue, (LPOVERLAPPED)ov);
         }
        
@@ -54,10 +52,28 @@ void IOCP::SetSocketBind(SOCKET sock, ULONG_PTR key)
 
 bool IOCP::Init()
 {
+    m_hIOCP = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
+
+    DWORD threadID;
+    for (int iThread = 0; iThread < MAX_IOCP_THREAD; iThread++)
+    {
+        m_hWorkThread[iThread] =
+            ::CreateThread(0, 0, Worker_Thread,
+                this,
+                0, &threadID);
+    }
     return true;
 }
-bool IOCP::Run()
+bool IOCP::Release()
 {
+    WaitForMultipleObjects(MAX_IOCP_THREAD, m_hWorkThread, TRUE, INFINITE);
+
+    for (int iThread = 0;
+        iThread < MAX_IOCP_THREAD;
+        iThread++)
+    {
+        CloseHandle(m_hWorkThread[iThread]);
+    }
     return true;
 }
 

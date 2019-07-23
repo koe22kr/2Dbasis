@@ -2,7 +2,7 @@
 #include "IOCP.h"
 #include "Player_Mgr.h"
 
-bool Acceptor::Set(int iPort, const char* address)
+bool Acceptor::Init(int iPort, const char* address)
 {
     
     m_Listen_Sock = socket(AF_INET, SOCK_STREAM, 0);

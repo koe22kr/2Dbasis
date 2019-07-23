@@ -109,7 +109,7 @@ DWORD WINAPI SendThread(LPVOID arg)
         
         PACKET sendpacket;
         USER_CHAT_MSG msg;
-        char name[20] = "±èÇü±â";
+        char name[20] = "";
         strcpy(msg.szName, name);
         memcpy(msg.msg, buffer,iBuffersize);
         ZeroMemory(&sendpacket, sizeof(sendpacket));

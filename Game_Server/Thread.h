@@ -4,7 +4,7 @@
 class Thread :public Server_Obj
 {
 public:
-    unsigned int m_hThread;
+    HANDLE m_hThread;
     unsigned int m_iID;
     bool		 m_bStarted;
 public:

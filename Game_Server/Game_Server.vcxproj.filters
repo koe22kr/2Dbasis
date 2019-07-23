@@ -25,6 +25,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Dealer">
+      <UniqueIdentifier>{3664717b-06c9-4d81-9f0e-a2a756d345fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sample.h">
@@ -75,6 +78,21 @@
     <ClInclude Include="Object.h">
       <Filter>Protocol,std</Filter>
     </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Dealer</Filter>
+    </ClInclude>
+    <ClInclude Include="Deck.h">
+      <Filter>Dealer</Filter>
+    </ClInclude>
+    <ClInclude Include="Dealer.h">
+      <Filter>Dealer</Filter>
+    </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>Dealer</Filter>
+    </ClInclude>
+    <ClInclude Include="Dealer_FSM.h">
+      <Filter>Dealer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp">
@@ -112,6 +130,21 @@
     </ClCompile>
     <ClCompile Include="ODBC_Query.cpp">
       <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Dealer</Filter>
+    </ClCompile>
+    <ClCompile Include="Deck.cpp">
+      <Filter>Dealer</Filter>
+    </ClCompile>
+    <ClCompile Include="Dealer.cpp">
+      <Filter>Dealer</Filter>
+    </ClCompile>
+    <ClCompile Include="Status.cpp">
+      <Filter>Dealer</Filter>
+    </ClCompile>
+    <ClCompile Include="Dealer_FSM.cpp">
+      <Filter>Dealer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
