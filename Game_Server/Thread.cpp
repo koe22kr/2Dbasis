@@ -40,3 +40,4 @@ Thread::~Thread()
         CloseHandle(m_hThread);
     }
 }
+wcstombs(new_user_info.name, target_iter->second->Name.c_str(), MAX_NAME_SIZE * 2);

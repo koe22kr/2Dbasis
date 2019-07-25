@@ -47,7 +47,7 @@ Card Deck::Draw()
     if (Cards.size() == 0)
     {
         throw out_of_range("Cards_size_zero_in_Draw");
-        ret = { 0,0 };
+        ret = { 0,0,0 };
     }
     else
     {

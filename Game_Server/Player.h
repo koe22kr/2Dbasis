@@ -7,8 +7,9 @@ class Player :public User ,public Singleton<Player>
 public:
     //map<int, Player> Player_map;
     bool m_bBe_Ready;
-    int Score;
-    int Ace_Counter;
+    int m_iScore;
+    int m_iAce_Counter;
+    bool m_bTurn_End_Flag;
     vector<Card> Card_List;
 public:
     bool Hit_Card(Card hit_card);//get_score도 내부에서 함

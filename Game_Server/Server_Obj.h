@@ -1,5 +1,5 @@
 #pragma once
-#include "Server_std.h"
+#include "Protocol.h"
 class Server_Obj
 {
 public:

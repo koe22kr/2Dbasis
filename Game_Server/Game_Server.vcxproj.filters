@@ -75,9 +75,6 @@
     <ClInclude Include="ODBC_Query.h">
       <Filter>DB</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Protocol,std</Filter>
-    </ClInclude>
     <ClInclude Include="Card.h">
       <Filter>Dealer</Filter>
     </ClInclude>
@@ -92,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="Dealer_FSM.h">
       <Filter>Dealer</Filter>
+    </ClInclude>
+    <ClInclude Include="Sender.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="Dealer_FSM.cpp">
       <Filter>Dealer</Filter>
+    </ClCompile>
+    <ClCompile Include="Sender.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -8,29 +8,30 @@ bool Player::Hit_Card(Card hit_card)//get_score도 내부에서 함
 
 void Player::Set_Score()
 {
-    Score = 0;
-    Ace_Counter = 0;
+    m_iScore = 0;
+    m_iAce_Counter = 0;
     for (Card cards : Card_List)
     {
         if (cards.Get_Score() == 11)
         {
-            Ace_Counter++;
+            m_iAce_Counter++;
         }
-        Score += cards.Get_Score();
+        m_iScore += cards.Get_Score();
     }
-    while (Ace_Counter > 0 && Score > 21)
+    while (m_iAce_Counter > 0 && m_iScore > 21)
     {
-        Score -= 10;
-        Ace_Counter--;
+        m_iScore -= 10;
+        m_iAce_Counter--;
     }
 
 }
 
 Player::Player()
 {
+    m_bTurn_End_Flag = false;
     m_bBe_Ready = false;
-    Score = 0;
-    Ace_Counter = 0;
+    m_iScore = 0;
+    m_iAce_Counter = 0;
 }
 
 
