@@ -199,8 +199,27 @@ void Server_Game::Frame()
     }
     //////////////////////////////////////////////////////
     ///////////////////Set_Up_Turn;//////////////////////
-    SET_UP_TURN();
+    while (m_dwPhase == Set_Up_Turn)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            Card hit_card = m_Dealer.Draw();
+            if (hit_card.Check())
+            {
+                if (i==1)
+                {
+                    Ä«µå ´ÝÈù»óÅÂ·Î
+                }
+                
+            }
+        }
+        
+    {
+    
 
+    }
+        m_dwPhase = Player_Turn;
+    }
     ////////////////////////////////////////////////////
     //////////////////Player_Turn///////////////////////
     if (m_dwPhase == Player_Turn)
