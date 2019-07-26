@@ -36,3 +36,8 @@ public:
         return Instance;
     }
 };
+
+
+
+
+//더미카드를 뒷면 카드로.매핑

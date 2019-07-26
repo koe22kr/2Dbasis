@@ -9,7 +9,7 @@ Waitting_Ready::~Waitting_Ready()
 }
 
 
-bool Waitting_Ready::Action_Selector()
+bool Waitting_Ready::Action()
 {
 
 
@@ -26,7 +26,7 @@ Dealer_Turn::~Dealer_Turn()
 
 }
 
-bool Dealer_Turn::Action_Selector()
+bool Dealer_Turn::Action()
 {
 
 }
@@ -41,7 +41,7 @@ Player_Turn::~Player_Turn()
 }
 
 
-bool Player_Turn::Action_Selector()
+bool Player_Turn::Action()
 {
 
 }
@@ -55,7 +55,7 @@ Last_Dealer_Turn::~Last_Dealer_Turn()
 {
 }
 
-bool Last_Dealer_Turn::Action_Selector()
+bool Last_Dealer_Turn::Action()
 {
 
 }
@@ -77,6 +77,10 @@ Dealer_FSM::Dealer_FSM()
 
 }
 
+void Dealer_FSM::Action_Select(int status_num)
+{
+    Status_list[status_num]->Action();
+}
 
 Dealer_FSM::~Dealer_FSM()
 {

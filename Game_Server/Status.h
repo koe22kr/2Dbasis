@@ -3,7 +3,7 @@ class Status
 {
 public:
 
-   virtual bool Action_Selector();
+   virtual bool Action();
 
     Status();
     virtual ~Status();

@@ -1,6 +1,6 @@
 #include "Status.h"
 
-bool Status::Action_Selector()
+bool Status::Action()
 {
     return true;
 }

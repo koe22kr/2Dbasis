@@ -1,6 +1,5 @@
 #include "Server_Game.h"
 #include "ODBC_Query.h"
-#include <ctime>
 #include "Card.h"//
 void Server_Game::Init()
 {
@@ -78,6 +77,8 @@ void Server_Game::Frame()
                     I_SENDER.Single_Packet_Make(target_iter->second, PACKET_UPDATE, (char*)&user_infos, MSG_USER_INFO_SIZE);
                 }
                 I_SENDER.Single_Packet_Make(target_iter->second, PACKET_UPDATE_END); //업데이트 끝 알림 패킷
+                m_Dealer.Waiting_Ready();
+
             }
             else
             {
@@ -92,12 +93,12 @@ void Server_Game::Frame()
             {
                 //모든 유저 ready 확인
                 target_iter->second->m_bBe_Ready = true;
-                m_iReady_Count++;
+
                 User_Info ready_user;
                 ready_user.UID = target_iter->second->UID;
-
                 wcstombs(ready_user.name, target_iter->second->Name.c_str(), MAX_NAME_SIZE * 2);
                 I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_READY, (char*)&ready_user, MSG_USER_INFO_SIZE);
+                m_Dealer.Waiting_Ready();
             }
         }break;
 
@@ -106,49 +107,22 @@ void Server_Game::Frame()
             if (target_iter->second->m_bBe_Ready == true)
             {
                 target_iter->second->m_bBe_Ready = false;
-                m_iReady_Count--;
-                Delta_Time = 0;
+
                 User_Info cancel_user;
                 cancel_user.UID = target_iter->second->UID;
                 wcstombs(cancel_user.name, target_iter->second->Name.c_str(), MAX_NAME_SIZE * 2);
                 I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_READY_CANCEL, (char*)&cancel_user, MSG_USER_INFO_SIZE);
+                m_Dealer.Waiting_Ready();
             }
         }break;
-        case PACKET_COMMAND_HIT://4001    //m_dwPhase가 Player_Turn 필요.
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////여기까지 게임전
+        
+        //Set_Up_Turn
+        //Player_Turn->
+        case PACKET_COMMAND_HIT://4001   
         {
-            Card hit_card = m_Dealer.Draw();
-            if (hit_card.Check())
-            {
-                target_iter->second->Hit_Card(hit_card);
-                User_Card_Info user_card;
-                user_card.UID = target_iter->second->UID;
-                wcstombs(user_card.name, target_iter->second->Name.c_str(), MAX_NAME_SIZE * 2);
-                user_card.hit_card.m_Card_num = hit_card.Get_Num;
-                user_card.hit_card.m_Card_type = hit_card.Get_Type;
-                user_card.hit_card.m_Card_Score = hit_card.Get_Score;
-
-                if (21 == target_iter->second->m_iScore)
-                {
-                    flag = 1;
-                    I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
-                    target_iter->second->m_bTurn_End_Flag = true;
-                }
-                else if (21 < target_iter->second->m_iScore)
-                {
-                    flag = 0;
-                    I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
-                    target_iter->second->m_bTurn_End_Flag = true;
-                }
-                else
-                {
-                    I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_HIT, (char*)&user_card, MSG_USER_CARD_SIZE); //히트 성공
-                }
-            }
-            else
-            {
-                flag = HIT_FAIL;
-                I_SENDER.Single_Packet_Make(target_iter->second, PACKET_ERROR_CODE, &flag, 1); //히트 실패//디버그용? 쓸일 없을 수도
-            }
+            Hit(target_iter->second);
+            m_Dealer.Players_Turn_Check();
         }break;
         case PACKET_COMMAND_STAY://4002
         {
@@ -158,7 +132,11 @@ void Server_Game::Frame()
 
             I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_STAY, (char*)&stay_user, MSG_USER_INFO_SIZE);
             target_iter->second->m_bTurn_End_Flag = true;
+            m_Dealer.Players_Turn_Check();
         }break;
+
+
+
 
         default:
             break;
@@ -170,54 +148,27 @@ void Server_Game::Frame()
     }//for_end
 
 
-
-
-
-    ///////////////////////Waitting_Ready//////////////////
-    if (m_dwPhase == Waitting_Ready &&
-        m_iReady_Count >= I_PLAYER_MGR.Player_map.size())//유저가 준비했을때 현재의 상황 확인, 매 프레임당 확인X
-    {
-        if (m_dwPhase != All_Player_Ready)
-        {
-            I_SENDER.Broadcast_Packet_Make(PACKET_ALL_PLAYER_READY);
-        }
-        time_t now = time(NULL);
-        if (Delta_Time == 0)
-        {
-            Delta_Time = now;
-        }
-        if (now - Delta_Time > 5)//시간 텀 준 후에.. 타이머
-        {
-            I_SENDER.Broadcast_Packet_Make(PACKET_GAME_START);
-            m_dwPhase = Set_Up_Turn;//Init 에서 카드 리셋 하기.
-            Delta_Time = 0;
-        }
-    }
-    else
-    {
-        m_dwPhase = Waitting_Ready;
-    }
-    //////////////////////////////////////////////////////
-    ///////////////////Set_Up_Turn;//////////////////////
-    while (m_dwPhase == Set_Up_Turn)
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            Card hit_card = m_Dealer.Draw();
-            if (hit_card.Check())
-            {
-                if (i==1)
-                {
-                    카드 닫힌상태로
-                }
-                
-            }
-        }
-        
-    {
     
 
-    }
+
+
+    //////////////////////////////////////////////////////
+    ///////////////////Set_Up_Turn;//////////////////////
+    if(m_dwPhase == Set_Up_Turn)
+    {
+        Card hit_card = m_Dealer.Draw();
+        if (!hit_card.Check())
+        {
+            throw out_of_range("dealer_card_hit_check_fail");
+        }
+        m_Dealer.Hit_Dummy_card(); //더비카드를 뒷면 카드로. 매핑
+    
+        for (auto Piter : I_PLAYER_MGR.Player_map)
+        {
+            Hit(Piter.second);
+            Hit(Piter.second);
+        }
+
         m_dwPhase = Player_Turn;
     }
     ////////////////////////////////////////////////////
@@ -260,7 +211,6 @@ void Server_Game::Frame()
     /////////////////ALL_Turn_Over////////////////////// Judgement();
     for (auto player : I_PLAYER_MGR.Player_map)
     {
-
         if (21 < player.second->m_iScore)
         {
             User_Info pinfo;
@@ -289,7 +239,6 @@ void Server_Game::Frame()
         }
     }
 
-
     time_t now = time(NULL);
     if (Delta_Time == 0)
     {
@@ -302,14 +251,54 @@ void Server_Game::Frame()
         m_dwPhase = Waitting_Ready;// 이어서.
         Delta_Time = 0;
     }
-    
 }
+
+
+
+
+
+
 
    
     /////////////////////////////////////////////////////
 
+void Server_Game::Hit(Player* pPlayer)
+{
+    char flag = 0;
+    Card hit_card = m_Dealer.Draw();
+    if (hit_card.Check())
+    {
+        pPlayer->Hit_Card(hit_card);
+        User_Card_Info user_card;
+        user_card.UID = pPlayer->UID;
+        wcstombs(user_card.name, pPlayer->Name.c_str(), MAX_NAME_SIZE * 2);
+        user_card.hit_card.m_Card_num = hit_card.Get_Num;
+        user_card.hit_card.m_Card_type = hit_card.Get_Type;
+        user_card.hit_card.m_Card_Score = hit_card.Get_Score;
 
-
+        if (21 == pPlayer->m_iScore)
+        {
+            flag = 1;
+            I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
+            pPlayer->m_bTurn_End_Flag = true;
+        }
+        else if (21 < pPlayer->m_iScore)
+        {
+            flag = 0;
+            I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
+            pPlayer->m_bTurn_End_Flag = true;
+        }
+        else
+        {
+            I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_HIT, (char*)&user_card, MSG_USER_CARD_SIZE); //히트 성공
+        }
+    }
+    else
+    {
+        flag = HIT_FAIL;
+        I_SENDER.Single_Packet_Make(pPlayer, PACKET_ERROR_CODE, &flag, 1); //히트 실패//디버그용? 쓸일 없을 수도
+    }
+}
 
     
 

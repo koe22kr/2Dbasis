@@ -10,7 +10,7 @@
 class Waitting_Ready :public Status
 {
 public:
-    bool Action_Selector();
+    bool Action();
     Waitting_Ready();
     ~Waitting_Ready();
 
@@ -21,7 +21,7 @@ private:
 class Dealer_Turn :public Status
 {
 public:
-    bool Action_Selector();
+    bool Action();
     Dealer_Turn();
     ~Dealer_Turn();
 
@@ -32,7 +32,7 @@ private:
 class Player_Turn : public Status
 {
 public:
-    bool Action_Selector();
+    bool Action();
     Player_Turn();
     ~Player_Turn();
 
@@ -43,7 +43,7 @@ private:
 class Last_Dealer_Turn : public Status
 {
 public:
-    bool Action_Selector();
+    bool Action();
     Last_Dealer_Turn();
     ~Last_Dealer_Turn();
 
@@ -56,6 +56,7 @@ class Dealer_FSM
 public:
     vector<Status*> Status_list;
     Status* pFSM;
+    void Action_Select(int status_num);
     Dealer_FSM();
     virtual ~Dealer_FSM();
 };
