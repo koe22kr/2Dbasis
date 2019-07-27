@@ -1,5 +1,8 @@
 #pragma once
 #include "Card.h"
+#include "Server_std.h"
+using namespace std;
+
 class Deck
 { 
     //  SPADE=1,CLOVER=2,HEART=3,DIAMOND=4
@@ -12,7 +15,7 @@ class Deck
     //map<int, Card> Heart[13];
     //map<int, Card> Daiamond[13];
 public:
-    void Reset();
+    void Reset_Deck();
     //void Shuffle();
     Card Draw(); //랜덤 카드 드로우!
     bool Check_Card(Card target);

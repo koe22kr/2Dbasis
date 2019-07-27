@@ -60,9 +60,6 @@
     <ClInclude Include="Packet_Pool.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Player_Mgr.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Object_Pool.h">
       <Filter>Protocol,std\헤더</Filter>
     </ClInclude>
@@ -91,6 +88,12 @@
       <Filter>Dealer</Filter>
     </ClInclude>
     <ClInclude Include="Sender.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Mgr.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Msg_Box.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -147,6 +150,9 @@
       <Filter>Dealer</Filter>
     </ClCompile>
     <ClCompile Include="Sender.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Msg_Box.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

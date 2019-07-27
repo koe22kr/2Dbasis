@@ -84,7 +84,7 @@ public:
     WINT operator +(POINT& point) { return WINT(x + point.x, y + point.y); };
     WINT& operator =(WINT& src_wint)
     {
-        x = y = x = y;
+       // x = y = x = y;
         if (this == &src_wint)
         {
             return *this;

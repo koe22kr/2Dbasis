@@ -1,46 +1,48 @@
 #pragma once
 #include "Deck.h"
-#include "Dealer_FSM.h"
 #include "Player_Mgr.h"
 #include "Sender.h"
+//FSM 연계.........................
+DWORD g_dwPhase;
+
 enum Game_Phase
 {
-    Waitting_Ready = 101,
-    All_Player_Ready = 102,
-    Set_Up_Turn = 103,
-    Player_Turn = 104,
-    Dealer_Turn = 105,
-    ALL_Turn_Over = 106,
-    Re_Set = 107
+    WAITING_READY = 101,
+    ALL_PLAYER_READY = 102,
+    /*SET_UP_TURN = 103,*/
+    PLAYER_TURN = 104,
+    DEALER_TURN = 105,
+    //ALL_TURN_OVER = 106,
+
 };
 
-class Dealer :public Deck
+class Dealer :public Deck , public Singleton<Dealer>
 {
-public:
-    Dealer_FSM FSM;
-
+    friend Singleton<Dealer>;
 public:
     int m_iScore;
     int m_iAce_Counter;
-    
-    DWORD m_dwPhase;
+    vector<Card> Card_List;
+
     
     time_t Ready_Timer;
     time_t Delta_Time;
-
+public:
+    bool Wait_Sec(int sec);
     bool Waiting_Ready();
     bool Players_Turn_Check();
-    bool User_Ready_Check();
-
+    void Hit(Player* pPlayer);
+    void Reset_score();
 
 public:
-    bool Hit_Card(Card hit_card);//get_score도 내부에서 함
-    bool Hit_Dummy_card();//250/250/0
+    bool Take_Card(Card hit_card);//get_score도 내부에서 함
+    bool Hit_Dummy_card();//10/0/0
+    bool Erase_Dummy_Card();
     void Set_Score();
     
-    vector<Card> Card_List;
 
     Dealer();
     virtual ~Dealer();
 };
 
+#define I_DEALER Dealer::GetInstance()

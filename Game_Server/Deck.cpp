@@ -1,7 +1,7 @@
 #include "Deck.h"
 #include <random>
 
-void Deck::Reset()
+void Deck::Reset_Deck()
 {
     int index = 0;
     for (int k = 1;k <= 4;k++) 

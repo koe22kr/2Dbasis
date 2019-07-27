@@ -8,7 +8,6 @@ public:
     list<Packet>& Get();
     //const list<Packet>* Get() const;
 
-
     Packet Get_Top();
     Packet Get_Top() const;
     Packet Pop();

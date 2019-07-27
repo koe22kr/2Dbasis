@@ -50,13 +50,16 @@
     <ClInclude Include="UI.h">
       <Filter>소스 파일\ui\헤더</Filter>
     </ClInclude>
-    <ClInclude Include="Deck.h">
-      <Filter>card\헤더</Filter>
-    </ClInclude>
     <ClInclude Include="Card.h">
       <Filter>card\헤더</Filter>
     </ClInclude>
     <ClInclude Include="Custom_MSG.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Server_std.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,9 +83,6 @@
       <Filter>소스 파일\ui\소스</Filter>
     </ClCompile>
     <ClCompile Include="Card.cpp">
-      <Filter>card\소스</Filter>
-    </ClCompile>
-    <ClCompile Include="Deck.cpp">
       <Filter>card\소스</Filter>
     </ClCompile>
     <ClCompile Include="Custom_MSG.cpp">

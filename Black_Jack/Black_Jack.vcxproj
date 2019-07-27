@@ -151,10 +151,11 @@
     <ClInclude Include="Black_Jack.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Custom_MSG.h" />
-    <ClInclude Include="Deck.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="Protocol.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Server_std.h" />
     <ClInclude Include="Std.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="User.h" />
@@ -163,7 +164,6 @@
     <ClCompile Include="Black_Jack.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Custom_MSG.cpp" />
-    <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="Scene.cpp" />

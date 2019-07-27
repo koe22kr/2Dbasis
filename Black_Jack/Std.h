@@ -1,7 +1,7 @@
 #pragma once
 #include <random>
-#include <list>
 #include <exception>
+#include "Protocol.h"
 
 //메세지 룰, 등 이곳에 서술 예정.
 //  SPADE=1,CLOVER=2,HEART=3,DIAMOND=4

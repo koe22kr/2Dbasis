@@ -1,5 +1,7 @@
 #include "Deck.h"
-void Deck::Reset()
+#include <random>
+
+void Deck::Reset_Deck()
 {
     int index = 0;
     for (int k = 1;k <= 4;k++) 
@@ -7,8 +9,18 @@ void Deck::Reset()
 
         for (int i = 1;i <= 13;i++)
         {
-            
-            Cards[index] = Card({ k,i }); // 맵의 [] 연산자가 이미 있으면 덮어쓰고, 없으면 추가하니 그냥사용
+            if (i == 1)
+            {
+                Cards[index] = Card({ k,i,11 });
+            }
+            else if (i > 1 && i < 11)
+            {
+                Cards[index] = Card({ k,i,i }); // 맵의 [] 연산자가 이미 있으면 덮어쓰고, 없으면 추가하니 그냥사용
+            }
+            else if (i >= 11)
+            {
+                Cards[index] = Card({ k,i,10 });
+            }
             ++index;
         }
     }
@@ -35,7 +47,7 @@ Card Deck::Draw()
     if (Cards.size() == 0)
     {
         throw out_of_range("Cards_size_zero_in_Draw");
-        ret = { 0,0 };
+        ret = { 0,0,0 };
     }
     else
     {

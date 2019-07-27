@@ -150,6 +150,7 @@
     <ClInclude Include="Dealer_FSM.h" />
     <ClInclude Include="IOCP.h" />
     <ClInclude Include="Lock.h" />
+    <ClInclude Include="Msg_Box.h" />
     <ClInclude Include="Object_Pool.h" />
     <ClInclude Include="ODBC_Query.h" />
     <ClInclude Include="Packet_Pool.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Dealer_FSM.cpp" />
     <ClCompile Include="IOCP.cpp" />
     <ClCompile Include="Lock.cpp" />
+    <ClCompile Include="Msg_Box.cpp" />
     <ClCompile Include="ODBC_Query.cpp" />
     <ClCompile Include="Packet_Pool.cpp" />
     <ClCompile Include="Player_Mgr.cpp" />
