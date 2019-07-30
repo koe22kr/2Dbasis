@@ -25,6 +25,16 @@ void Player::Set_Score()
         m_iAce_Counter--;
     }
 
+    if (m_iScore > 21)
+    {
+        //Burst();
+        m_bTurn_End_Flag = true;
+    }
+    else if (m_iScore == 21)
+    {
+        //Black_Jack();
+        m_bTurn_End_Flag = true;
+    }
 }
 
 void Player::Reset_Score()
@@ -43,6 +53,7 @@ Player::Player()
     m_bBe_Ready = false;
     m_iScore = 0;
     m_iAce_Counter = 0;
+    m_Card_BitmapMgr.Load_Object(L"card.bmp");
 }
 
 

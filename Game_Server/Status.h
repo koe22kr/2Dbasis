@@ -1,6 +1,5 @@
 #pragma once
-#include <minwindef.h>
-
+#include "Server_std.h"
 class Status
 {
 public:

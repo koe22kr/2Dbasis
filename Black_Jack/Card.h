@@ -1,8 +1,6 @@
 #pragma once
 #include <stdexcept>
 
-
-
 enum Card_Num
 {
    JACK=11,QUEEN=12,KING=13,ACE=1
@@ -18,19 +16,19 @@ enum Card_Type
 
 class Card
 {
-    byte m_Card_type;
-    byte m_Card_num;
-    byte m_Card_Score;
+    char m_Card_type;
+    char m_Card_num;
+    char m_Card_Score;
     
 public:
     bool Check() const;
    // int Get_Score() const;
-    byte Get_Type() const { return m_Card_type; };
-    byte Get_Num() const { return m_Card_num; };
-    byte Get_Score() const { return m_Card_Score; };
+    char Get_Type() const { return m_Card_type; };
+    char Get_Num() const { return m_Card_num; };
+    char Get_Score() const { return m_Card_Score; };
 public:
     Card();
     Card(int type, int num, int score);
-    virtual ~Card();
+    ~Card();
 };
 

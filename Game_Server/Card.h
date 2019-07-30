@@ -1,7 +1,6 @@
 #pragma once
 #include <stdexcept>
-
-
+#include "Protocol.h"
 
 enum Card_Num
 {
@@ -18,19 +17,26 @@ enum Card_Type
 
 class Card
 {
-    byte m_Card_type;
-    byte m_Card_num;
-    byte m_Card_Score;
+    char m_Card_type;
+    char m_Card_num;
+    char m_Card_Score;
     
 public:
     bool Check() const;
    // int Get_Score() const;
-    byte Get_Type() const { return m_Card_type; };
-    byte Get_Num() const { return m_Card_num; };
-    byte Get_Score() const { return m_Card_Score; };
+    char Get_Type() const { return m_Card_type; };
+    char Get_Num() const { return m_Card_num; };
+    char Get_Score() const { return m_Card_Score; };
 public:
     Card();
     Card(int type, int num, int score);
-    virtual ~Card();
+    ~Card();
 };
 
+
+struct User_Card_Info  //15
+{
+    WORD UID;        //2
+    char name[MAX_NAME_SIZE];  //10
+    Card hit_cards;             //3
+};

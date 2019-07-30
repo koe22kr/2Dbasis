@@ -18,6 +18,14 @@ void Server_Game::I_Wanna_Go_Home()
     //Release 계열 하기.
     
 }
+
+bool Server_Game::New_Account(Packet packet)
+{
+    TCHAR buf[20] = { 0 };
+    mbstowcs(buf, packet.msg, sizeof(buf));
+    ODBC.Stproc_New(buf);
+    return true; //바꺼야함
+}
 //
 //void Server_Game::Pre_Frame()   
 //{
@@ -36,14 +44,12 @@ void Server_Game::Frame()
 {
     while (true)
     {
-       
-       
-
         byte alpha = 9;
         char flag;
-        auto iter = I_Packet_Pool.Get().begin();
-        while (iter != I_Packet_Pool.Get().end())
+        while (I_Packet_Pool.Get().begin() != I_Packet_Pool.Get().end())
         {
+            auto iter = I_Packet_Pool.Get().begin();
+
             Packet packet = I_Packet_Pool.Pop();
             auto target_iter = I_PLAYER_MGR.Player_map.find(packet.ph.UID);//
             if (target_iter == I_PLAYER_MGR.Player_map.end())
@@ -59,7 +65,7 @@ void Server_Game::Frame()
                 //}break;
             case PACKET_NEW_ACCOUNT_RQ://2003
             {
-                if (New_Account_Success)
+                if (New_Account(packet))
                 {
                     I_SENDER.Single_Packet_Make(target_iter->second, PACKET_NEW_ACCOUNT_ACK);
                 }
@@ -68,30 +74,30 @@ void Server_Game::Frame()
             {
 
 
-                if (Login_Successs)//g_dwPhase == WAITING_READY
-                {
-                    User_Info new_user_info;
-                    new_user_info.UID = target_iter->second->UID;
-                    wcstombs(new_user_info.name, target_iter->second->Name.c_str(), MAX_NAME_SIZE * 2);
-                    I_SENDER.Broadcast_Packet_Make(PACKET_JOIN_NEW_USER, (char*)&new_user_info, MSG_USER_INFO_SIZE); //임의 유저 접속 알림
-                    flag = 1;   //1 성공 
-                    I_SENDER.Single_Packet_Make(target_iter->second, PACKET_LOGIN_ACK, &flag, 1); //로그인 승락
-                    for (auto players : I_PLAYER_MGR.Player_map)//현재 접속 플레이어 정보 송신
-                    {
-                        User_Info user_infos;
-                        user_infos.UID = players.second->UID;
-                        wcstombs(user_infos.name, players.second->Name.c_str(), MAX_NAME_SIZE * 2);
-                        I_SENDER.Single_Packet_Make(target_iter->second, PACKET_UPDATE, (char*)&user_infos, MSG_USER_INFO_SIZE);
-                    }
-                    I_SENDER.Single_Packet_Make(target_iter->second, PACKET_UPDATE_END); //업데이트 끝 알림 패킷
-                    FSM.FSM_Action(g_dwPhase);
-
-                }
-                else
-                {
-                    flag = 0; //로그인 실패
-                    I_SENDER.Single_Packet_Make(target_iter->second, PACKET_LOGIN_ACK, &flag, 1); //로그인 거부
-                }
+               // if (Login_Successs)//g_dwPhase == WAITING_READY
+               // {
+               //     User_Info new_user_info;
+               //     //new_user_info.UID = target_iter->second->UID; DB에서 받아와야함
+               //     wcstombs(new_user_info.name, target_iter->second->Name.c_str(), MAX_NAME_SIZE * 2);
+               //     I_SENDER.Broadcast_Packet_Make(PACKET_JOIN_NEW_USER, (char*)&new_user_info, MSG_USER_INFO_SIZE); //임의 유저 접속 알림
+               //     flag = 1;   //1 성공 
+               //     I_SENDER.Single_Packet_Make(target_iter->second, PACKET_LOGIN_ACK, &flag, 1); //로그인 승락
+               //     for (auto players : I_PLAYER_MGR.Player_map)//현재 접속 플레이어 정보 송신
+               //     {
+               //         User_Info user_infos;
+               //         user_infos.UID = players.second->UID;
+               //         wcstombs(user_infos.name, players.second->Name.c_str(), MAX_NAME_SIZE * 2);
+               //         I_SENDER.Single_Packet_Make(target_iter->second, PACKET_UPDATE, (char*)&user_infos, MSG_USER_INFO_SIZE);
+               //     }
+               //     I_SENDER.Single_Packet_Make(target_iter->second, PACKET_UPDATE_END); //업데이트 끝 알림 패킷
+               //     FSM.FSM_Action(g_dwPhase);
+               //
+               // }
+               // else
+               // {
+               //     flag = 0; //로그인 실패
+               //     I_SENDER.Single_Packet_Make(target_iter->second, PACKET_LOGIN_ACK, &flag, 1); //로그인 거부
+               // }
             case PACKET_USER_EXIT:
             {
 
@@ -101,7 +107,7 @@ void Server_Game::Frame()
                 I_SENDER.Broadcast_Packet_Make(PACKET_USER_EXIT, (char*)&exit_user, MSG_USER_INFO_SIZE);
                 closesocket(target_iter->second->Sock);
 
-                I_PLAYER_MGR.Player_map.erase(target_iter);
+                I_PLAYER_MGR.Del_User(packet);
                 if (g_dwPhase == WAITING_READY || g_dwPhase == PLAYER_TURN)
                 {
                     FSM.FSM_Action(g_dwPhase);
@@ -150,7 +156,7 @@ void Server_Game::Frame()
             {
             case PACKET_COMMAND_HIT://4001   
             {
-                Hit(target_iter->second);
+                I_DEALER.Hit(target_iter->second);
                 FSM.FSM_Action(g_dwPhase);
             }break;
             case PACKET_COMMAND_STAY://4002
@@ -170,10 +176,10 @@ void Server_Game::Frame()
             default:
                 break;
             }
-            이름 변경 추가 하기
+           // 이름 변경 추가 는 시간 남으면.
                 I_SENDER.Send();
-
-
+            I_Packet_Pool.Get().erase(iter);
+            
         }//for_end
     }//while_end
     I_Wanna_Go_Home();

@@ -3,8 +3,9 @@
 class Packet_Pool :public Singleton<Packet_Pool>
 {
     friend Singleton<Packet_Pool>;
-    list<Packet> Pool;
 public:
+    list<Packet> Pool;
+
     list<Packet>& Get();
     //const list<Packet>* Get() const;
 

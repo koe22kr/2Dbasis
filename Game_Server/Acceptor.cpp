@@ -4,7 +4,6 @@
 
 bool Acceptor::Init(int iPort, const char* address)
 {
-    
     m_Listen_Sock = socket(AF_INET, SOCK_STREAM, 0);
     SOCKADDR_IN sa;
     ZeroMemory(&sa, sizeof(sa));
@@ -29,7 +28,8 @@ bool Acceptor::Init(int iPort, const char* address)
     }
     cout << "Server_Open" << endl;
 
-    /*int socketType;
+
+    int socketType;
     int typeLen = sizeof(socketType);
     if (getsockopt(m_Listen_Sock, SOL_SOCKET, SO_SNDBUF, (char*)&socketType,
         &typeLen) == SOCKET_ERROR)
@@ -40,7 +40,7 @@ bool Acceptor::Init(int iPort, const char* address)
         &typeLen) == SOCKET_ERROR)
     {
         E_MSG("Server::listen");
-    }*/
+    }
 
     CreateThread();
 
@@ -61,7 +61,7 @@ bool Acceptor::Thread_Runner()                                                  
 
 
         I_IOCP.SetSocketBind(puser->Sock, (ULONG_PTR)puser);   
-        I_PLAYER_MGR.Add_Access_user(puser);
+        I_PLAYER_MGR.Recv(puser);
     }
     closesocket(m_Listen_Sock);
     return true;

@@ -3,7 +3,7 @@
 #include "Player_Mgr.h"
 #include "Sender.h"
 //FSM ¿¬°è.........................
-DWORD g_dwPhase;
+static DWORD g_dwPhase;
 
 enum Game_Phase
 {

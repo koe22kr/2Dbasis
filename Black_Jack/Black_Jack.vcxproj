@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../data/CA/debug</AdditionalIncludeDirectories>
     </ClCompile>
@@ -150,23 +150,29 @@
   <ItemGroup>
     <ClInclude Include="Black_Jack.h" />
     <ClInclude Include="Card.h" />
-    <ClInclude Include="Custom_MSG.h" />
+    <ClInclude Include="Connecter.h" />
+    <ClInclude Include="Object_Pool.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Protocol.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Sample.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Server_Obj.h" />
     <ClInclude Include="Server_std.h" />
     <ClInclude Include="Std.h" />
+    <ClInclude Include="Thread.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Black_Jack.cpp" />
     <ClCompile Include="Card.cpp" />
-    <ClCompile Include="Custom_MSG.cpp" />
+    <ClCompile Include="Connecter.cpp" />
     <ClCompile Include="Option.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sample.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Server_Obj.cpp" />
+    <ClCompile Include="Thread.cpp" />
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
@@ -174,6 +180,16 @@
     <ProjectReference Include="..\CAWindow_Lib\CAWindow_Lib.vcxproj">
       <Project>{33e1e90b-870d-41fc-931b-2262f2b84a18}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Black_Jack.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\data\card.txt" />
+    <Text Include="..\..\data\wp.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

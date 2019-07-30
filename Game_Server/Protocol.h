@@ -45,8 +45,8 @@ enum Custom_ERROR_CODE //1바이트 안으로
 #define PACKET_BURST_OR_BLACK_JACK 4005   //  FLAG 1 == 블랙잭  0 == 버스트
 #define PACKET_COMMAND_STAY 4002     //NO_DATA           //
 #define PACKET_SOME_BODY_STAY 4004   //USER_INFO
-#define PACKET_GAME_WIN 4005  //USER_INFO
-#define PACKET_GAME_LOSE 4006  //USER_INFO
+#define PACKET_GAME_WIN 4006  //USER_INFO
+#define PACKET_GAME_LOSE 4007  //USER_INFO
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define PACKET_UPDATE 8000  //로그인시 USER_INFO 보내기
@@ -110,15 +110,7 @@ struct Card_info
     byte m_Card_num;
     byte m_Card_Score;
 };
-
 #define MSG_USER_CARD_SIZE 15
-struct User_Card_Info  //15
-{
-    WORD UID;        //2
-    char name[MAX_NAME_SIZE];  //10
-    Card_info hit_card;             //3
-};
-
 
 
 

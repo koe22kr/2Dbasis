@@ -1,6 +1,9 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
+#include <WinSock2.h>
+
 #include <Windows.h>
+#include <sql.h>
+#include <sqlext.h>
 #include <tchar.h>
 #include <map>
 #include <vector>

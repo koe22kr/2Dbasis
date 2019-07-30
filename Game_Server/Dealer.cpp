@@ -5,19 +5,21 @@ bool Dealer::Take_Card(Card hit_card)
 {
     Card_List.push_back(hit_card);
     Set_Score();
+    return true;
 }
 
 bool Dealer::Hit_Dummy_card()
 {
     Card dummy(DUMMY, 0, 0);
     Card_List.push_back(dummy);
+    return true;
 }
 
 bool Dealer::Erase_Dummy_Card()
 {
     for (auto iter = Card_List.begin(); iter != Card_List.end();)
     {
-        if (iter->Get_Type == 10)
+        if (iter->Get_Type() == 10)
         {
             Card_List.erase(iter);
 
@@ -27,6 +29,7 @@ bool Dealer::Erase_Dummy_Card()
             iter++;
         }
     }
+    return true;
 }
 
 void Dealer::Set_Score()
@@ -59,25 +62,24 @@ void Dealer::Hit(Player* pPlayer)
         User_Card_Info user_card;
         user_card.UID = pPlayer->UID;
         wcstombs(user_card.name, pPlayer->Name.c_str(), MAX_NAME_SIZE * 2);
-        user_card.hit_card.m_Card_num = hit_card.Get_Num;
-        user_card.hit_card.m_Card_type = hit_card.Get_Type;
-        user_card.hit_card.m_Card_Score = hit_card.Get_Score;
+        user_card.hit_cards = hit_card;
+        
 
-        if (21 == pPlayer->m_iScore)
+        //if (21 == pPlayer->m_iScore)
+        //{
+        //    flag = 1;
+        //    I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
+        //    pPlayer->m_bTurn_End_Flag = true;
+        //}
+        //else if (21 < pPlayer->m_iScore)
+        //{
+        //    flag = 0;
+        //    I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
+        //    pPlayer->m_bTurn_End_Flag = true;
+        //}
+        //else
         {
-            flag = 1;
-            I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
-            pPlayer->m_bTurn_End_Flag = true;
-        }
-        else if (21 < pPlayer->m_iScore)
-        {
-            flag = 0;
-            I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
-            pPlayer->m_bTurn_End_Flag = true;
-        }
-        else
-        {
-            I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_HIT, (char*)&user_card, MSG_USER_CARD_SIZE); //히트 성공
+            I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_HIT, (char*)&hit_card, MSG_USER_CARD_SIZE); //히트 성공
         }
     }
     else
@@ -112,6 +114,7 @@ bool Dealer::Wait_Sec(int sec)
         Delta_Time = 0;
         return true;
     }
+    return true;
 }
 
 void Dealer::Reset_score()
@@ -125,7 +128,7 @@ bool Dealer::Waiting_Ready()
 {
   //FSM으로
 
-
+    return true;
 }
 
 

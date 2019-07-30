@@ -27,18 +27,15 @@
     <Filter Include="card\소스">
       <UniqueIdentifier>{2e136daa-2c17-47db-941e-c786ffd6fdd1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="STD">
+      <UniqueIdentifier>{caa8d62d-466f-43eb-b6fc-f1eea17f518d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스">
+      <UniqueIdentifier>{364677c9-ec54-4653-9df0-86f480bdc914}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Scene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sample.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Black_Jack.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Std.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="User.h">
@@ -53,24 +50,39 @@
     <ClInclude Include="Card.h">
       <Filter>card\헤더</Filter>
     </ClInclude>
-    <ClInclude Include="Custom_MSG.h">
+    <ClInclude Include="Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol.h">
+    <ClInclude Include="Object_Pool.h">
+      <Filter>STD</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>리소스</Filter>
+    </ClInclude>
+    <ClInclude Include="Black_Jack.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Connecter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Server_Obj.h">
+      <Filter>STD</Filter>
     </ClInclude>
     <ClInclude Include="Server_std.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>STD</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>STD</Filter>
+    </ClInclude>
+    <ClInclude Include="Std.h">
+      <Filter>STD</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread.h">
+      <Filter>STD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Scene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sample.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Black_Jack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="User.cpp">
@@ -85,8 +97,36 @@
     <ClCompile Include="Card.cpp">
       <Filter>card\소스</Filter>
     </ClCompile>
-    <ClCompile Include="Custom_MSG.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Black_Jack.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Connecter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Server_Obj.cpp">
+      <Filter>STD</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>STD</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Black_Jack.rc">
+      <Filter>리소스</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\data\wp.txt">
+      <Filter>리소스</Filter>
+    </Text>
+    <Text Include="..\..\data\card.txt">
+      <Filter>리소스</Filter>
+    </Text>
   </ItemGroup>
 </Project>

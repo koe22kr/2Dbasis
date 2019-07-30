@@ -1,110 +1,110 @@
 #include "Dealer_FSM.h"
-#include <time.h>
+//#include <time.h>
 ///////////////////////////////////////
-bool Waiting_Ready::Action()
-{
-    ///////////////////////Waitting_Ready//////////////////  레디시,취소시, 참가시 처리
-   // while (g_dwPhase == WAITING_READY || g_dwPhase == ALL_PLAYER_READY)
-    {
-        if (User_Ready_Check())
-        {
-            if (g_dwPhase != ALL_PLAYER_READY)
-            {
-                I_SENDER.Broadcast_Packet_Make(PACKET_ALL_PLAYER_READY);
-            }
-            time_t now = time(NULL);
-            if (I_DEALER.Delta_Time == 0)
-            {
-                I_DEALER.Delta_Time = now;
-                g_dwPhase = ALL_PLAYER_READY;
-            }
-            if (now - I_DEALER.Delta_Time > 5)//시간 텀 준 후에.. 타이머
-            {
-                I_SENDER.Broadcast_Packet_Make(PACKET_GAME_START);
-                Set_Up();
-                I_DEALER.Delta_Time = 0;
-                
-            }
-        }
-        else
-        {
-            g_dwPhase = WAITING_READY;
-            I_DEALER.Delta_Time = 0;
-
-        }
-    }
-    return true;
-}
-
-void Waiting_Ready::Set_Up()
-{
-    
-        Card hit_card = I_DEALER.Draw();
-        if (!hit_card.Check())
-        {
-            throw out_of_range("dealer_card_hit_check_fail");
-        }
-        I_DEALER.Take_Card(hit_card);
-        I_DEALER.Hit_Dummy_card(); //더비카드를 뒷면 카드로. 매핑
-
-        for (auto Piter : I_PLAYER_MGR.Player_map)
-        {
-            I_DEALER.Hit(Piter.second);
-            I_DEALER.Hit(Piter.second);
-        }
-
-        g_dwPhase = PLAYER_TURN;
-    
-}
-
-bool Waiting_Ready::User_Ready_Check()
-{
-    int count = 0;
-    for (auto piter : I_PLAYER_MGR.Player_map)
-    {
-        count += piter.second->m_bBe_Ready;
-    }
-    if (count == I_PLAYER_MGR.Player_map.size())
-    {
-        return true;
-    }
-    return false;
-}
-
-Waiting_Ready::Waiting_Ready()
-{
-
-}
-Waiting_Ready::~Waiting_Ready()
-{
-
-}
-////////////////////////////////////////
-/////////////////////////////////////
-bool Player_Turn::Action()
-{
-    if (g_dwPhase == PLAYER_TURN)
-    {
-        for (auto piter : I_PLAYER_MGR.Player_map)
-        {
-            m_iTurn_End_Count += piter.second->m_bTurn_End_Flag;
-        }
-        if (m_iTurn_End_Count >= I_PLAYER_MGR.Player_map.size())
-        {
-            g_dwPhase = DEALER_TURN;
-        }
-        else
-        {
-           //대 기
-
-
-        }
-
-    }
-
-}
-
-
+//bool Waiting_Ready::Action()
+//{
+//    ///////////////////////Waitting_Ready//////////////////  레디시,취소시, 참가시 처리
+//   // while (g_dwPhase == WAITING_READY || g_dwPhase == ALL_PLAYER_READY)
+//    {
+//        if (User_Ready_Check())
+//        {
+//            if (g_dwPhase != ALL_PLAYER_READY)
+//            {
+//                I_SENDER.Broadcast_Packet_Make(PACKET_ALL_PLAYER_READY);
+//            }
+//            time_t now = 0;// time(NULL);
+//            if (I_DEALER.Delta_Time == 0)
+//            {
+//                I_DEALER.Delta_Time = now;
+//                g_dwPhase = ALL_PLAYER_READY;
+//            }
+//            if (now - I_DEALER.Delta_Time > 5)//시간 텀 준 후에.. 타이머
+//            {
+//                I_SENDER.Broadcast_Packet_Make(PACKET_GAME_START);
+//                Set_Up();
+//                I_DEALER.Delta_Time = 0;
+//                
+//            }
+//        }
+//        else
+//        {
+//            g_dwPhase = WAITING_READY;
+//            I_DEALER.Delta_Time = 0;
+//
+//        }
+//    }
+//    return true;
+//}
+//
+//void Waiting_Ready::Set_Up()
+//{
+//    
+//        Card hit_card = I_DEALER.Draw();
+//        if (!hit_card.Check())
+//        {
+//            throw out_of_range("dealer_card_hit_check_fail");
+//        }
+//        I_DEALER.Take_Card(hit_card);
+//        I_DEALER.Hit_Dummy_card(); //더비카드를 뒷면 카드로. 매핑
+//
+//        for (auto Piter : I_PLAYER_MGR.Player_map)
+//        {
+//            I_DEALER.Hit(Piter.second);
+//            I_DEALER.Hit(Piter.second);
+//        }
+//
+//        g_dwPhase = PLAYER_TURN;
+//    
+//}
+//
+//bool Waiting_Ready::User_Ready_Check()
+//{
+//    int count = 0;
+//    for (auto piter : I_PLAYER_MGR.Player_map)
+//    {
+//        count += piter.second->m_bBe_Ready;
+//    }
+//    if (count == I_PLAYER_MGR.Player_map.size())
+//    {
+//        return true;
+//    }
+//    return false;
+//}
+//
+//Waiting_Ready::Waiting_Ready()
+//{
+//
+//}
+//Waiting_Ready::~Waiting_Ready()
+//{
+//
+//}
+//////////////////////////////////////////
+///////////////////////////////////////
+//bool Player_Turn::Action()
+//{
+//    if (g_dwPhase == PLAYER_TURN)
+//    {
+//        for (auto piter : I_PLAYER_MGR.Player_map)
+//        {
+//            m_iTurn_End_Count += piter.second->m_bTurn_End_Flag;
+//        }
+//        if (m_iTurn_End_Count >= I_PLAYER_MGR.Player_map.size())
+//        {
+//            g_dwPhase = DEALER_TURN;
+//        }
+//        else
+//        {
+//           //대 기
+//
+//
+//        }
+//
+//    }
+//
+//}
+//
+//
 
 Player_Turn::Player_Turn()
 {
@@ -133,6 +133,8 @@ bool Dealer_Turn::Action()
             }
         }
     }
+    return true;
+
 }
 
 void Dealer_Turn::Judgement()

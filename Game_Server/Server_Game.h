@@ -6,6 +6,8 @@
 #include "Player_Mgr.h"
 #include "Dealer_FSM.h"
 #include "Sender.h"
+#include "ODBC_Query.h"
+
 //#include "ODBC_Query.h"
 
 
@@ -15,6 +17,7 @@ class Server_Game :public Thread
     WSADATA wsa;
     SOCKET listensock;
     SOCKADDR_IN sa_in;
+    ODBC_Query ODBC;
 public:
  
    // time_t Ready_Timer;
@@ -26,6 +29,7 @@ public:
     void Init();
     void I_Wanna_Go_Home();
     void Frame();
+    bool New_Account(Packet packet);
   //  void Pre_Frame();
   //  void Post_Frame();
 

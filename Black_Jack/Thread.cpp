@@ -40,3 +40,4 @@ Thread::~Thread()
         CloseHandle(m_hThread);
     }
 }
+

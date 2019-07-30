@@ -1,11 +1,7 @@
 #pragma once
 #include <tchar.h>
-#include <windows.h>
-#include <sql.h>
-#include <sqlext.h>
+//#include <windows.h>
 
-#include <vector>
-#include <map>
 #include "User.h"
 
 class ODBC_Query :public Singleton<ODBC_Query>
@@ -34,8 +30,16 @@ public:
     SQLHENV		m_hEnv;
     SQLHDBC		m_hDbc;
     SQLHSTMT	m_hStmt;
-    
+    SQLHSTMT m_hStmt_New;
+    SQLHSTMT m_hStmt_Login;
+    int      param1;  //
+    TCHAR    param2[20];//
+    int      param3;//사용시 사전에 초기화
+    SQLLEN namelen;
+
 public:
+    void Stproc_New(TCHAR* name);
+    void Stproc_Login(TCHAR* name);
     void New(User* user_data);
     void Modify(User* user_data);
     void Delete(User* user_data);
@@ -51,6 +55,7 @@ public:
     bool	Init();
     bool	Release();
     bool	Connect(const TCHAR* loadDB);
+    bool Connect(const TCHAR* DB_NAME, const TCHAR* UID, const TCHAR* PW);
     void	Check();
     
     SQLRETURN GetResultInfo();

@@ -135,7 +135,7 @@ bool CACore::Run()
 void CACore::MessageProc(MSG msg)
 {
     I_Input.MouseCheck(msg);
-  //  I_MSG.Msg_list.push_back(msg);
+    I_MSG.Msg_list.push_back(msg);
 }
 
 CACore::CACore()

@@ -20,7 +20,7 @@ void Player_Mgr::Add_User(Packet user_info_packet)
     }
     else
     {
-        Player_map[user_info_packet.ph.UID] = //데이터 베이스에서 UID로 검색해서 가져온 유저 정보 복사 입력.
+       // Player_map[user_info_packet.ph.UID] = //데이터 베이스에서 UID로 검색해서 가져온 유저 정보 복사 입력.
             
     }
 
@@ -34,6 +34,7 @@ void Player_Mgr::Del_User(Packet user_info_packet)
     // player 맵에서 지우기
     if (Player_map.end() != Player_map.find(user_info_packet.ph.UID))//중복 삭제 방지. 없어도 될거 같기도 함.
     {
+        delete Player_map[user_info_packet.ph.UID];
         Player_map.erase(user_info_packet.ph.UID);
     }
 
@@ -46,6 +47,7 @@ void Player_Mgr::Del_User(int uid)
     // player 맵에서 지우기
     if (Player_map.end() != Player_map.find(uid))//중복 삭제 방지. 없어도 될거 같기도 함.
     {
+        delete Player_map[uid];
         Player_map.erase(uid);
     }
 
@@ -59,7 +61,7 @@ bool Player_Mgr::Dispatch(Player* pPlayer,DWORD dwTransfer, OVERLAPPED2* ov)
         Packet_Cutting(pPlayer, dwTransfer);
         Recv(pPlayer);
     }
-
+    return true;
 }
 
 bool Player_Mgr::Recv(Player*  target_player)
@@ -89,15 +91,16 @@ bool Player_Mgr::Recv(Player*  target_player)
 
 bool Player_Mgr::Frame()
 {
-    while (true)
-    {
-        if (Recv())
-        {
-            break;
-        }
-    }
+    //while (true)
+    //{
+    //    //if (Recv())
+    //    //{
+    //    //    break;
+    //    //}
+    //}
     //오류처리 + release 해야할
-    
+    return true;
+
 }
 
 void Player_Mgr::Update_Player(int UID, WCHAR* NAME)

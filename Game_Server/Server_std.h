@@ -1,6 +1,11 @@
 #pragma once
+#include <random>
+
 #include <WinSock2.h>
+#include <sql.h>
+#include <sqlext.h>
 #include <stdio.h>
+//#include <Windows.h>//
 #include <string>
 #include <iostream>
 #include <map>
@@ -11,7 +16,7 @@
 using namespace std;
 
 //int code = WSAGetLastError();
-void E_MSG(const char* msg_title)
+static void E_MSG(const char* msg_title)
 {
 
 

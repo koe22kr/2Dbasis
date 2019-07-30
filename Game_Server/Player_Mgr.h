@@ -12,8 +12,8 @@ public:
 
 
 public:
-    void Add_Access_user(Player* pAccess_user);
-    void Del_Access_user(Player* pAccess_user);
+   // void Add_Access_user(Player* pAccess_user);
+   // void Del_Access_user(Player* pAccess_user);
 
     void Add_User(Packet user_info_packet);     //참가요청-> 유저 참가   //DB 부분 추가 해야함
     void Del_User(Packet user_info_packet);

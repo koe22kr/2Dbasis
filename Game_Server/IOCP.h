@@ -1,7 +1,7 @@
 #pragma once
 #include "Thread.h"
 
-#define MAX_IOCP_THREAD 2
+#define MAX_IOCP_THREAD 1
 
 class IOCP :public Thread, public Singleton<IOCP>
 {

@@ -1,6 +1,10 @@
 #pragma once
+
+
+#include "Std.h"
+#include "CAStd.h"
 #include <WinSock2.h>
-#include <stdio.h>
+
 #include <string>
 #include <iostream>
 #include <map>
@@ -10,7 +14,7 @@
 using namespace std;
 
 //int code = WSAGetLastError();
-void E_MSG(const char* msg_title)
+static void E_MSG(const char* msg_title)
 {
 
 
@@ -36,31 +40,31 @@ public:
     }
 };
 
-
-class WINT
-{
-public:
-    int x = 0;
-    int y = 0;
-    WINT() {};
-    WINT(int a, int b) :x(a), y(b) {};
-    WINT(const WINT& wint) :x(wint.x), y(wint.y) {};
-    WINT(int& a, int&b) : x(a), y(b) {};
-    ~WINT() {};
-    WINT operator +(WINT& wint) { return WINT(x + wint.x, y + wint.y); };
-    WINT operator +(POINT& point) { return WINT(x + point.x, y + point.y); };
-    WINT& operator =(WINT& src_wint)
-    {
-        //x = y = x = y;
-        if (this == &src_wint)
-        {
-            return *this;
-        }
-        this->x = src_wint.x;
-        this->y = src_wint.y;
-
-        return *this;
-    }
-
-};
+//
+//class WINT
+//{
+//public:
+//    int x = 0;
+//    int y = 0;
+//    WINT() {};
+//    WINT(int a, int b) :x(a), y(b) {};
+//    WINT(const WINT& wint) :x(wint.x), y(wint.y) {};
+//    WINT(int& a, int&b) : x(a), y(b) {};
+//    ~WINT() {};
+//    WINT operator +(WINT& wint) { return WINT(x + wint.x, y + wint.y); };
+//    WINT operator +(POINT& point) { return WINT(x + point.x, y + point.y); };
+//    WINT& operator =(WINT& src_wint)
+//    {
+//        //x = y = x = y;
+//        if (this == &src_wint)
+//        {
+//            return *this;
+//        }
+//        this->x = src_wint.x;
+//        this->y = src_wint.y;
+//
+//        return *this;
+//    }
+//
+//};
 //더미카드를 뒷면 카드로.매핑;

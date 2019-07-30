@@ -8,7 +8,7 @@ void ODBC_Query::New(User* user_data)
 
     Exec(sql);
 
-    wsprintf(sql, L"Insert into acc values(%d,'%s')", user_data->UID, user_data->Name.c_str);
+    wsprintf(sql, L"Insert into acc values(%d,'%s')", user_data->UID, user_data->Name.c_str());
 
     Update(user_data->UID);
 
@@ -22,6 +22,7 @@ void ODBC_Query::Modify(User* user_data)
     Exec(sql);
     Update(user_data->UID);
 }
+
 
 void ODBC_Query::Delete(User* user_data)
 {
@@ -58,7 +59,7 @@ void ODBC_Query::Update(int User_UID)//이름바꾸기
    SQLRETURN ret = SQLBindCol(m_hStmt, 2, SQL_WCHAR, Name, sizeof(Name), &Name_Len);
     //ret = SQLPrepare(g_odbc.m_hStmt,sql, _tcslen(sql));
     
-        SQLRETURN ret = SQLFetch(m_hStmt);
+        ret = SQLFetch(m_hStmt);
         if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
         {
             Check();
@@ -121,7 +122,7 @@ bool ODBC_Query::Exec(const TCHAR* sql)
     TCHAR sql[MAX_PATH] = { 0, };
     wsprintf(sql, L"select name, price, korean from tblCigar where name= ?");*/
 
-
+    return true;
 }
 
 void ODBC_Query::Check()
@@ -166,8 +167,106 @@ bool ODBC_Query::Connect(const TCHAR* loadDB) // FileDsn 으로 연결
     }	
     return true;
 
+    
+}
+bool ODBC_Query::Connect(const TCHAR* DB_NAME, const TCHAR* UID, const TCHAR* PW)
+{
+    SQLRETURN ret;
+    ret = SQLConnect(m_hDbc,
+        (SQLTCHAR*)DB_NAME, SQL_NTS,
+        (SQLTCHAR*)UID, SQL_NTS,
+        (SQLTCHAR*)PW, SQL_NTS);
+    if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+    {
+        Check();
+        return false;
+    }
+    if (SQLAllocHandle(SQL_HANDLE_STMT, m_hDbc, &m_hStmt) != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }
+    if (SQLAllocHandle(SQL_HANDLE_STMT, m_hDbc, &m_hStmt_New) != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }
+    if (SQLAllocHandle(SQL_HANDLE_STMT, m_hDbc, &m_hStmt_Login) != SQL_SUCCESS)
+    {
+        Check();
+        return false;
+    }
+  //PREPARE
+
+    param1 = 0;
+    ZeroMemory(param2, sizeof(param2));
+    param3 = 0;
+
+    //
+    TCHAR sql[MAX_PATH] = _T("{?=CALL Create_Account(?,?)}");
+    SQLBindParameter(m_hStmt_New, 1, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param1, 0, 0);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    SQLBindParameter(m_hStmt_New, 2, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_UNICODE, _tcslen(param2), 0, param2, 0, &namelen);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    SQLBindParameter(m_hStmt_New, 3, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param3, 0, 0);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    SQLPrepare(m_hStmt_New, sql, SQL_NTS);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    //
+    TCHAR sql2[MAX_PATH] = _T("{?=Call Login(?,?)}");
+    SQLBindParameter(m_hStmt_Login, 1, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param1, 0, 0);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    SQLBindParameter(m_hStmt_Login, 2, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_UNICODE, _tcslen(param2), 0, param2, 0, &namelen);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    SQLBindParameter(m_hStmt_Login, 3, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param3, 0, 0);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    SQLPrepare(m_hStmt_New, sql, SQL_NTS);
+    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+    {
+        Check();
+    }
+    
+    SQLExecute(m_hStmt_New);
+    SQLFetch(m_hStmt_New);
+    //~~~~
+
+    int a = 999;
+    return true;
+
 }
 
+void ODBC_Query::Stproc_New(TCHAR* name)
+{
+    _tcscpy(param2, name);
+    SQLExecute(m_hStmt_New);
+    SQLFetch(m_hStmt_New);
+    int a = 999;
+}
+void ODBC_Query::Stproc_Login(TCHAR* name)
+{
+
+}
 bool ODBC_Query::Init()
 {
     if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_hEnv) != SQL_SUCCESS)
@@ -186,7 +285,8 @@ bool ODBC_Query::Init()
         Check();
         return false;
     }
-    if (Connect(DB_Name));
+   // if (Connect(DB_Name));
+    Connect(L"USERLIST", L"sa", L"kgca!@ 34");
     return true;
 }
 

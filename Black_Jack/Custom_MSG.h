@@ -1,10 +1,9 @@
 #pragma once
-#include "CAStd.h"
-#include "Std.h"
+#include "Server_std.h"
 
-class Custom_MSG : public CASingleton<Custom_MSG>
+class Custom_MSG : public Singleton<Custom_MSG>
 {
-    friend CASingleton<Custom_MSG>;
+    friend Singleton<Custom_MSG>;
     
    multimap<int, WINT>  m_My_msg;
    list<WINT>           m_list;
