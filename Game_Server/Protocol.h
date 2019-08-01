@@ -60,7 +60,8 @@ enum Custom_ERROR_CODE //1바이트 안으로
 
 #define PACKET_USER_EXIT 9900                        //
 
-#define PACKET_CHAT_MSG 1001
+#define PACKET_CHAT_MSG 1001 //Packet 으로 그냥.
+
 #define PACKET_CHAT_JOIN_RQ 1002
 #define PACKET_CHAT_JOIN_ACK 1003
 #define PACKET_CHAT_EXIT 9999

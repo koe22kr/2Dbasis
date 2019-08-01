@@ -3,7 +3,6 @@
 #include "CACore.h"
 #include "Black_Jack.h"
 #include "resource.h"
-#include "Chat.h"
 class Sample :public CACore
 {
 public:
@@ -12,7 +11,6 @@ public:
 public:
     //LRESULT MsgProc2(/*HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam*/);
     Black_Jack BJ;
-    Chat chat;
     bool m_Dlg_Flag;
     
     

@@ -3,15 +3,19 @@
 //#include "Deck.h"
 #include "Connecter.h"
 #include "CABitmapMgr.h"
+#include "Chat.h"
 
 class Black_Jack
 {
 public:
     Connecter* g_pConnecter;//생성자필
+
 public:
     User m_User;
     map<int, Player> m_Player_list;
     CABitmapMgr m_BitmapMgr;
+    Chat chat;
+
 public:
 
     Black_Jack();

@@ -2,7 +2,9 @@
 
 void Black_Jack::Init()
 {
+    
     m_BitmapMgr.Load_Bitmap_Script(L"../../data/wp.txt");
+    chat.Init();
 }
 
 void Black_Jack::Frame()
@@ -16,7 +18,7 @@ void Black_Jack::Frame()
         case PACKET_UPDATE:
         {
             User_Info user;
-            TCHAR wname[20];
+            TCHAR wname[20] = { 0 };
             size_t len;
             memcpy(&user, packet.msg, MSG_USER_INFO_SIZE);
             mbstowcs_s(&len,wname, user.name, strlen(user.name));
@@ -24,7 +26,7 @@ void Black_Jack::Frame()
             
             m_Player_list[user.UID].Name = wname;
             m_Player_list[user.UID].UID = user.UID;
-        }
+        }break;
         case PACKET_JOIN_NEW_USER:
         {
             User_Info user;
@@ -33,9 +35,8 @@ void Black_Jack::Frame()
             mbstowcs(wname, user.name, strlen(user.name));
             m_Player_list[user.UID].Name = wname;
             m_Player_list[user.UID].UID = user.UID;
-            //CHAR_NOTICE(user.name, L"님이 입장하였습니다.");
-            
-        }
+            chat.Notice(packet,"님이 입장하였습니다.");
+        }break;
 
         //case PACKET_UPDATE_END:
         //{
@@ -48,40 +49,44 @@ void Black_Jack::Frame()
             memcpy(&user, packet.msg, MSG_USER_INFO_SIZE);
             m_Player_list.erase(user.UID);
           //  CHAR_NOTICE(user.name, "~님이 퇴장하였습니다.");
-        }
-
+        }break;
+        case PACKET_CHAT_MSG:
+        {
+            chat.Talk(packet, m_Player_list[packet.ph.UID].Name.c_str());
+            /////////////////////////////////////////////////
+        }break;
         case PACKET_SOME_BODY_READY:
         {
             User_Info user;
             memcpy(&user, packet.msg, MSG_USER_INFO_SIZE);
             //리소스 준비 마크 flag =1;
            // CHAR_NOTICE(user.name, "님이 준비하였습니다.");
-        }
+        }break;
         case PACKET_SOME_BODY_READY_CANCEL:
         {
             User_Info user;
             memcpy(&user, packet.msg, MSG_USER_INFO_SIZE);
             //리소스  준비마크 flag =0;
            // CHAR_NOTICE(user.name, "님이 준비를 취소하였습니다.");
-        }
+        }break;
         case PACKET_ALL_PLAYER_READY:
         {
           //  CHAR_NOTICE("모든 유저 준비");
             //리소스 5초후 시작합니다.
-        }
+        }break;
         case PACKET_GAME_START:
         {
            // CHAR_NOTICE("게임 시작");
            // Scene->Game_Start;
             //게임 시작 NOTICE.
-        }
+        }break;
         case PACKET_SOME_BODY_HIT://
         {
             User_Card_Info card_info;
             memcpy(&card_info, packet.msg, MSG_USER_CARD_SIZE);
             m_Player_list[card_info.UID].Take_Card(card_info.hit_card);//
             //Take_Card에서 카드 비트맵 오브젝트 랜더링해야.. + 버스트, 블랙잭 연산 해야함
-        }
+        }break;
         case PACKET_SOME_BODY_STAY://
         {
 
@@ -89,30 +94,30 @@ void Black_Jack::Frame()
             memcpy(&user, packet.msg, MSG_USER_INFO_SIZE);
             m_Player_list[user.UID].m_bTurn_End_Flag = true;
             //스테이 리소스
-        }
+        }break;
         //case PACKET_BURST_OR_BLACK_JACK:  클라에서 계산하기!
         //{
         //
-        //}
+        //}break;
         case PACKET_GAME_LOSE:
         {
           //  MSGBOX("ㅍ ㅐ 배")
-        }
+        }break;
         case PACKET_GAME_WIN:
         {
           //  MessageBox()
            // MSGBOX("승 리 ")
-        }
+        }break;
         case PACKET_ERROR_CODE:
         {
            // ERROR;
-        }
+        }break;
         default:
             break;
         }
     }//for_end
     g_pConnecter->m_Packet_Pool.clear();
-    
+    chat.Frame();
     m_BitmapMgr.Frame();
 }
 

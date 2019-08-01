@@ -111,7 +111,11 @@ void Server_Game::Frame()
                
                 if (I_PLAYER_MGR.Player_map.size() != 0)
                 {
-
+                    case PACKET_CHAT_MSG:
+                    {
+                        SENDER.Broadcast_Packet_Make(PACKET_CHAT_MSG, (char*)&packet.msg, strlen(packet.msg));
+                        
+                    }break;
                     case PACKET_USER_EXIT://
                     {
 

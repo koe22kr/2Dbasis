@@ -2,19 +2,19 @@
 
 void Sender::Send()
 {
-    char send_buf[PACKET_MAX_DATA_SIZE] = { 0 };
-    DWORD dwSendByte=0;
-
+   // char send_buf[PACKET_MAX_DATA_SIZE] = { 0 };
+    //DWORD dwSendByte=0;
+    int p;
     ////////////////////////////////////////
     for (sPacket spacket : Send_Pool)
     {
-        int p;
-        auto pOV = new OVERLAPPED;
+        
+        //auto pOV = new OVERLAPPED;
         
         p = send(spacket.user_sock, (char*)&spacket.real_packet, spacket.real_packet.ph.len, 0);
         if (p == SOCKET_ERROR)
         {
-            E_MSG("WSA_SEND");
+            E_MSG("S_SEND");
         }
       //  p = WSASend(spacket.user_sock, &send_buf, 1, &dwSb, 0, (LPOVERLAPPED)pOV, NULL);
       // if (p == SOCKET_ERROR||INVALID_SOCKET)
@@ -35,6 +35,12 @@ void Sender::Send()
     {
         for (auto player : I_PLAYER_MGR.Player_map)
         {
+            packet.ph.UID = player.second->UID;
+            p = send(player.second->Sock, (char*)&packet, packet.ph.len, 0);
+            if (p == SOCKET_ERROR)
+            {
+                E_MSG("B_SEND");
+            }
            //auto pOV = new OVERLAPPED2;
            //send_buf.buf = packet.msg;
            //send_buf.len = packet.ph.len;

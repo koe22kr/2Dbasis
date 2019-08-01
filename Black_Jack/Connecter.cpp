@@ -1,4 +1,5 @@
 #include "Connecter.h"
+Connecter* g_pConnecter;
 
 bool Recv2(SOCKET sock)
 {
@@ -102,16 +103,9 @@ bool Connecter::Init(int iPort, const char* address)
         //    return 1;
         //}
     }
-    //ref = Send_Packet(PACKET_ACCESS_RQ);
-    if (ref == SOCKET_ERROR)
-    {
-            MessageBox(g_hWnd, L"서버접속 실패", L"에러", MB_OK);
-
-        //if (WSAGetLastError() != WSAEWOULDBLOCK)
-        //{
-        //   // E_MSG("connecter_send");
-        //}
-    }
+  
+    
+    
     return 1;
 }
 
@@ -119,6 +113,7 @@ bool Connecter::Init(int iPort, const char* address)
 void Connecter::Send(WORD type, char* msg, WORD msg_len)
 {
     Packet packet;
+    ZeroMemory(&packet, sizeof(packet));
     memcpy(packet.msg, msg, msg_len);
     packet.ph.len = msg_len + PACKET_HEADER_SIZE;
     packet.ph.type = type;
@@ -190,12 +185,9 @@ unsigned int WINAPI Connecter::Handle_Runner(LPVOID prameter)
 {
     Connecter* connecter = (Connecter*)prameter;
     //connecter->Init(10000,"192.168.0.61");
-    while (true)
-    {
         connecter->Recv();
         //::Recv2(connecter->SOCK);
-
-    }
+        
     return 0;
 }
 
@@ -208,6 +200,7 @@ void Connecter::CreateThread_Recv_Run()
   //       0,
   //       &iThreadID_2);
         m_hThread = (HANDLE)_beginthreadex(NULL, 0, Handle_Runner, (LPVOID)this, 0, &m_iID);
+        int a = 0;
 }
 
 Connecter::Connecter()

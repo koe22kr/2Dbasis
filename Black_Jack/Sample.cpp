@@ -12,6 +12,7 @@ HWND g_hNew_Name;
 HWND g_hNew_Ok_Button;
 HWND g_hNew_Cancel_Button;
 
+
   //msg
 //HWND        hwnd;
 //UINT        message;
@@ -193,13 +194,13 @@ void Sample::Join_Thread()
 bool Sample::Init()
 {
     BJ.Init();
-    chat.Init();
+    
     return true;
 }
 bool Sample::Frame()
 {
    BJ.Frame();
-   chat.Frame();
+   
     return true;
 }
 bool Sample::Render()
