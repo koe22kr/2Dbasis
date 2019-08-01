@@ -1,16 +1,18 @@
 #include "ODBC_Query.h"
 #include "Player_Mgr.h"
-void ODBC_Query::New(User* user_data)
+
+#ifdef USE_OLD
+
+
+void ODBC_Query::Stproc_New(TCHAR* name)
 {
-    TCHAR sql[MAX_PATH] = { 0 };
-    
-    wsprintf(sql, L"Select count UID from acc");
-
-    Exec(sql);
-
-    wsprintf(sql, L"Insert into acc values(%d,'%s')", user_data->UID, user_data->Name.c_str());
-
-    Update(user_data->UID);
+    _tcscpy(param2, name);
+    SQLExecute(m_hStmt_New);
+    SQLFetch(m_hStmt_New);
+    int a = 999;
+}
+void ODBC_Query::Stproc_Login(TCHAR* name)
+{
 
 }
 
@@ -106,6 +108,90 @@ void ODBC_Query::Update(int User_UID)//이름바꾸기
 //    }
 //    SQLCloseCursor(m_hStmt);
 //}
+#endif // USE_OLD
+
+int ODBC_Query::New(char* newname)
+{
+    param1 = 0;
+    _wcsset(param2, 0);
+    TCHAR sql[MAX_PATH] = { 0 };
+    TCHAR name[20] = { 0 };
+    mbstowcs(name, newname, strlen(newname));
+    SQLLEN Name_Len;
+    SQLRETURN ret;
+    wsprintf(sql, L"SELECT * FROM USERLIST WHERE NAME =N'%s' ", name);
+    ret = SQLBindCol(m_hStmt, 1, SQL_INTEGER, &param1, 0, 0);
+    if (ret != SQL_SUCCESS)
+    {
+        Check();
+    }
+    ret = SQLBindCol(m_hStmt, 2, SQL_UNICODE, param2, sizeof(param2), &Name_Len);
+    if (ret != SQL_SUCCESS)
+    {
+        Check();
+    }
+    Exec(sql);
+    SQLFetch(m_hStmt);
+    SQLCloseCursor(m_hStmt);
+
+    if (param1 == 0)// 없음
+    {
+
+
+        wsprintf(sql, L"INSERT INTO USERLIST(NAME) VALUES(N'%s')", name);
+
+
+        Exec(sql);
+        SQLFetch(m_hStmt);
+        SQLCloseCursor(m_hStmt);
+
+
+        wsprintf(sql, L"SELECT * FROM USERLIST WHERE NAME = N'%s'", name);
+        Exec(sql);
+        SQLFetch(m_hStmt);
+        SQLCloseCursor(m_hStmt);
+        return param1;
+    }
+
+
+
+
+
+
+
+
+    return 0;
+}
+
+User_Info ODBC_Query::Login(char* login_name)
+{
+    param1 = 0;
+    _wcsset(param2, 0);
+    TCHAR sql[MAX_PATH] = { 0 };
+    TCHAR name[20] = { 0 };
+    mbstowcs(name, login_name, strlen(login_name));
+    SQLLEN Name_Len;
+    SQLRETURN ret;
+    wsprintf(sql, L"SELECT * FROM USERLIST WHERE NAME =N'%s' ", name);
+    ret = SQLBindCol(m_hStmt, 1, SQL_INTEGER, &param1, 0, 0);
+    if (ret != SQL_SUCCESS)
+    {
+        Check();
+    }
+    ret = SQLBindCol(m_hStmt, 2, SQL_UNICODE, param2, sizeof(param2), &Name_Len);
+    if (ret != SQL_SUCCESS)
+    {
+        Check();
+    }
+    Exec(sql);
+    SQLFetch(m_hStmt);
+    SQLCloseCursor(m_hStmt);
+    
+    User_Info temp;
+    wcstombs(temp.name, param2, sizeof(temp.name));
+    temp.UID = param1;
+    return temp;
+}
 
 bool ODBC_Query::Exec(const TCHAR* sql)
 {
@@ -140,7 +226,21 @@ void ODBC_Query::Check()
         &length);
     MessageBox(NULL, errorBuffer, szSQLState, MB_OK);
 }
-
+void ODBC_Query::Check2(SQLHSTMT& nowStmt)
+{//이거 부터 보기.
+    SQLTCHAR szSQLState[SQL_SQLSTATE_SIZE + 1];
+    SQLTCHAR errorBuffer[SQL_MAX_MESSAGE_LENGTH + 1];
+    SQLINTEGER iSQLCode;
+    SQLSMALLINT length;
+    SQLError(this->m_hEnv, this->m_hDbc,
+        nowStmt,
+        szSQLState,
+        &iSQLCode,
+        errorBuffer,
+        sizeof(errorBuffer),
+        &length);
+    MessageBox(NULL, errorBuffer, szSQLState, MB_OK);
+}
 bool ODBC_Query::Connect(const TCHAR* loadDB) // FileDsn 으로 연결
 {
     SQLRETURN ret;
@@ -197,76 +297,79 @@ bool ODBC_Query::Connect(const TCHAR* DB_NAME, const TCHAR* UID, const TCHAR* PW
         return false;
     }
   //PREPARE
-
-    param1 = 0;
-    ZeroMemory(param2, sizeof(param2));
-    param3 = 0;
-
-    //
-    TCHAR sql[MAX_PATH] = _T("{?=CALL Create_Account(?,?)}");
-    SQLBindParameter(m_hStmt_New, 1, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param1, 0, 0);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    SQLBindParameter(m_hStmt_New, 2, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_UNICODE, _tcslen(param2), 0, param2, 0, &namelen);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    SQLBindParameter(m_hStmt_New, 3, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param3, 0, 0);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    SQLPrepare(m_hStmt_New, sql, SQL_NTS);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    //
-    TCHAR sql2[MAX_PATH] = _T("{?=Call Login(?,?)}");
-    SQLBindParameter(m_hStmt_Login, 1, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param1, 0, 0);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    SQLBindParameter(m_hStmt_Login, 2, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_UNICODE, _tcslen(param2), 0, param2, 0, &namelen);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    SQLBindParameter(m_hStmt_Login, 3, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param3, 0, 0);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    SQLPrepare(m_hStmt_New, sql, SQL_NTS);
-    if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
-    {
-        Check();
-    }
-    
-    SQLExecute(m_hStmt_New);
-    SQLFetch(m_hStmt_New);
-    //~~~~
-
-    int a = 999;
+//
+//param1 = 0;
+//ZeroMemory(param2, sizeof(param2));
+//param3 = 0;
+////
+//SQLINTEGER LEN = SQL_NTS;
+//TCHAR sql[MAX_PATH] = _T("{?=CALL Create_Account(?,?)}");
+//SQLBindParameter(m_hStmt_New, 1, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param1, 0, 0);
+//if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//{
+//    Check2(m_hStmt_New);
+//}
+//SQLBindParameter(m_hStmt_New, 2, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_CHAR, sizeof(param2), 0, param2, 0, &namelen);
+//if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//{
+//    Check2(m_hStmt_New);
+//}
+//SQLBindParameter(m_hStmt_New, 3, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param3, 0, 0);
+//if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//{
+//    Check2(m_hStmt_New);
+//}
+//SQLPrepare(m_hStmt_New, sql, SQL_NTS);
+//if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//{
+//    Check2(m_hStmt_New);
+//}
+////
+//TCHAR sql2[MAX_PATH] = _T("{?=Call Login(?,?)}");
+//SQLBindParameter(m_hStmt_Login, 1, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param1, 0, 0);
+//if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//{
+//    Check2(m_hStmt_Login);
+//}
+//SQLBindParameter(m_hStmt_Login, 2, SQL_PARAM_INPUT, SQL_C_TCHAR, SQL_CHAR, sizeof(param2), 0, param2, 0, &namelen);
+//if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//{
+//    Check2(m_hStmt_Login);
+//}
+//SQLBindParameter(m_hStmt_Login, 3, SQL_PARAM_OUTPUT, SQL_C_SHORT, SQL_INTEGER, 0, 0, &param3, 0, 0);
+//if (ret != SQL_SUCCESS && ret != SQL_SUCCESS_WITH_INFO)
+//{
+//    Check2(m_hStmt_Login);
+//}
+//SQLPrepare(m_hStmt_Login, sql, SQL_NTS);
+//if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+//{
+//    Check2(m_hStmt_Login);
+//}
+//
+//
+//wcscpy(param2, L"ASDF");
+//ret =SQLExecute(m_hStmt_New);
+//if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+//{
+//    Check2(m_hStmt_New);
+//}
+//ret =SQLFetch(m_hStmt_New);
+//if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+//{
+//    Check2(m_hStmt_New);
+//}
+//ret = SQLGetData(m_hStmt_New, 3, SQL_INTEGER, &param3, 0, 0);
+//if (ret != SQL_SUCCESS && ret != SQL_NEED_DATA)
+//{
+//    Check2(m_hStmt_New);
+//}
+////~~~~
+//int a = 999;
     return true;
 
 }
 
-void ODBC_Query::Stproc_New(TCHAR* name)
-{
-    _tcscpy(param2, name);
-    SQLExecute(m_hStmt_New);
-    SQLFetch(m_hStmt_New);
-    int a = 999;
-}
-void ODBC_Query::Stproc_Login(TCHAR* name)
-{
-
-}
 bool ODBC_Query::Init()
 {
     if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &m_hEnv) != SQL_SUCCESS)

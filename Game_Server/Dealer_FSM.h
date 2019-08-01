@@ -14,11 +14,11 @@
 class Waiting_Ready :public Status
 {
 public:
-  //  bool Action();
-   // bool User_Ready_Check();
-   // void Set_Up();
-   // Waiting_Ready();
-   // ~Waiting_Ready();
+   bool Action();
+   bool User_Ready_Check();
+   void Set_Up();
+   Waiting_Ready();
+   ~Waiting_Ready();
 
 
 };
@@ -28,7 +28,7 @@ class Player_Turn :public Status
     int m_iTurn_End_Count;
     
 public:
-   // bool Action();
+    bool Action();
     Player_Turn();
     ~Player_Turn();
 
@@ -47,19 +47,19 @@ public:
 private:
 
 };
-
-class ALL_Turn_Over :public Status
-{
-public:
-   // bool Action();
-  //  bool Reset();
-   // ALL_Turn_Over();
-   // ~ALL_Turn_Over();
-
-private:
-
-};
-
+//
+//class ALL_Turn_Over :public Status
+//{
+//public:
+//   bool Action();
+//   bool Reset();
+//   ALL_Turn_Over();
+//   ~ALL_Turn_Over();
+//
+//private:
+//
+//};
+//
 
 
 class Dealer_FSM

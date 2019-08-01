@@ -1,18 +1,19 @@
 #pragma once
-#include "Protocol.h"
+#include "Player.h"
 class Packet_Pool :public Singleton<Packet_Pool>
 {
     friend Singleton<Packet_Pool>;
 public:
-    list<Packet> Pool;
+    list<Packet2> Pool;
+    list<Packet2>& Get();
 
-    list<Packet>& Get();
     //const list<Packet>* Get() const;
 
-    Packet Get_Top();
-    Packet Get_Top() const;
-    Packet Pop();
-    void Push(Packet packet);
+    Packet2 Get_Top();
+    Packet2 Get_Top() const;
+    Packet2 Pop();
+    //void Push(Packet packet);
+    void Push(Packet2 packet);
 
 public:
 

@@ -16,14 +16,27 @@ void Black_Jack::Frame()
         case PACKET_UPDATE:
         {
             User_Info user;
-            TCHAR wname;
-            mbstowcs(&wname, user.name, MSG_USER_NAME_SIZE);
+            TCHAR wname[20];
+            size_t len;
             memcpy(&user, packet.msg, MSG_USER_INFO_SIZE);
+            mbstowcs_s(&len,wname, user.name, strlen(user.name));
             
             
             m_Player_list[user.UID].Name = wname;
             m_Player_list[user.UID].UID = user.UID;
         }
+        case PACKET_JOIN_NEW_USER:
+        {
+            User_Info user;
+            TCHAR wname[20] = { 0 };
+            memcpy(&user, packet.msg, MSG_USER_INFO_SIZE);
+            mbstowcs(wname, user.name, strlen(user.name));
+            m_Player_list[user.UID].Name = wname;
+            m_Player_list[user.UID].UID = user.UID;
+            //CHAR_NOTICE(user.name, L"님이 입장하였습니다.");
+            
+        }
+
         //case PACKET_UPDATE_END:
         //{
         //   // Scene->In_game;

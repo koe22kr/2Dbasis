@@ -1,5 +1,6 @@
 #pragma once
 #include "Thread.h"
+#include "Player_Mgr.h"
 
 #define MAX_IOCP_THREAD 1
 

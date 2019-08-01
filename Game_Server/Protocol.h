@@ -81,6 +81,7 @@ struct Packet // PH= 6   + 10, 12, 15
     char msg[PACKET_MAX_DATA_SIZE];
 };
 
+
 struct sPacket
 {
     SOCKET user_sock;

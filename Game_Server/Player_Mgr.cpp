@@ -1,32 +1,23 @@
 #include "Player_Mgr.h"
 #include "Packet_Pool.h"
-void Player_Mgr::Add_User(Packet user_info_packet)
+bool Player_Mgr::Add_User(Packet2 packet2, TCHAR* name, int uid)
 {
-    //db에 있는지 확인. 후
-
-    //현 게임 참가중 인지 확인
-    //현 플레이어 map 에 있으면 그 유저 끊고 현 클라에 제접속 하라고 던지기
-    
-    //플레이어 map에 UID 키값으로 그 유저 포인트 값? 복사가 나을듯 이런 게임이면.
-    //여기까지 성공하면 return true;
-
-    //DB는 추가 하고 나서.
-
-    //게임 중복참가? 유령클라 방지? 중복접속 방지
-    if (Player_map.end() != Player_map.find(user_info_packet.ph.UID))
+    if (Player_map.end() == Player_map.find(uid))
     {
+        packet2.pPlayer->Name = name;
+        packet2.pPlayer->UID = uid;
+      auto retiter =  Player_map.insert(make_pair(uid, packet2.pPlayer));//데이터 베이스에서 UID로 검색해서 가져온 유저 정보 복사 입력.
+      if (!retiter.second)
+      {
+          //insert실패시
+          return false;
+      }
+      return true;
+    }
+        return false;
         //중복 참가시.
-        //Packet_Sender(int Protocol,msg?) 하나 만들어서 쓰자 msg는 쓸지 말지 고민후.
-    }
-    else
-    {
-       // Player_map[user_info_packet.ph.UID] = //데이터 베이스에서 UID로 검색해서 가져온 유저 정보 복사 입력.
-            
-    }
-
-    return;
 }
-void Player_Mgr::Del_User(Packet user_info_packet)
+void Player_Mgr::Del_User(Packet2 user_info_packet)
 {
     // 소켓에러, 혹은 종료 패킷 받으면 DB에 유저 정보 갱신할 것 있으면 갱신후
     
@@ -136,10 +127,11 @@ void Player_Mgr::Packet_Cutting(Player* target_player, DWORD dwByte)
         {
             do {
 
-                Packet newPacket;
+                Packet2 newPacket;
                 ZeroMemory(&newPacket, sizeof(newPacket));
                 // UID 는 허가 패킷에서 MAP 의 키값UID 던져주고 그걸로 받아서 유저 맵에.
                 memcpy(&newPacket, pPacket, pPacket->ph.len);
+                newPacket.pPlayer = target_player;
                 //newPacket을 패킷 풀? 에 투입 하고  pos들 수정해주고..
 
                 I_Packet_Pool.Push(newPacket);

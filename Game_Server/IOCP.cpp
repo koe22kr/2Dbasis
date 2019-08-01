@@ -1,5 +1,4 @@
 #include "IOCP.h"
-#include "Player_Mgr.h"
 DWORD WINAPI Worker_Thread(LPVOID param)
 {
     IOCP* pIOCP = (IOCP*)param;
@@ -79,6 +78,8 @@ bool IOCP::Release()
 
 IOCP::IOCP()
 {
+    WSADATA wsa;
+    WSAStartup(MAKEWORD(2, 2), &wsa);
 }
 
 

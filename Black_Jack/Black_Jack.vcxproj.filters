@@ -80,6 +80,9 @@
     <ClInclude Include="Thread.h">
       <Filter>STD</Filter>
     </ClInclude>
+    <ClInclude Include="Chat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp">
@@ -112,14 +115,14 @@
     <ClCompile Include="Thread.cpp">
       <Filter>STD</Filter>
     </ClCompile>
+    <ClCompile Include="Chat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Black_Jack.rc">
       <Filter>리소스</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="bitmap1.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\data\wp.txt">

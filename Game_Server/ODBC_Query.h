@@ -40,7 +40,9 @@ public:
 public:
     void Stproc_New(TCHAR* name);
     void Stproc_Login(TCHAR* name);
-    void New(User* user_data);
+    int New(char* newname);
+    User_Info Login(char* login_name);
+
     void Modify(User* user_data);
     void Delete(User* user_data);
     void Delete(int UID);
@@ -57,7 +59,8 @@ public:
     bool	Connect(const TCHAR* loadDB);
     bool Connect(const TCHAR* DB_NAME, const TCHAR* UID, const TCHAR* PW);
     void	Check();
-    
+    void	Check2(SQLHSTMT& nowStmt);
+
     SQLRETURN GetResultInfo();
 public:
     ODBC_Query();

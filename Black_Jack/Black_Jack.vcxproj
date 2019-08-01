@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="Black_Jack.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="Chat.h" />
     <ClInclude Include="Connecter.h" />
     <ClInclude Include="Object_Pool.h" />
     <ClInclude Include="Option.h" />
@@ -167,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="Black_Jack.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="Chat.cpp" />
     <ClCompile Include="Connecter.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -183,9 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Black_Jack.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="bitmap1.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\data\card.txt" />

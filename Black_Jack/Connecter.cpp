@@ -1,13 +1,88 @@
 #include "Connecter.h"
 
+bool Recv2(SOCKET sock)
+{
+    DWORD dwTransfer, flag = 0;
+    Player tp;
+    tp.m_wsaRecv_Buffer.buf = tp.m_szRecv_Buffer;
+    tp.m_wsaRecv_Buffer.len = MAX_USER_BUFFER_SIZE;
+    OVERLAPPED2* pOV = new OVERLAPPED2();
+    pOV->dw_Flag = PACK_RECV;
+
+    int iRet = WSARecv(sock,
+        &tp.m_wsaRecv_Buffer, 1,
+        &dwTransfer, &flag,
+        (LPOVERLAPPED)pOV, NULL);
+    if (iRet != -1)
+    {
+        int a = 999;
+    }
+    if (iRet == SOCKET_ERROR)
+    {
+        if (WSAGetLastError() != WSA_IO_PENDING)
+        {
+            int iError = WSAGetLastError();
+            //E_MSG("Server::WSARecv");			
+            return false;
+        }
+    }
+    return true;
+}
+DWORD WINAPI RecvThread(LPVOID arg)
+{
+    SOCKET sock = (SOCKET)arg;
+    char buffer[256] = { 0 };
+    int iRecvByte = 0;
+    while (1)
+    {
+
+
+        iRecvByte = recv(sock, &buffer[iRecvByte], PACKET_HEADER_SIZE - iRecvByte, 0);
+        if (iRecvByte == 0)
+        {
+            //연결은 되었는데 보낸게 없다.  혹은?
+            break;
+        }
+        if (iRecvByte == SOCKET_ERROR)
+        {
+            E_MSG("Recv3"); // 소켓 에러 발생 => 해당 소켓을 제거 해야 할까?
+            break;
+        }
+        if (iRecvByte == PACKET_HEADER_SIZE)
+        {
+            Packet packet;
+            ZeroMemory(&packet, sizeof(packet));
+            memcpy(&packet.ph, buffer, PACKET_HEADER_SIZE);
+            int iMsgByte = packet.ph.len - PACKET_HEADER_SIZE;
+            iRecvByte = 0;
+            do
+            {
+                int iByte = recv(sock, (char*)&packet.msg[iRecvByte], iMsgByte - iRecvByte, 0);
+                if (iByte == SOCKET_ERROR)
+                {
+                    E_MSG("Recv4");
+                    return 1;
+                }
+                iRecvByte += iByte;
+
+            } while (iMsgByte > iRecvByte);
+            //
+            iRecvByte = 0;
+
+           
+        }
+    }
+    closesocket(sock);
+    return 1;
+}
 bool Connecter::Init(int iPort, const char* address)
 {
     WSADATA wsa;
     WSAStartup(MAKEWORD(2, 2),&wsa);
     SOCK = socket(AF_INET, SOCK_STREAM, 0);
 
-   // unsigned long iMode = 0;    //0은 블록형 1은 논 블록형 소켓
-    //이걸 논블록형 으로 하면 
+    //unsigned long iMode = 0;    //0은 블록형 1은 논 블록형 소켓
+    ////이걸 논블록형 으로 하면 
     //ioctlsocket(SOCK, FIONBIO, &iMode);
 
     SOCKADDR_IN sa;
@@ -54,7 +129,8 @@ void Connecter::Send(WORD type, char* msg, WORD msg_len)
     {
         E_MSG("send");
     }
-
+    int iRecvByte = 0;
+    //iRecvByte = recv(SOCK, &buf[iRecvByte], PACKET_HEADER_SIZE - iRecvByte, 0);
 }
 
 bool Connecter::Recv()
@@ -66,18 +142,20 @@ bool Connecter::Recv()
     while (1)
     {
 
-        iRecvByte = recv(SOCK, &buf[iRecvByte], PACKET_HEADER_SIZE - iRecvByte, 0);
+        iRecvByte += recv(SOCK, &buf[iRecvByte], PACKET_HEADER_SIZE - iRecvByte, 0);
         if (iRecvByte == INVALID_SOCKET)
         {
             E_MSG("Recv_INVALID_SOCKET");
-            return false;
+            
+            break;
+
         }
         if (iRecvByte == SOCKET_ERROR)
         {
-            E_MSG("Recv"); // 소켓 에러 발생 => 해당 소켓을 제거 해야 할까?
+            E_MSG("Recv1"); // 소켓 에러 발생 => 해당 소켓을 제거 해야 할까?
             return false;
         }
-        if (iRecvByte == PACKET_HEADER_SIZE)
+        if (iRecvByte >= PACKET_HEADER_SIZE)
         {
             Packet packet;
             ZeroMemory(&packet, sizeof(packet));//
@@ -89,13 +167,13 @@ bool Connecter::Recv()
                 int iByte = recv(SOCK, (char*)&packet.msg[iRecvByte], iMsgByte - iRecvByte, 0);
                 if (iByte == SOCKET_ERROR)
                 {
-                    E_MSG("Recv");
+                    E_MSG("Recv2");
                     return false;
                 }
                 iRecvByte += iByte;
 
-            } while (iMsgByte >= iRecvByte);
-            //
+            } while (iMsgByte > iRecvByte);
+            m_Packet_Pool.push_back(packet);
             iRecvByte = 0;
 
         }
@@ -115,6 +193,7 @@ unsigned int WINAPI Connecter::Handle_Runner(LPVOID prameter)
     while (true)
     {
         connecter->Recv();
+        //::Recv2(connecter->SOCK);
 
     }
     return 0;
@@ -122,6 +201,12 @@ unsigned int WINAPI Connecter::Handle_Runner(LPVOID prameter)
 
 void Connecter::CreateThread_Recv_Run()
 {
+  //  DWORD iThreadID_2;
+  //   HANDLE hThreadRecv = CreateThread(0, 0,
+  //       Recv2,
+  //       (void*)this->SOCK,
+  //       0,
+  //       &iThreadID_2);
         m_hThread = (HANDLE)_beginthreadex(NULL, 0, Handle_Runner, (LPVOID)this, 0, &m_iID);
 }
 

@@ -27,7 +27,7 @@ enum Custom_ERROR_CODE //1바이트 안으로
 #define PACKET_NEW_ACCOUNT_RQ 2003  //ok   //>>NAME msg 에 이름 적어서 보내면 이름 중복 확인후 UID 지급
 
 
-#define PACKET_NEW_ACCOUNT_ACK 20049          //<<NO DATA 계정 생성 성공시 만 보내기
+#define PACKET_NEW_ACCOUNT_ACK 2004          //<<NO DATA 계정 생성 성공시 만 보내기
 
 #define PACKET_LOGIN_RQ 2005    //OK
 //>>NAME

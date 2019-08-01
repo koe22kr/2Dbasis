@@ -2,7 +2,7 @@
 #include "Protocol.h"
 #include "Object_Pool.h"
 
-struct OVERLAPPED2 :public Object_Pool<OVERLAPPED2>
+struct OVERLAPPED2 :Object_Pool<OVERLAPPED2>
 {
     OVERLAPPED ov;
     DWORD dw_Flag;

@@ -68,13 +68,13 @@ void Dealer::Hit(Player* pPlayer)
         //if (21 == pPlayer->m_iScore)
         //{
         //    flag = 1;
-        //    I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
+        //    SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
         //    pPlayer->m_bTurn_End_Flag = true;
         //}
         //else if (21 < pPlayer->m_iScore)
         //{
         //    flag = 0;
-        //    I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
+        //    SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
         //    pPlayer->m_bTurn_End_Flag = true;
         //}
         //else

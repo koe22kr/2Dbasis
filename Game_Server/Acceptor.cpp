@@ -4,6 +4,9 @@
 
 bool Acceptor::Init(int iPort, const char* address)
 {
+    WSADATA wsa;
+    WSAStartup(MAKEWORD(2, 2), &wsa);
+
     m_Listen_Sock = socket(AF_INET, SOCK_STREAM, 0);
     SOCKADDR_IN sa;
     ZeroMemory(&sa, sizeof(sa));
@@ -68,8 +71,8 @@ bool Acceptor::Thread_Runner()                                                  
 }
 Acceptor::Acceptor()
 {
-    WSADATA wsa;
-    WSAStartup(MAKEWORD(2, 2), &wsa);
+   /* WSADATA wsa;
+    WSAStartup(MAKEWORD(2, 2), &wsa);*/
 }
 
 

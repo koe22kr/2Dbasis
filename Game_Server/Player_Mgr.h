@@ -15,8 +15,8 @@ public:
    // void Add_Access_user(Player* pAccess_user);
    // void Del_Access_user(Player* pAccess_user);
 
-    void Add_User(Packet user_info_packet);     //참가요청-> 유저 참가   //DB 부분 추가 해야함
-    void Del_User(Packet user_info_packet);
+    bool Add_User(Packet2 packet2,TCHAR* name,int uid); //ret
+    void Del_User(Packet2 user_info_packet);
     void Del_User(int uid);
     bool Frame();//while (1)recv();
     bool Recv(Player*  target_player);

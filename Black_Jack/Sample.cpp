@@ -77,6 +77,8 @@ LRESULT New_Proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
     }
     }//case_end
+    Sleep(1);
+
     return 0;
 }
 
@@ -122,7 +124,7 @@ LRESULT Login_Proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         case ID_LOGIN_LOGIN_BUTTON:
         {
             TCHAR buf[30];
-            GetDlgItemText(hWnd, GetDlgCtrlID(g_hNew_Name), buf, 1024);
+            GetDlgItemText(hWnd, GetDlgCtrlID(g_hLogin_Name), buf, 1024);
             if (wcslen(buf) > 8)
             {
                 MessageBox(g_hNew_Account, L"닉네임을 확인해주세요! (8자 이하)", L"싫으면 또 만들든가", MB_OK);
@@ -134,6 +136,7 @@ LRESULT Login_Proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 CLIENT.g_pConnecter->Send(PACKET_LOGIN_RQ, buf2, MSG_USER_NAME_SIZE);
                 wcscpy(CLIENT.g_pConnecter->m_szName, buf);
             }
+            //
            // EndDialog(g_hLogin, IDOK);  //디버그용
            // Login_Flag = true;          //디버그용
         }break;
@@ -141,6 +144,7 @@ LRESULT Login_Proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         }
     }
     }
+    Sleep(1);
     return 0;
 }
 
@@ -149,55 +153,53 @@ void Sample::Join_Thread()
     while (true)
     {
 
-
-        for (auto iter =  CLIENT.g_pConnecter->m_Packet_Pool.begin();iter!= CLIENT.g_pConnecter->m_Packet_Pool.end();)
+        
+        while (CLIENT.g_pConnecter->m_Packet_Pool.begin() != CLIENT.g_pConnecter->m_Packet_Pool.end())
         {
+            auto iter = CLIENT.g_pConnecter->m_Packet_Pool.begin();
             switch (iter->ph.type)
             {
 
             case PACKET_NEW_ACCOUNT_ACK:
             {
-                MessageBox(g_hWnd, _T("생성 완료."), L"회원가입", MB_OK);
-            }
-            case PACKET_JOIN_NEW_USER:
-            {
-                User_Info user;
-                memcpy(&user, iter->msg, MSG_USER_INFO_SIZE);
-                //CHAR_NOTICE(user.name, L"님이 입장하였습니다.");
-            }
+                MessageBox(g_hNew_Account, _T("생성 완료."), L"회원가입", MB_OK);
+            }break;
             case PACKET_LOGIN_ACK:
             {
                 char flag = iter->msg[0];
                 if (flag == 1)
                 {
                     CLIENT.g_pConnecter->m_iUID = iter->ph.UID;
-                    
-                    EndDialog(g_hLogin, IDOK);
                     Login_Flag = true;
                     CLIENT.g_pConnecter->m_Packet_Pool.erase(iter);
-                    return;
                     //           MSGBOX("로그인 중? or 스킵");
-                    
+                    MessageBox(g_hNew_Account, L"접속승인", L"", MB_OK);
+                    EndDialog(g_hLogin, IDOK);
+
+                    return;
                 }
                 else
                 {
-                    MessageBox(g_hWnd, _T("이름을 확인해주세요."), L"로그인 오류", MB_OK);
+                    MessageBox(g_hNew_Account, _T("이름을 확인해주세요."), L"로그인 오류", MB_OK);
                 }
-            }
+            }break;
             }
             CLIENT.g_pConnecter->m_Packet_Pool.erase(iter);
         }
+        Sleep(1);
     }
 }
 
 bool Sample::Init()
 {
     BJ.Init();
+    chat.Init();
     return true;
 }
 bool Sample::Frame()
 {
-    BJ.Frame();
+   BJ.Frame();
+   chat.Frame();
     return true;
 }
 bool Sample::Render()
@@ -207,7 +209,7 @@ bool Sample::Render()
 }
 bool Sample::Release()
 {
-    BJ.Release();
+    //BJ.Release();
     return true;
 }
 
@@ -228,6 +230,7 @@ unsigned int WINAPI Handle_Runner(LPVOID prameter)
 }
 int APIENTRY  wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
+    g_hInstance = hInstance;
     unsigned int m_iID = 0;
 
     HANDLE dlghThread = (HANDLE)_beginthreadex(NULL, 0, Handle_Runner, (LPVOID)&CLIENT, 0, &m_iID);
@@ -238,7 +241,7 @@ int APIENTRY  wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
         CLIENT.InitWindow(hInstance, 0, 0, 800, 600);
         CLIENT.Run();
     }
-   
+    int b = 0;
    // CLIENT.InitWindow(hInstance, 0, 0, 800, 600);
    // CLIENT.Run();
 }

@@ -36,7 +36,7 @@ bool CAWindow::MyRegisterClass()
     wcex.lpszClassName = L"CA";    //필수     클레스 이름
     wcex.hInstance = m_hInstance;  //필수     인스턴스
    
-    wcex.style = CS_HREDRAW | CS_VREDRAW;       //필수 이건 거의 고정
+    wcex.style = CS_HREDRAW | CS_VREDRAW ;       //필수 이건 거의 고정
     wcex.cbSize = sizeof(WNDCLASSEX);//사이즈 맞는지 확인해서 찾음.
 
     //wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
@@ -61,7 +61,7 @@ bool CAWindow::InitWindow(HINSTANCE hInstance, int iX, int iY, int iWidth, int i
         return false;
 
     RECT rt = { iX,iY,iWidth,iHeight };//RECT 구조체 좌표x,좌표y,와이드,높이
-    m_dwStyle = WS_OVERLAPPEDWINDOW;
+    m_dwStyle = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
     AdjustWindowRect(&rt, m_dwStyle, FALSE);        //RECT,어떤 스타일,메뉴 여부 
 
     // 2) 윈도우 생성

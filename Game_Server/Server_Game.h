@@ -13,6 +13,7 @@
 
 class Server_Game :public Thread
 {
+    Sender SENDER;
     Dealer_FSM FSM;
     WSADATA wsa;
     SOCKET listensock;

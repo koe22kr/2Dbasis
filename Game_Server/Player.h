@@ -41,4 +41,8 @@ public:
     virtual ~Player();
 };
 
+struct Packet2 :public Packet//
+{
+    Player* pPlayer;
+};
 #define I_PLAYER Player::GetInstance()
