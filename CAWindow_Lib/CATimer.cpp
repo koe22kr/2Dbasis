@@ -40,9 +40,9 @@ bool CATimer::Render()
 {
     //HDC hdc = GetDC(g_hWnd);
     //SetBkColor(hdc, RGB(255,255, 0));
-    SetTextColor(g_hOffScreenDC, RGB(255, 157, 0));
-    SetBkMode(g_hOffScreenDC, TRANSPARENT);
-    TextOut(g_hOffScreenDC, 0, 0, m_csBuffer, _tcslen(m_csBuffer));
+   // SetTextColor(g_hOffScreenDC, RGB(255, 157, 0));
+   // SetBkMode(g_hOffScreenDC, TRANSPARENT);
+   // TextOut(g_hOffScreenDC, 0, 0, m_csBuffer, _tcslen(m_csBuffer));
     //ReleaseDC(g_hWnd, hdc);
     return true;
 

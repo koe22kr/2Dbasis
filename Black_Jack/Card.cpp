@@ -12,15 +12,10 @@ bool Card::Check() const
     }
     return true;
 }
-//
-//int Card::Get_Score() const
-//{
-//    return m_Card_Score;
-//}
-
 
 Card::Card()
 {
+
 }
 
 

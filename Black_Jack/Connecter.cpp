@@ -157,17 +157,20 @@ bool Connecter::Recv()
             memcpy(&packet.ph, buf, PACKET_HEADER_SIZE);
             int iMsgByte = packet.ph.len - PACKET_HEADER_SIZE;
             iRecvByte = 0;
-            do
+            if (packet.ph.len > PACKET_HEADER_SIZE)
             {
-                int iByte = recv(SOCK, (char*)&packet.msg[iRecvByte], iMsgByte - iRecvByte, 0);
-                if (iByte == SOCKET_ERROR)
+                do
                 {
-                    E_MSG("Recv2");
-                    return false;
-                }
-                iRecvByte += iByte;
+                    int iByte = recv(SOCK, (char*)&packet.msg[iRecvByte], iMsgByte - iRecvByte, 0);
+                    if (iByte == SOCKET_ERROR)
+                    {
+                        E_MSG("Recv2");
+                        return false;
+                    }
+                    iRecvByte += iByte;
 
-            } while (iMsgByte > iRecvByte);
+                } while (iMsgByte > iRecvByte);
+            }
             m_Packet_Pool.push_back(packet);
             iRecvByte = 0;
 
@@ -200,7 +203,6 @@ void Connecter::CreateThread_Recv_Run()
   //       0,
   //       &iThreadID_2);
         m_hThread = (HANDLE)_beginthreadex(NULL, 0, Handle_Runner, (LPVOID)this, 0, &m_iID);
-        int a = 0;
 }
 
 Connecter::Connecter()

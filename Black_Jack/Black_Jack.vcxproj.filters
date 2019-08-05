@@ -131,5 +131,8 @@
     <Text Include="..\..\data\card.txt">
       <Filter>리소스</Filter>
     </Text>
+    <Text Include="Text.txt">
+      <Filter>리소스</Filter>
+    </Text>
   </ItemGroup>
 </Project>

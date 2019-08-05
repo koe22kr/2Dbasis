@@ -26,28 +26,28 @@ class ODBC_Query :public Singleton<ODBC_Query>
    //     SQLSMALLINT        pfNullable;
    // };
     TCHAR DB_Name[MAX_PATH] = L"Account_DB.accdb.dsn";
-public:
+
+
+private:
     SQLHENV		m_hEnv;
     SQLHDBC		m_hDbc;
     SQLHSTMT	m_hStmt;
     SQLHSTMT m_hStmt_New;
     SQLHSTMT m_hStmt_Login;
-    int      param1;  //
-    TCHAR    param2[20];//
-    int      param3;//사용시 사전에 초기화
+    int      param1;  
+    TCHAR    param2[20];
+    int      param3;
     SQLLEN namelen;
 
 public:
     void Stproc_New(TCHAR* name);
     void Stproc_Login(TCHAR* name);
-    int New(char* newname);
-    User_Info Login(char* login_name);
 
+    User_Info Login(char* login_name);
+    int New(char* newname);
     void Modify(User* user_data);
     void Delete(User* user_data);
     void Delete(int UID);
-    
-
     void Update(int User_UID);
     //void Update_All();
     bool	Exec(const TCHAR* sql);

@@ -1,9 +1,10 @@
 #include "Dealer.h"
 #include <ctime>
-
+DWORD g_dwPhase;
 bool Dealer::Take_Card(Card hit_card)
 {
     Card_List.push_back(hit_card);
+    I_SENDER.Broadcast_Packet_Make(PACKET_DEALER_HIT, (char*)&hit_card, 3);
     Set_Score();
     return true;
 }
@@ -21,7 +22,7 @@ bool Dealer::Erase_Dummy_Card()
     {
         if (iter->Get_Type() == 10)
         {
-            Card_List.erase(iter);
+            iter = Card_List.erase(iter);
 
         }
         else
@@ -65,22 +66,22 @@ void Dealer::Hit(Player* pPlayer)
         user_card.hit_cards = hit_card;
         
 
-        //if (21 == pPlayer->m_iScore)
-        //{
-        //    flag = 1;
-        //    SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
-        //    pPlayer->m_bTurn_End_Flag = true;
-        //}
-        //else if (21 < pPlayer->m_iScore)
-        //{
-        //    flag = 0;
-        //    SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
-        //    pPlayer->m_bTurn_End_Flag = true;
-        //}
-        //else
+        if (21 == pPlayer->m_iScore)
         {
-            I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_HIT, (char*)&hit_card, MSG_USER_CARD_SIZE); //히트 성공
+            //flag = 1;
+            //I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //블랙잭
+            pPlayer->m_bTurn_End_Flag = true;
         }
+        else if (21 < pPlayer->m_iScore)
+        {
+            //flag = 0;
+            //I_SENDER.Broadcast_Packet_Make(PACKET_BURST_OR_BLACK_JACK, &flag, 1); //버스트
+            pPlayer->m_bTurn_End_Flag = true;
+        }
+        
+        
+            I_SENDER.Broadcast_Packet_Make(PACKET_SOME_BODY_HIT, (char*)&user_card, MSG_USER_CARD_SIZE); //히트 성공
+        
     }
     else
     {

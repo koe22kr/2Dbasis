@@ -33,6 +33,10 @@ void Sender::Send()
     //////////////////////////////////////
     for (Packet packet : Broadcast_Pool)
     {
+        if (packet.ph.type == PACKET_GAME_WIN || packet.ph.type == PACKET_GAME_LOSE)
+        {
+            Sleep(800);
+        }
         for (auto player : I_PLAYER_MGR.Player_map)
         {
             packet.ph.UID = player.second->UID;

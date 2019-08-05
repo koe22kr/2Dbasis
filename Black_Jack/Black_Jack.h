@@ -11,17 +11,17 @@ public:
     Connecter* g_pConnecter;//생성자필
 
 public:
-    User m_User;
     map<int, Player> m_Player_list;
-    CABitmapMgr m_BitmapMgr;
-    Chat chat;
-
+    Player player;
+    Player Dealer;
+    //Chat chat;
+    int m_iUID;
 public:
 
     Black_Jack();
     ~Black_Jack();
     void Init();
-    void Frame();
+    bool Frame();
     void Render();
     void Release();
     void New_Account() {};

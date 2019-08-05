@@ -1,5 +1,6 @@
 #pragma once
 #include <stdexcept>
+#include "Server_std.h"
 
 enum Card_Num
 {
@@ -19,7 +20,6 @@ class Card
     char m_Card_type;
     char m_Card_num;
     char m_Card_Score;
-    
 public:
     bool Check() const;
    // int Get_Score() const;

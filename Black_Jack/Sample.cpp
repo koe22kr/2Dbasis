@@ -171,6 +171,7 @@ void Sample::Join_Thread()
                 if (flag == 1)
                 {
                     CLIENT.g_pConnecter->m_iUID = iter->ph.UID;
+                    CLIENT.BJ.m_iUID = CLIENT.g_pConnecter->m_iUID;
                     Login_Flag = true;
                     CLIENT.g_pConnecter->m_Packet_Pool.erase(iter);
                     //           MSGBOX("로그인 중? or 스킵");
@@ -199,7 +200,10 @@ bool Sample::Init()
 }
 bool Sample::Frame()
 {
-   BJ.Frame();
+    if (!BJ.Frame())
+    {
+        return false;
+    }
    
     return true;
 }
@@ -210,7 +214,7 @@ bool Sample::Render()
 }
 bool Sample::Release()
 {
-    //BJ.Release();
+    BJ.Release();
     return true;
 }
 
@@ -239,7 +243,7 @@ int APIENTRY  wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstanc
     
     if (Login_Flag)
     {
-        CLIENT.InitWindow(hInstance, 0, 0, 800, 600);
+        CLIENT.InitWindow(hInstance, 0, 0, 900, 600);
         CLIENT.Run();
     }
     int b = 0;
