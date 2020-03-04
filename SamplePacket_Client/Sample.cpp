@@ -149,7 +149,7 @@ void main()
     //SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); //이것과 같다.              //datagrame udp[type]  
 
     //*************************
-    unsigned long iMode = 0;    //0은 블록형 1은 논 블록형 소켓
+    unsigned long iMode = 1;    //0은 블록형 1은 논 블록형 소켓
     //이걸 논블록형 으로 하면 
     ioctlsocket(sock, FIONBIO, &iMode);
 
