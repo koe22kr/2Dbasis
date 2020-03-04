@@ -79,7 +79,6 @@
 
 Sample::Sample()
 {
-    int a = 0;
 }
 
 
