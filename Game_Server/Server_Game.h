@@ -33,7 +33,7 @@ public:
     bool New_Account(Packet packet);
   //  void Pre_Frame();
   //  void Post_Frame();
-    void Reset();
+
 public:
     Server_Game();
     virtual ~Server_Game();

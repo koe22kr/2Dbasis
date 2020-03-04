@@ -50,7 +50,7 @@ public:
     void             Rt_Operate();
     void Rotation();
     virtual void             Move(float xstep, float ystep);
-    bool             Draw(int rt_num = 0);
+    bool             Draw(int rt_num = 1);
     bool             Draw_ColorKey(RECT rt, COLORREF color);
     void             Scale(float xscale, float yscale);
     void             Scale(int rt_num, float xscale, float yscale);

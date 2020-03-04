@@ -2,23 +2,23 @@
 
 void Deck::Reset_Deck()
 {
-    unsigned int index = 0;
-    for (unsigned char k = 1;k <= 4;k++) 
+    int index = 0;
+    for (int k = 1;k <= 4;k++) 
     {
 
-        for (unsigned char i = 1;i <= 13;i++)
+        for (int i = 1;i <= 13;i++)
         {
             if (i == 1)
             {
-                Cards[index] = Card({ k ,(unsigned char)(index + 1),11 });
+                Cards[index] = Card({ k,i,11 });
             }
             else if (i > 1 && i < 11)
             {
-                Cards[index] = Card({ k,(unsigned char)(index + 1),i }); // 맵의 [] 연산자가 이미 있으면 덮어쓰고, 없으면 추가하니 그냥사용
+                Cards[index] = Card({ k,i,i }); // 맵의 [] 연산자가 이미 있으면 덮어쓰고, 없으면 추가하니 그냥사용
             }
             else if (i >= 11)
             {
-                Cards[index] = Card({ k,(unsigned char)(index + 1),10 });
+                Cards[index] = Card({ k,i,10 });
             }
             ++index;
         }

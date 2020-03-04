@@ -15,7 +15,6 @@
 #pragma comment (lib, "ws2_32.lib")
 using namespace std;
 
-extern bool g_start_flag;
 //int code = WSAGetLastError();
 static void E_MSG(const char* msg_title)
 {

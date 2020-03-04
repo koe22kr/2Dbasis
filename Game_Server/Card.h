@@ -29,7 +29,7 @@ public:
     char Get_Score() const { return m_Card_Score; };
 public:
     Card();
-    Card(byte type, byte num, byte score);
+    Card(int type, int num, int score);
     ~Card();
 };
 

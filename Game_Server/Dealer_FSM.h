@@ -16,23 +16,10 @@ class Waiting_Ready :public Status
 public:
    bool Action();
    bool User_Ready_Check();
+   void Set_Up();
    Waiting_Ready();
    ~Waiting_Ready();
 
-
-};
-
-class All_Player_Ready :public Status
-{
-public:
-    bool Action();
-    bool User_Ready_Check();
-    void Set_Up();
-
-    All_Player_Ready();
-    ~All_Player_Ready();
-
-private:
 
 };
 
